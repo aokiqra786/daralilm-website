@@ -7,7 +7,7 @@ export default function DonatePage() {
   const [amount, setAmount] = useState<number | string>(100);
   const [customAmount, setCustomAmount] = useState<string>("");
 
-  const handleAmountClick = (val: number) => {
+  const handleAmountClick = (val: number | string) => {
     setAmount(val);
     setCustomAmount("");
   };
