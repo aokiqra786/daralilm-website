@@ -1,0 +1,49 @@
+export interface Program {
+  id: string;
+  slug: string;
+  name: string;
+  category: "quran" | "sunday_school" | "vocational" | "youth" | "other";
+  shortDescription: string;
+  longDescription: string;
+  schedule: string;
+  ageRange: string;
+  fees: string;
+  instructor: string;
+  location: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  body: string;
+  category: "general" | "ramadan" | "summer" | "youth" | "other";
+  isPinned: boolean;
+  startDate: string;
+  endDate?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time?: string;
+  location: string;
+  category: "community" | "parent" | "youth" | "school" | "other";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  createdAt: string;
+}

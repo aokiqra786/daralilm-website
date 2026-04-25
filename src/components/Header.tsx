@@ -1,0 +1,59 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+
+export default function Header() {
+  return (
+    <header className="w-full bg-blue-50/50 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100/50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20 relative">
+          
+          {/* Logo container fitting inside the header */}
+          <div className="flex-shrink-0 flex items-center h-full relative z-50">
+            <Link href="/" className="flex items-center gap-2 h-full">
+              <div className="relative h-20 w-64 md:w-80">
+                <Image 
+                  src="/logo.png" 
+                  alt="Dar Al Ilm Logo" 
+                  fill
+                  quality={100}
+                  sizes="(max-width: 768px) 256px, 320px"
+                  className="object-contain object-left drop-shadow-xl contrast-105 saturate-110 p-1"
+                  priority
+                />
+              </div>
+            </Link>
+          </div>
+          
+          {/* Desktop Navigation & Button */}
+          <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex space-x-8 items-center">
+              <Link href="/" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Home</Link>
+              <Link href="/about" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">About Us</Link>
+              <Link href="/programs" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Programs</Link>
+              <Link href="/admissions" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Admissions</Link>
+              <Link href="/events" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Events</Link>
+            </nav>
+            
+            <Link 
+              href="/donate" 
+              className="bg-gradient-to-r from-orange-400 to-amber-500 hover:from-blue-600 hover:to-blue-800 text-white px-6 py-2 rounded-md font-semibold shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+            >
+              Donate
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="flex items-center md:hidden">
+            <button className="text-blue-900 hover:text-blue-700 p-2">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
