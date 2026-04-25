@@ -8,7 +8,7 @@ export default function AdmissionsPage() {
       {/* Hero Section */}
       <section className="w-full relative bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950 overflow-hidden py-20 md:py-28">
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
             Join Our Community
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">
@@ -57,7 +57,7 @@ export default function AdmissionsPage() {
               </div>
             </div>
 
-            <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Tuition Information</h2>
+            <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-blue-900 mb-6">Tuition Information</h2>
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
               <ul className="space-y-4">
                 <li className="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -81,8 +81,8 @@ export default function AdmissionsPage() {
 
           {/* Visual Form Interface */}
           <div>
-            <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-amber-500">
-              <h2 className="text-2xl font-playfair font-bold text-blue-900 mb-6 text-center">Student Application Form</h2>
+            <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border-t-4 border-amber-500">
+              <h2 className="text-xl sm:text-2xl font-playfair font-bold text-blue-900 mb-6 text-center">Student Application Form</h2>
               
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 {/* Parent Info */}

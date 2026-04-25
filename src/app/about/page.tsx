@@ -10,7 +10,7 @@ export default function AboutPage() {
       <section className="w-full relative bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950 overflow-hidden py-24 md:py-32">
         <div className="absolute inset-0 bg-blue-950/40 z-0" />
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
             About Dar Al Ilm
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">
@@ -39,7 +39,7 @@ export default function AboutPage() {
               To be a leading educational institution that raises a generation of confident, knowledgeable, and compassionate Muslims who positively impact society while firmly upholding their Islamic identity.
             </p>
           </div>
-          <div className="relative h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div className="relative h-[250px] sm:h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
              {/* Fallback to hero-bg if no specific image is provided, gives a nice aesthetic */}
              <Image src="/hero-bg.png" alt="Academy Mission" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover contrast-105 saturate-110" />
              <div className="absolute inset-0 bg-blue-900/20" />
@@ -85,8 +85,8 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex flex-col items-center">
-              <div className="w-40 h-40 rounded-full bg-slate-200 border-4 border-white shadow-lg mb-6 flex items-center justify-center overflow-hidden relative">
-                 <Users className="w-20 h-20 text-slate-400" />
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-slate-200 border-4 border-white shadow-lg mb-6 flex items-center justify-center overflow-hidden relative">
+                 <Users className="w-16 h-16 sm:w-20 sm:h-20 text-slate-400" />
               </div>
               <h3 className="text-xl font-bold text-blue-900">Ustadh / Ustadha</h3>
               <p className="text-amber-600 font-medium mb-3">Islamic Studies Dept.</p>

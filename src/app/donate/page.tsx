@@ -18,7 +18,7 @@ export default function DonatePage() {
       <section className="w-full relative bg-gradient-to-br from-amber-600 via-orange-500 to-amber-700 overflow-hidden py-20 md:py-28">
         <div className="absolute inset-0 bg-orange-900/20 z-0" />
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
             Support Our Vision
           </h1>
           <p className="text-lg md:text-xl text-orange-50 font-medium drop-shadow max-w-3xl mx-auto">
@@ -90,7 +90,7 @@ export default function DonatePage() {
                 {/* Amount Selection */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-3 text-center">Select Amount</label>
-                  <div className="grid grid-cols-3 gap-3 mb-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
                     {[50, 100, 250, 500, 1000].map((val) => (
                       <button 
                         key={val}

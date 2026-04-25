@@ -8,7 +8,7 @@ export default function EventsPage() {
       {/* Hero Section */}
       <section className="w-full relative bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950 overflow-hidden py-20 md:py-28">
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
             Events & Announcements
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">

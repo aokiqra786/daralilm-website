@@ -32,7 +32,7 @@ export default function ContactPage() {
       <section className="w-full relative bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 overflow-hidden py-16 md:py-24">
         <div className="absolute inset-0 bg-blue-900/20 z-0" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-4 drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-4 drop-shadow-md">
             Get in Touch
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-medium max-w-2xl mx-auto">
@@ -93,7 +93,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border-t-4 border-amber-500">
+          <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border-t-4 border-amber-500">
             <h2 className="text-2xl font-playfair font-bold text-blue-900 mb-6">Send us a Message</h2>
             
             {status === "success" ? (

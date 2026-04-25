@@ -14,13 +14,13 @@ export default function Header() {
           {/* Logo container fitting inside the header */}
           <div className="flex-shrink-0 flex items-center h-full relative z-50">
             <Link href="/" className="flex items-center gap-2 h-full">
-              <div className="relative h-20 w-64 md:w-80">
+              <div className="relative h-20 w-48 sm:w-64 md:w-80">
                 <Image 
                   src="/logo.png" 
                   alt="Dar Al Ilm Logo" 
                   fill
                   quality={100}
-                  sizes="(max-width: 768px) 256px, 320px"
+                  sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"
                   className="object-contain object-left drop-shadow-xl contrast-105 saturate-110 p-1"
                   priority
                 />

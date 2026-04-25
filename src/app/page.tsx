@@ -18,15 +18,15 @@ export default function Home() {
           priority
           quality={100}
           sizes="100vw"
-          className="object-fill z-0 opacity-60 contrast-125 saturate-110 drop-shadow-2xl"
+          className="object-cover z-0 opacity-60 contrast-125 saturate-110 drop-shadow-2xl"
         />
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-950/90 via-blue-900/50 to-transparent z-0" />
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between">
-          <div className="text-white max-w-2xl">
-            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-lg">
+          <div className="text-white max-w-2xl text-center md:text-left">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-lg">
               Nurturing Faith <br/> & Knowledge
             </h1>
             <p className="text-xl md:text-2xl text-blue-50 mb-8 font-light drop-shadow-md">
@@ -97,7 +97,7 @@ export default function Home() {
             <div className="w-full border-t border-blue-200"></div>
           </div>
           <div className="relative px-4 bg-slate-50">
-            <h2 className="text-3xl font-playfair font-bold text-blue-800">Welcome to Our Maktub Program</h2>
+            <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-blue-800">Welcome to Our Maktub Program</h2>
           </div>
         </div>
         <h3 className="text-xl text-blue-700 mb-4 font-medium">Providing Quality Islamic Education for Our Community</h3>

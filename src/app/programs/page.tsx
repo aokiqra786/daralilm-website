@@ -10,7 +10,7 @@ export default function ProgramsPage() {
       {/* Hero Section */}
       <section className="w-full relative bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950 overflow-hidden py-20 md:py-28">
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
             Our Educational Programs
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">
@@ -23,11 +23,11 @@ export default function ProgramsPage() {
         
         {/* Evening Qur'an Classes */}
         <div className="flex flex-col md:flex-row items-center gap-12 group">
-          <div className="w-full md:w-1/2 relative h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-50">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-50">
             <Image src="/Quran.png" alt="Evening Qur'an Classes" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 text-center md:text-left">
             <span className="text-amber-600 font-bold tracking-wider uppercase text-sm mb-2 block">Ages 5 - High School</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Evening Qur'an Classes</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
@@ -46,11 +46,11 @@ export default function ProgramsPage() {
 
         {/* Sunday School */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
-          <div className="w-full md:w-1/2 relative h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-50">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-50">
             <Image src="/Sunday.png" alt="Sunday School" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 text-center md:text-left">
             <span className="text-orange-600 font-bold tracking-wider uppercase text-sm mb-2 block">Weekend Learning</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Sunday School</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
@@ -69,11 +69,11 @@ export default function ProgramsPage() {
 
         {/* Vocational Programs */}
         <div className="flex flex-col md:flex-row items-center gap-12 group">
-          <div className="w-full md:w-1/2 relative h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-50">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-50">
             <Image src="/Voca.png" alt="Vocational Programs" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 text-center md:text-left">
             <span className="text-blue-600 font-bold tracking-wider uppercase text-sm mb-2 block">Skills for Life</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Vocational Programs</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
@@ -92,11 +92,11 @@ export default function ProgramsPage() {
 
         {/* Youth Activities */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
-          <div className="w-full md:w-1/2 relative h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-green-50">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-green-50">
             <Image src="/youth.png" alt="Youth Activities" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 text-center md:text-left">
             <span className="text-green-600 font-bold tracking-wider uppercase text-sm mb-2 block">Building Brotherhood & Sisterhood</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Youth Activities</h2>
             <p className="text-slate-700 leading-relaxed mb-6">

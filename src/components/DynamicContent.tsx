@@ -47,7 +47,7 @@ export default function DynamicContent() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Announcements */}
-      <div className="bg-amber-50 rounded-lg p-8 shadow-sm border border-amber-100">
+      <div className="bg-amber-50 rounded-lg p-6 sm:p-8 shadow-sm border border-amber-100">
         <div className="mb-6 relative flex items-center">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-amber-200"></div>
@@ -73,7 +73,7 @@ export default function DynamicContent() {
       </div>
 
       {/* Events */}
-      <div className="bg-slate-50 rounded-lg p-8 shadow-sm border border-slate-200">
+      <div className="bg-slate-50 rounded-lg p-6 sm:p-8 shadow-sm border border-slate-200">
         <div className="mb-6 relative flex items-center">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-slate-300"></div>
