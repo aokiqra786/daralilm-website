@@ -6,6 +6,7 @@ import { Heart, Landmark, HandCoins } from "lucide-react";
 export default function DonatePage() {
   const [amount, setAmount] = useState<number | string>(100);
   const [customAmount, setCustomAmount] = useState<string>("");
+  const [donationType, setDonationType] = useState<"one-time" | "monthly">("one-time");
 
   const handleAmountClick = (val: number | string) => {
     setAmount(val);
@@ -83,8 +84,18 @@ export default function DonatePage() {
                 
                 {/* Donation Type */}
                 <div className="flex justify-center space-x-4 border-b pb-6">
-                  <button className="px-6 py-2 bg-blue-50 text-blue-700 font-semibold rounded-full border border-blue-200">One-Time</button>
-                  <button className="px-6 py-2 bg-white text-slate-500 font-semibold rounded-full border border-slate-200 hover:bg-slate-50">Monthly</button>
+                  <button 
+                    onClick={() => setDonationType("one-time")}
+                    className={`px-6 py-2 font-semibold rounded-full border transition-all ${donationType === "one-time" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"}`}
+                  >
+                    One-Time
+                  </button>
+                  <button 
+                    onClick={() => setDonationType("monthly")}
+                    className={`px-6 py-2 font-semibold rounded-full border transition-all ${donationType === "monthly" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"}`}
+                  >
+                    Monthly
+                  </button>
                 </div>
 
                 {/* Amount Selection */}

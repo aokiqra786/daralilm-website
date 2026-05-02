@@ -55,36 +55,61 @@ export default function Home() {
       {/* Program Cards Section */}
       <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 md:-mt-20 relative z-20 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
+          <Link href="/programs#evening-quran" className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/Quran.png" alt="Evening Qur'an Classes" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>
-            <div className="p-4 transition-colors duration-300">
+            <div className="p-4 transition-colors duration-300 w-full">
               <h3 className="text-base font-bold text-blue-900 group-hover:text-amber-700">Evening Qur'an Classes</h3>
             </div>
-          </div>
-          <div className="bg-white hover:bg-orange-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-orange-500 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
+          </Link>
+          <Link href="/programs#sunday-school" className="bg-white hover:bg-orange-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-orange-500 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/Sunday.png" alt="Sunday School" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>
-            <div className="p-4 transition-colors duration-300">
+            <div className="p-4 transition-colors duration-300 w-full">
               <h3 className="text-base font-bold text-blue-900 group-hover:text-orange-600">Sunday School</h3>
             </div>
-          </div>
-          <div className="bg-white hover:bg-blue-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-blue-500 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
+          </Link>
+          <Link href="/programs#vocational-programs" className="bg-white hover:bg-blue-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-blue-500 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/Voca.png" alt="Vocational Programs" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>
-            <div className="p-4 transition-colors duration-300">
+            <div className="p-4 transition-colors duration-300 w-full">
               <h3 className="text-base font-bold text-blue-900 group-hover:text-blue-700">Vocational Programs</h3>
             </div>
-          </div>
-          <div className="bg-white hover:bg-green-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-green-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
+          </Link>
+          <Link href="/programs#youth-activities" className="bg-white hover:bg-green-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-green-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/youth.png" alt="Youth Activities" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>
-            <div className="p-4 transition-colors duration-300">
+            <div className="p-4 transition-colors duration-300 w-full">
               <h3 className="text-base font-bold text-blue-900 group-hover:text-green-700">Youth Activities</h3>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Coming Soon Programs */}
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-64 flex items-center justify-center group border-4 border-blue-100">
+            <Image src="/hifz_bg.png" alt="Full time Hifz Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
+            <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/40" />
+            <div className="relative z-10 text-center px-4">
+              <span className="inline-block px-3 py-1 bg-amber-500 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-lg">Announcement</span>
+              <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">Full Time Hifz Program</h2>
+              <p className="text-blue-100 mt-2 font-medium">Coming Soon</p>
+            </div>
+          </div>
+          
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-64 flex items-center justify-center group border-4 border-orange-100">
+            <Image src="/academic_bg.png" alt="Full time Academic Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
+            <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/40" />
+            <div className="relative z-10 text-center px-4">
+              <span className="inline-block px-3 py-1 bg-orange-500 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-lg">Event</span>
+              <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">Full Time Academic Program</h2>
+              <p className="text-blue-100 mt-2 font-medium">Coming Soon</p>
             </div>
           </div>
         </div>
@@ -97,10 +122,10 @@ export default function Home() {
             <div className="w-full border-t border-blue-200"></div>
           </div>
           <div className="relative px-4 bg-slate-50">
-            <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-blue-800">Welcome to Our Maktub Program</h2>
+            <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-blue-800">Welcome To SoCal Academy of Knowledge</h2>
           </div>
         </div>
-        <h3 className="text-xl text-blue-700 mb-4 font-medium">Providing Quality Islamic Education for Our Community</h3>
+        <h3 className="text-xl text-blue-700 mb-4 font-medium">Providing Quality Islamic and Academic Education for Our community</h3>
         <p className="text-lg text-slate-700">
           Teaching the Qur'an, Sunnah, and essential life skills with care & dedication.
         </p>

@@ -22,7 +22,7 @@ export default function ProgramsPage() {
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
         
         {/* Evening Qur'an Classes */}
-        <div className="flex flex-col md:flex-row items-center gap-12 group">
+        <div id="evening-quran" className="flex flex-col md:flex-row items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-50">
             <Image src="/Quran.png" alt="Evening Qur'an Classes" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
@@ -45,7 +45,7 @@ export default function ProgramsPage() {
         </div>
 
         {/* Sunday School */}
-        <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
+        <div id="sunday-school" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-50">
             <Image src="/Sunday.png" alt="Sunday School" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
@@ -68,7 +68,7 @@ export default function ProgramsPage() {
         </div>
 
         {/* Vocational Programs */}
-        <div className="flex flex-col md:flex-row items-center gap-12 group">
+        <div id="vocational-programs" className="flex flex-col md:flex-row items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-50">
             <Image src="/Voca.png" alt="Vocational Programs" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
@@ -91,7 +91,7 @@ export default function ProgramsPage() {
         </div>
 
         {/* Youth Activities */}
-        <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
+        <div id="youth-activities" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-green-50">
             <Image src="/youth.png" alt="Youth Activities" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />

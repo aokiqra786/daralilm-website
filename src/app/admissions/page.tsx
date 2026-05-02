@@ -62,14 +62,18 @@ export default function AdmissionsPage() {
               <ul className="space-y-4">
                 <li className="flex justify-between items-center border-b border-slate-100 pb-3">
                   <span className="font-semibold text-slate-700">Evening Qur'an Classes</span>
-                  <span className="text-blue-900 font-bold">$100 / month</span>
+                  <span className="text-blue-900 font-bold">$50 / month</span>
                 </li>
                 <li className="flex justify-between items-center border-b border-slate-100 pb-3">
                   <span className="font-semibold text-slate-700">Sunday School</span>
-                  <span className="text-blue-900 font-bold">$75 / month</span>
+                  <span className="text-blue-900 font-bold">$100 / month</span>
                 </li>
                 <li className="flex justify-between items-center border-b border-slate-100 pb-3">
-                  <span className="font-semibold text-slate-700">Registration Fee (One-time)</span>
+                  <span className="font-semibold text-slate-700">Full Time Hifz and Academic</span>
+                  <span className="text-blue-900 font-bold">TBA</span>
+                </li>
+                <li className="flex justify-between items-center border-b border-slate-100 pb-3">
+                  <span className="font-semibold text-slate-700">Registration Fee / Material (Once a Year)</span>
                   <span className="text-blue-900 font-bold">$50</span>
                 </li>
                 <li className="text-sm text-slate-500 pt-2 italic">
