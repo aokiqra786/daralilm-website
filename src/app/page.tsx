@@ -97,7 +97,6 @@ export default function Home() {
             <Image src="/hifz_bg.png" alt="Full time Hifz Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
             <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/40" />
             <div className="relative z-10 text-center px-4">
-              <span className="inline-block px-3 py-1 bg-amber-500 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-lg">Announcement</span>
               <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">Full Time Hifz Program</h2>
               <p className="text-blue-100 mt-2 font-medium">Coming Soon</p>
             </div>
@@ -107,7 +106,6 @@ export default function Home() {
             <Image src="/academic_bg.png" alt="Full time Academic Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
             <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/40" />
             <div className="relative z-10 text-center px-4">
-              <span className="inline-block px-3 py-1 bg-orange-500 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-lg">Event</span>
               <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">Full Time Academic Program</h2>
               <p className="text-blue-100 mt-2 font-medium">Coming Soon</p>
             </div>
