@@ -13,7 +13,7 @@ export default function Home() {
         {/* Background Image */}
         <Image
           src="/hero-bg.png"
-          alt="Dar Al Ilm Background"
+          alt="SoCal Academy of Knowledge Background"
           fill
           priority
           quality={100}

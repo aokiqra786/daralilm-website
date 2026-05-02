@@ -147,7 +147,7 @@ export default function AdmissionsPage() {
                   Submit Application
                 </button>
                 <p className="text-xs text-center text-slate-500 mt-4">
-                  By submitting, you agree to Dar Al Ilm's admissions policies. We will contact you shortly after submission.
+                  By submitting, you agree to SoCal Academy of Knowledge's admissions policies. We will contact you shortly after submission.
                 </p>
               </form>
             </div>

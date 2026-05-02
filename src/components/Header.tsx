@@ -17,7 +17,7 @@ export default function Header() {
               <div className="relative h-20 w-48 sm:w-64 md:w-80">
                 <Image 
                   src="/new_logo.png" 
-                  alt="Dar Al Ilm Logo" 
+                  alt="SoCal Academy of Knowledge Logo" 
                   fill
                   quality={100}
                   sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"

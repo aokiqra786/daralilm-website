@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Dar Al Ilm - Academy of Knowledge",
+  title: "SoCal Academy of Knowledge",
   description: "Providing Quality Islamic Education for Our Community",
 };
 

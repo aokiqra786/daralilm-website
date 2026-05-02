@@ -12,7 +12,7 @@ export default function EventsPage() {
             Events & Announcements
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">
-            Stay updated with the latest happenings, academic calendars, and community events at Dar Al Ilm.
+            Stay updated with the latest happenings, academic calendars, and community events at SoCal Academy of Knowledge.
           </p>
         </div>
       </section>

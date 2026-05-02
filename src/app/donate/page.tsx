@@ -35,7 +35,7 @@ export default function DonatePage() {
           <div>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Invest in Sadaqah Jariyah</h2>
             <p className="text-slate-700 leading-relaxed mb-8">
-              Your generous contributions directly support the operations, expansion, and financial aid programs of Dar Al Ilm Academy. Help us continue to provide high-quality Islamic education to the next generation of Muslims.
+              Your generous contributions directly support the operations, expansion, and financial aid programs of SoCal Academy of Knowledge. Help us continue to provide high-quality Islamic education to the next generation of Muslims.
             </p>
 
             <div className="space-y-8">

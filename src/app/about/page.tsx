@@ -11,7 +11,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-blue-950/40 z-0" />
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-md">
-            About Dar Al Ilm
+            About SoCal Academy of Knowledge
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 font-light drop-shadow max-w-3xl mx-auto">
             A beacon of Islamic education dedicated to nurturing faith, intellect, and character in the heart of our community.
@@ -28,7 +28,7 @@ export default function AboutPage() {
               Our Mission
             </h2>
             <p className="text-lg text-slate-700 leading-relaxed mb-8">
-              Dar Al Ilm Academy of Knowledge strives to provide a comprehensive Islamic education that empowers individuals of all ages with the knowledge of the Qur'an, the authentic Sunnah, and essential life skills. We are committed to fostering a loving environment where students develop strong moral character, critical thinking, and a deep, enduring connection to Allah (SWT).
+              SoCal Academy of Knowledge strives to provide a comprehensive Islamic education that empowers individuals of all ages with the knowledge of the Qur'an, the authentic Sunnah, and essential life skills. We are committed to fostering a loving environment where students develop strong moral character, critical thinking, and a deep, enduring connection to Allah (SWT).
             </p>
             
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6 flex items-center">
