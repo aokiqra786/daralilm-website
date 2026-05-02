@@ -19,15 +19,11 @@ export default function EventsPage() {
 
       {/* Dynamic Content Section */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mb-20">
-        <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl border-t-4 border-blue-500">
-           <div className="mb-12 text-center">
-             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-4">Community Noticeboard</h2>
-             <p className="text-slate-600 max-w-2xl mx-auto">Check back regularly for updates regarding closures, exam schedules, and special community gatherings.</p>
-           </div>
-           
-           {/* Reusing the dynamic component that fetches from Supabase/API */}
-           <DynamicContent />
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-4">Community Noticeboard</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">Check back regularly for updates regarding closures, exam schedules, and special community gatherings.</p>
         </div>
+        <DynamicContent />
       </section>
 
       {/* Newsletter Signup (Placeholder) */}
