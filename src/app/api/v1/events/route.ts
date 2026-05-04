@@ -95,3 +95,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message || "Failed to create event" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "No ID provided" }, { status: 400 });
+
+    if (isSupabaseConfigured()) {
+      const { error } = await supabase.from("events").delete().eq("id", id);
+      if (error) throw error;
+      return NextResponse.json({ success: true });
+    }
+
+    // Fallback to local DB
+    let existing = readData<Event[]>("events.json", mockEvents);
+    existing = existing.filter(e => e.id !== id);
+    writeData("events.json", existing);
+    
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Error deleting event:", error);
+    return NextResponse.json({ error: error.message || "Failed to delete event" }, { status: 500 });
+  }
+}

@@ -97,3 +97,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message || "Failed to create announcement" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "No ID provided" }, { status: 400 });
+
+    if (isSupabaseConfigured()) {
+      const { error } = await supabase.from("announcements").delete().eq("id", id);
+      if (error) throw error;
+      return NextResponse.json({ success: true });
+    }
+
+    // Fallback to local DB
+    let existing = readData<Announcement[]>("announcements.json", mockAnnouncements);
+    existing = existing.filter(a => a.id !== id);
+    writeData("announcements.json", existing);
+    
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Error deleting announcement:", error);
+    return NextResponse.json({ error: error.message || "Failed to delete announcement" }, { status: 500 });
+  }
+}

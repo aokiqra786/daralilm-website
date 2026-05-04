@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function EventUploader() {
@@ -16,6 +16,35 @@ export default function EventUploader() {
   const [message, setMessage] = useState("");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const [activeAnnouncements, setActiveAnnouncements] = useState<any[]>([]);
+  const [activeEvents, setActiveEvents] = useState<any[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    fetch("/api/v1/announcements?active=true").then(r => r.ok ? r.json() : []).then(data => {
+      if(Array.isArray(data)) setActiveAnnouncements(data);
+    }).catch(() => {});
+    
+    fetch("/api/v1/events?upcoming=true").then(r => r.ok ? r.json() : []).then(data => {
+      if(Array.isArray(data)) setActiveEvents(data);
+    }).catch(() => {});
+  }, [isAuthenticated, refreshKey]);
+
+  const handleDelete = async (type: "announcement" | "event", id: string) => {
+    if (!confirm("Are you sure you want to delete this post early?")) return;
+    const endpoint = type === 'announcement' ? `/api/v1/announcements?id=${id}` : `/api/v1/events?id=${id}`;
+    
+    try {
+      const res = await fetch(endpoint, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete");
+      setRefreshKey(k => k + 1);
+      alert("Successfully deleted!");
+    } catch (err) {
+      alert("Error deleting post");
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,6 +248,7 @@ export default function EventUploader() {
       setEndDate("");
       const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileInput) fileInput.value = "";
+      setRefreshKey(k => k + 1);
 
     } catch (err: any) {
       setMessage(`Error: ${err.message}`);
@@ -350,6 +380,46 @@ export default function EventUploader() {
             </div>
           </form>
         </div>
+
+        {/* Manage Posts Section */}
+        <div className="bg-slate-100 p-6 md:p-8 border-t border-slate-200">
+          <h2 className="text-xl font-bold text-slate-800 mb-6">Manage Active Posts</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Announcements</h3>
+              {activeAnnouncements.length === 0 ? (
+                <p className="text-slate-500 text-sm">No active announcements.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {activeAnnouncements.map(a => (
+                    <li key={a.id} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-slate-200">
+                      <span className="font-medium text-slate-800 truncate pr-4">{a.title}</span>
+                      <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Events</h3>
+              {activeEvents.length === 0 ? (
+                <p className="text-slate-500 text-sm">No active events.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {activeEvents.map(e => (
+                    <li key={e.id} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-slate-200">
+                      <span className="font-medium text-slate-800 truncate pr-4">{e.title}</span>
+                      <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+
       </div>
       
       {/* Hidden canvas for text-to-image processing */}
