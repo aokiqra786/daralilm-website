@@ -10,7 +10,6 @@ export default function EventUploader() {
   const [postType, setPostType] = useState<"announcement" | "event">("announcement");
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
   const [endDate, setEndDate] = useState("");
-  const [linkUrl, setLinkUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
   
   const [loading, setLoading] = useState(false);
@@ -145,21 +144,25 @@ export default function EventUploader() {
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-      
-      if (uploadType === "text" && selectedFile.name.endsWith(".txt")) {
-        try {
-          const dataUrl = await drawTextToCanvas(selectedFile);
-          setPreviewUrl(dataUrl);
-        } catch (err) {
-          console.error(err);
-          alert("Error generating preview from text file.");
-        }
-      } else if (uploadType === "image") {
-        setPreviewUrl(URL.createObjectURL(selectedFile));
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+    setFile(selectedFile);
+
+    // Auto-detect if user uploads an image but left it on 'text'
+    const isTextFile = selectedFile.name.endsWith(".txt");
+    const currentUploadType = isTextFile ? "text" : "image";
+    setUploadType(currentUploadType);
+
+    if (currentUploadType === "text") {
+      try {
+        const dataUrl = await drawTextToCanvas(selectedFile);
+        setPreviewUrl(dataUrl);
+      } catch (err) {
+        console.error(err);
+        alert("Error generating preview from text file.");
       }
+    } else {
+      setPreviewUrl(URL.createObjectURL(selectedFile));
     }
   };
 
@@ -224,12 +227,12 @@ export default function EventUploader() {
       };
 
       if (postType === "announcement") {
-        payload.body = bodyOrDesc + (linkUrl ? `|||LINK:${linkUrl}` : "");
+        payload.body = bodyOrDesc;
         payload.category = "general";
         payload.isPinned = true;
         payload.startDate = today;
       } else {
-        payload.description = bodyOrDesc + (linkUrl ? `|||LINK:${linkUrl}` : "");
+        payload.description = bodyOrDesc;
         payload.category = "community";
         payload.date = today.split('T')[0];
         payload.location = "TBD";
@@ -247,7 +250,6 @@ export default function EventUploader() {
       setFile(null);
       setPreviewUrl(null);
       setEndDate("");
-      setLinkUrl("");
       const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       setRefreshKey(k => k + 1);
@@ -341,18 +343,6 @@ export default function EventUploader() {
                 onChange={e => setEndDate(e.target.value)}
                 className="border border-slate-300 rounded px-3 py-2 w-full max-w-xs"
                 required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Optional Link URL</label>
-              <p className="text-xs text-slate-500 mb-2">If provided, clicking the post will take users to this link instead of expanding the image.</p>
-              <input 
-                type="url" 
-                value={linkUrl}
-                onChange={e => setLinkUrl(e.target.value)}
-                placeholder="https://..."
-                className="border border-slate-300 rounded px-3 py-2 w-full"
               />
             </div>
 

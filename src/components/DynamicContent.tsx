@@ -170,13 +170,6 @@ function Carousel({ slides, label }: { slides: React.ReactNode[]; label: string 
   );
 }
 
-/* ─── Link Parser ─── */
-function parseContent(text?: string) {
-  if (!text) return { cleanText: "", linkUrl: null };
-  const parts = text.split("|||LINK:");
-  return { cleanText: parts[0], linkUrl: parts.length > 1 ? parts[1] : null };
-}
-
 /* ─── Main export ─── */
 export default function DynamicContent() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -220,17 +213,12 @@ export default function DynamicContent() {
 
   /* Announcement slides */
   const announcementSlides = announcements.map((a, i) => {
-    const { cleanText, linkUrl } = parseContent(a.body);
-
     if (a.imageUrl) {
       return (
         <div 
           key={a.id} 
           className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
-          onClick={() => {
-            if (linkUrl) window.open(linkUrl, "_blank");
-            else setSelectedImage(a.imageUrl!);
-          }}
+          onClick={() => setSelectedImage(a.imageUrl!)}
         >
           <img src={a.imageUrl} alt={a.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
@@ -241,10 +229,7 @@ export default function DynamicContent() {
     return (
       <div
         key={a.id}
-        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden ${linkUrl ? "cursor-pointer group" : ""}`}
-        onClick={() => {
-          if (linkUrl) window.open(linkUrl, "_blank");
-        }}
+        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden`}
       >
         {/* Decorative blobs */}
         <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-white/10" />
@@ -264,7 +249,7 @@ export default function DynamicContent() {
           </h4>
 
           <p className="text-white/85 text-sm sm:text-base leading-relaxed max-w-xs">
-            {cleanText}
+            {a.body}
           </p>
         </div>
 
@@ -277,17 +262,12 @@ export default function DynamicContent() {
 
   /* Event slides */
   const eventSlides = events.map((e, i) => {
-    const { cleanText, linkUrl } = parseContent(e.description);
-
     if (e.imageUrl) {
       return (
         <div 
           key={e.id} 
           className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
-          onClick={() => {
-            if (linkUrl) window.open(linkUrl, "_blank");
-            else setSelectedImage(e.imageUrl!);
-          }}
+          onClick={() => setSelectedImage(e.imageUrl!)}
         >
           <img src={e.imageUrl} alt={e.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
@@ -301,10 +281,7 @@ export default function DynamicContent() {
     return (
       <div
         key={e.id}
-        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden ${linkUrl ? "cursor-pointer group" : ""}`}
-        onClick={() => {
-          if (linkUrl) window.open(linkUrl, "_blank");
-        }}
+        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden`}
       >
         {/* Decorative blobs */}
         <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full bg-white/5" />
@@ -332,8 +309,8 @@ export default function DynamicContent() {
             </p>
           )}
 
-          {cleanText && (
-            <p className="text-white/65 text-xs mt-2 max-w-xs leading-relaxed">{cleanText}</p>
+          {e.description && (
+            <p className="text-white/65 text-xs mt-2 max-w-xs leading-relaxed">{e.description}</p>
           )}
         </div>
 
