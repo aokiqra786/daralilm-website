@@ -10,6 +10,7 @@ export default function EventUploader() {
   const [postType, setPostType] = useState<"announcement" | "event">("announcement");
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
   const [endDate, setEndDate] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
   
   const [loading, setLoading] = useState(false);
@@ -223,12 +224,12 @@ export default function EventUploader() {
       };
 
       if (postType === "announcement") {
-        payload.body = bodyOrDesc;
+        payload.body = bodyOrDesc + (linkUrl ? `|||LINK:${linkUrl}` : "");
         payload.category = "general";
         payload.isPinned = true;
         payload.startDate = today;
       } else {
-        payload.description = bodyOrDesc;
+        payload.description = bodyOrDesc + (linkUrl ? `|||LINK:${linkUrl}` : "");
         payload.category = "community";
         payload.date = today.split('T')[0];
         payload.location = "TBD";
@@ -246,6 +247,7 @@ export default function EventUploader() {
       setFile(null);
       setPreviewUrl(null);
       setEndDate("");
+      setLinkUrl("");
       const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       setRefreshKey(k => k + 1);
@@ -339,6 +341,18 @@ export default function EventUploader() {
                 onChange={e => setEndDate(e.target.value)}
                 className="border border-slate-300 rounded px-3 py-2 w-full max-w-xs"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Optional Link URL</label>
+              <p className="text-xs text-slate-500 mb-2">If provided, clicking the post will take users to this link instead of expanding the image.</p>
+              <input 
+                type="url" 
+                value={linkUrl}
+                onChange={e => setLinkUrl(e.target.value)}
+                placeholder="https://..."
+                className="border border-slate-300 rounded px-3 py-2 w-full"
               />
             </div>
 
