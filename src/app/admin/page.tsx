@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AdminDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -18,17 +20,17 @@ export default function AdminDashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
           <h2 className="text-xl font-semibold text-blue-800 mb-4">Announcements</h2>
           <p className="text-slate-600 mb-4">Post updates and important news.</p>
-          <button className="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors">
-            Manage Announcements
-          </button>
+          <Link href="/admin/event-uploader" className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors text-center">
+            Upload Announcement
+          </Link>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
           <h2 className="text-xl font-semibold text-blue-800 mb-4">Events</h2>
           <p className="text-slate-600 mb-4">Schedule community events and meetings.</p>
-          <button className="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors">
-            Manage Events
-          </button>
+          <Link href="/admin/event-uploader" className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors text-center">
+            Upload Event
+          </Link>
         </div>
       </div>
       
