@@ -23,6 +23,7 @@ export interface Announcement {
   isPinned: boolean;
   startDate: string;
   endDate?: string;
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -35,6 +36,8 @@ export interface Event {
   time?: string;
   location: string;
   category: "community" | "parent" | "youth" | "school" | "other";
+  imageUrl?: string;
+  endDate?: string;
   createdAt: string;
   updatedAt: string;
 }

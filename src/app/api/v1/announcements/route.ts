@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Announcement } from "@/types";
+import { readData, writeData } from "@/lib/localDb";
 
 const mockAnnouncements: Announcement[] = [
   {
@@ -29,13 +30,12 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const activeOnly = searchParams.get("active") === "true";
+    const now = new Date().toISOString();
 
     if (isSupabaseConfigured()) {
       let query = supabase.from("announcements").select("*");
       
-      // If we only want active ones, we might filter by startDate <= now and endDate >= now
       if (activeOnly) {
-        const now = new Date().toISOString();
         query = query.lte("startDate", now).or(`endDate.gte.${now},endDate.is.null`);
       }
       
@@ -45,7 +45,24 @@ export async function GET(request: Request) {
       return NextResponse.json(data);
     }
     
-    return NextResponse.json(mockAnnouncements);
+    // Fallback to local DB
+    let data = readData<Announcement[]>("announcements.json", mockAnnouncements);
+    
+    if (activeOnly) {
+      data = data.filter(a => {
+        if (a.startDate > now) return false;
+        if (a.endDate && a.endDate < now) return false;
+        return true;
+      });
+    }
+
+    data.sort((a, b) => {
+      if (a.isPinned && !b.isPinned) return -1;
+      if (!a.isPinned && b.isPinned) return 1;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching announcements:", error);
     return NextResponse.json({ error: "Failed to fetch announcements" }, { status: 500 });
@@ -62,7 +79,18 @@ export async function POST(request: Request) {
       return NextResponse.json(data, { status: 201 });
     }
     
-    const newAnnouncement = { ...body, id: Date.now().toString(), createdAt: new Date().toISOString() };
+    // Fallback to local DB
+    const newAnnouncement: Announcement = { 
+      ...body, 
+      id: Date.now().toString(), 
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    const existing = readData<Announcement[]>("announcements.json", mockAnnouncements);
+    existing.push(newAnnouncement);
+    writeData("announcements.json", existing);
+
     return NextResponse.json(newAnnouncement, { status: 201 });
   } catch (error) {
     console.error("Error creating announcement:", error);

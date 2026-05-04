@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Bell, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bell, Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Announcement, Event } from "@/types";
 
 /* ─── Sample fallback data ─── */
@@ -171,6 +171,7 @@ export default function DynamicContent() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,6 +209,18 @@ export default function DynamicContent() {
 
   /* Announcement slides */
   const announcementSlides = announcements.map((a, i) => {
+    if (a.imageUrl) {
+      return (
+        <div 
+          key={a.id} 
+          className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
+          onClick={() => setSelectedImage(a.imageUrl!)}
+        >
+          <img src={a.imageUrl} alt={a.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      );
+    }
+
     const p = ANNOUNCEMENT_PALETTES[i % ANNOUNCEMENT_PALETTES.length];
     return (
       <div
@@ -245,6 +258,18 @@ export default function DynamicContent() {
 
   /* Event slides */
   const eventSlides = events.map((e, i) => {
+    if (e.imageUrl) {
+      return (
+        <div 
+          key={e.id} 
+          className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
+          onClick={() => setSelectedImage(e.imageUrl!)}
+        >
+          <img src={e.imageUrl} alt={e.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      );
+    }
+
     const p = EVENT_PALETTES[i % EVENT_PALETTES.length];
     const dateObj = new Date(e.date);
     const month = dateObj.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
@@ -293,9 +318,32 @@ export default function DynamicContent() {
   });
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <Carousel slides={announcementSlides} label="📣 Announcements" />
-      <Carousel slides={eventSlides} label="📅 Upcoming Events" />
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <Carousel slides={announcementSlides} label="📣 Announcements" />
+        <Carousel slides={eventSlides} label="📅 Upcoming Events" />
+      </div>
+
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50 bg-black/40 rounded-full transition-colors"
+            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+            aria-label="Close modal"
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <img 
+            src={selectedImage} 
+            alt="Expanded view" 
+            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </div>
+      )}
+    </>
   );
 }

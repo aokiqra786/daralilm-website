@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Event } from "@/types";
+import { readData, writeData } from "@/lib/localDb";
 
 const mockEvents: Event[] = [
   {
@@ -31,13 +32,13 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const upcoming = searchParams.get("upcoming") === "true";
+    const today = new Date().toISOString().split("T")[0];
+    const now = new Date().toISOString();
 
     if (isSupabaseConfigured()) {
       let query = supabase.from("events").select("*");
       
       if (upcoming) {
-        // Simple comparison: date >= today
-        const today = new Date().toISOString().split("T")[0];
         query = query.gte("date", today);
       }
       
@@ -46,7 +47,20 @@ export async function GET(request: Request) {
       return NextResponse.json(data);
     }
     
-    return NextResponse.json(mockEvents);
+    // Fallback to local DB
+    let data = readData<Event[]>("events.json", mockEvents);
+    
+    if (upcoming) {
+      data = data.filter(e => {
+        if (e.date < today) return false;
+        if (e.endDate && e.endDate < now) return false;
+        return true;
+      });
+    }
+
+    data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching events:", error);
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
@@ -63,7 +77,18 @@ export async function POST(request: Request) {
       return NextResponse.json(data, { status: 201 });
     }
     
-    const newEvent = { ...body, id: Date.now().toString(), createdAt: new Date().toISOString() };
+    // Fallback to local DB
+    const newEvent: Event = { 
+      ...body, 
+      id: Date.now().toString(), 
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    const existing = readData<Event[]>("events.json", mockEvents);
+    existing.push(newEvent);
+    writeData("events.json", existing);
+
     return NextResponse.json(newEvent, { status: 201 });
   } catch (error) {
     console.error("Error creating event:", error);
