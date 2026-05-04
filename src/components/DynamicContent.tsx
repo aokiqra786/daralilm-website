@@ -186,8 +186,8 @@ export default function DynamicContent() {
         ]);
         const ann: Announcement[] = annRes.ok ? await annRes.json() : [];
         const evt: Event[] = evtRes.ok ? await evtRes.json() : [];
-        setAnnouncements(ann.length > 0 ? ann : SAMPLE_ANNOUNCEMENTS);
-        setEvents(evt.length > 0 ? evt : SAMPLE_EVENTS);
+        setAnnouncements(ann.length > 0 ? [...ann, ...SAMPLE_ANNOUNCEMENTS] : SAMPLE_ANNOUNCEMENTS);
+        setEvents(evt.length > 0 ? [...evt, ...SAMPLE_EVENTS] : SAMPLE_EVENTS);
       } catch {
         setAnnouncements(SAMPLE_ANNOUNCEMENTS);
         setEvents(SAMPLE_EVENTS);
