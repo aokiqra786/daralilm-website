@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
@@ -8,6 +9,7 @@ export async function POST(request: Request) {
 
     let buffer: Buffer;
     let extension = "png";
+    let contentTypeHeader = "image/png";
 
     if (contentType.includes("multipart/form-data")) {
       const formData = await request.formData();
@@ -23,10 +25,11 @@ export async function POST(request: Request) {
       const fileName = file.name;
       const fileExt = fileName.split('.').pop();
       if (fileExt) extension = fileExt;
+      contentTypeHeader = file.type || "application/octet-stream";
 
     } else if (contentType.includes("application/json")) {
       const body = await request.json();
-      const base64Data = body.image; // Expects "data:image/png;base64,iVBORw0KGgo..."
+      const base64Data = body.image; 
 
       if (!base64Data) {
         return NextResponse.json({ error: "No image data provided" }, { status: 400 });
@@ -38,26 +41,38 @@ export async function POST(request: Request) {
       }
 
       buffer = Buffer.from(matches[2], 'base64');
+      contentTypeHeader = matches[1];
 
       if (matches[1] === 'image/jpeg') extension = 'jpg';
       else if (matches[1] === 'image/webp') extension = 'webp';
-      // defaults to png
     } else {
       return NextResponse.json({ error: "Unsupported content type" }, { status: 415 });
     }
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
     const filename = `upload_${Date.now()}.${extension}`;
-    const filePath = path.join(uploadDir, filename);
 
-    fs.writeFileSync(filePath, buffer);
+    if (isSupabaseConfigured()) {
+      const { error } = await supabase.storage.from("uploads").upload(filename, buffer, {
+        contentType: contentTypeHeader,
+        upsert: false
+      });
 
-    const imageUrl = `/uploads/${filename}`;
-    return NextResponse.json({ url: imageUrl }, { status: 201 });
+      if (error) throw error;
+
+      const { data: publicUrlData } = supabase.storage.from("uploads").getPublicUrl(filename);
+      return NextResponse.json({ url: publicUrlData.publicUrl }, { status: 201 });
+    } else {
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
+
+      const imageUrl = `/uploads/${filename}`;
+      return NextResponse.json({ url: imageUrl }, { status: 201 });
+    }
 
   } catch (error: any) {
     console.error("Error uploading file:", error);
