@@ -92,8 +92,8 @@ export async function POST(request: Request) {
     writeData("announcements.json", existing);
 
     return NextResponse.json(newAnnouncement, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating announcement:", error);
-    return NextResponse.json({ error: "Failed to create announcement" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Failed to create announcement" }, { status: 500 });
   }
 }

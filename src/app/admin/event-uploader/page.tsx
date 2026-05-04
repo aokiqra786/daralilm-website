@@ -152,7 +152,10 @@ export default function EventUploader() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ image: previewUrl })
         });
-        if (!res.ok) throw new Error("Upload failed");
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Upload failed with status ${res.status}`);
+        }
         const data = await res.json();
         imageUrl = data.url;
       } else {
@@ -162,7 +165,10 @@ export default function EventUploader() {
           method: "POST",
           body: formData
         });
-        if (!res.ok) throw new Error("Upload failed");
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Upload failed with status ${res.status}`);
+        }
         const data = await res.json();
         imageUrl = data.url;
       }

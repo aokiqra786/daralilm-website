@@ -90,8 +90,8 @@ export async function POST(request: Request) {
     writeData("events.json", existing);
 
     return NextResponse.json(newEvent, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating event:", error);
-    return NextResponse.json({ error: "Failed to create event" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Failed to create event" }, { status: 500 });
   }
 }
