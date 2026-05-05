@@ -190,6 +190,48 @@ export default function EventUploader() {
     }
   };
 
+  const resizeAndCropImage = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return reject("Canvas error");
+
+          // Target size is 1080x1080 (1:1 aspect ratio)
+          const TARGET_SIZE = 1080;
+          canvas.width = TARGET_SIZE;
+          canvas.height = TARGET_SIZE;
+
+          // Calculate cover crop dimensions
+          const scale = Math.max(TARGET_SIZE / img.width, TARGET_SIZE / img.height);
+          const drawWidth = img.width * scale;
+          const drawHeight = img.height * scale;
+          
+          // Center the image
+          const offsetX = (TARGET_SIZE - drawWidth) / 2;
+          const offsetY = (TARGET_SIZE - drawHeight) / 2;
+
+          // Draw with high quality smoothing
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+          canvas.toBlob((blob) => {
+            if (blob) resolve(blob);
+            else reject("Blob generation failed");
+          }, "image/jpeg", 0.9);
+        };
+        img.onerror = () => reject("Image load error");
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject("File read error");
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) return alert("Please select a file.");
@@ -216,8 +258,12 @@ export default function EventUploader() {
         const data = await res.json();
         imageUrl = data.url;
       } else {
+        // Resize and crop uploaded images to 1080x1080
+        const resizedBlob = await resizeAndCropImage(file);
+        
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", new File([resizedBlob], `upload_${Date.now()}.jpg`, { type: 'image/jpeg' }));
+        
         const res = await fetch("/api/v1/upload", {
           method: "POST",
           body: formData
