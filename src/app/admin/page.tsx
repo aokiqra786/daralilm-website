@@ -18,18 +18,10 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
-          <h2 className="text-xl font-semibold text-blue-800 mb-4">Announcements</h2>
-          <p className="text-slate-600 mb-4">Post updates and important news.</p>
+          <h2 className="text-xl font-semibold text-blue-800 mb-4">Announcements & Events</h2>
+          <p className="text-slate-600 mb-4">Post updates, news, and schedule community events.</p>
           <Link href="/admin/event-uploader" className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors text-center">
-            Upload Announcement
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
-          <h2 className="text-xl font-semibold text-blue-800 mb-4">Events</h2>
-          <p className="text-slate-600 mb-4">Schedule community events and meetings.</p>
-          <Link href="/admin/event-uploader" className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 rounded transition-colors text-center">
-            Upload Event
+            Upload Post
           </Link>
         </div>
       </div>
