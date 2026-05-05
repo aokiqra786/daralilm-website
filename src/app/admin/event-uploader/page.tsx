@@ -439,7 +439,7 @@ export default function EventUploader() {
                 disabled={loading}
                 className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded shadow transition disabled:opacity-50"
               >
-                {loading ? "Uploading..." : `Upload ${postType === 'announcement' ? 'Announcement' : 'Event'}`}
+                {loading ? "Uploading..." : "Upload Post"}
               </button>
             </div>
           </form>
@@ -456,19 +456,13 @@ export default function EventUploader() {
               <ul className="divide-y divide-slate-100">
                 {activeAnnouncements.map(a => (
                   <li key={`ann-${a.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
-                    <div className="flex items-center gap-3">
-                      <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Announcement</span>
-                      <span className="font-medium text-slate-800">{a.title}</span>
-                    </div>
+                    <span className="font-medium text-slate-800">{a.title}</span>
                     <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
                   </li>
                 ))}
                 {activeEvents.map(e => (
                   <li key={`evt-${e.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
-                    <div className="flex items-center gap-3">
-                      <span className="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded">Event</span>
-                      <span className="font-medium text-slate-800">{e.title}</span>
-                    </div>
+                    <span className="font-medium text-slate-800">{e.title}</span>
                     <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
                   </li>
                 ))}
