@@ -5,74 +5,8 @@ import { Bell, Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from "lu
 import { Announcement, Event } from "@/types";
 
 /* ─── Sample fallback data ─── */
-const SAMPLE_ANNOUNCEMENTS: Announcement[] = [
-  {
-    id: "1",
-    title: "Quran Memorization Competition",
-    body: "Join us on May 15th for our Annual Hifz Competition! Open to all age groups. Register at the front desk.",
-    category: "general",
-    isPinned: true,
-    startDate: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Summer Classes Registration Open",
-    body: "Registration for our Summer 2026 sessions is now open. Limited spots available — sign up today!",
-    category: "summer",
-    isPinned: false,
-    startDate: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Eid Holiday Notice",
-    body: "The academy will be closed during Eid Al-Adha (June 6–8). Classes resume June 9, insha'Allah.",
-    category: "general",
-    isPinned: false,
-    startDate: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
-
-const SAMPLE_EVENTS: Event[] = [
-  {
-    id: "1",
-    title: "Community Iftar Dinner",
-    date: "2026-06-01",
-    time: "7:30 PM",
-    location: "Main Hall",
-    description: "Join us for a blessed community iftar. All families are welcome!",
-    category: "community",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Islamic Studies Graduation",
-    date: "2026-06-15",
-    time: "6:00 PM",
-    location: "Prayer Hall",
-    description: "Celebrating our graduating students. Families are warmly invited.",
-    category: "school",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Parents & Teachers Meeting",
-    date: "2026-06-22",
-    time: "5:00 PM",
-    location: "Classroom Block A",
-    description: "Quarterly meeting to discuss student progress and upcoming curriculum.",
-    category: "parent",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
+const SAMPLE_ANNOUNCEMENTS: Announcement[] = [];
+const SAMPLE_EVENTS: Event[] = [];
 
 /* ─── Gradient palettes ─── */
 const ANNOUNCEMENT_PALETTES = [
@@ -175,7 +109,6 @@ export default function DynamicContent() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -218,7 +151,7 @@ export default function DynamicContent() {
         <div 
           key={a.id} 
           className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
-          onClick={() => setSelectedImage(a.imageUrl!)}
+          onClick={() => window.open(a.imageUrl!, '_blank')}
         >
           <img src={a.imageUrl} alt={a.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
@@ -267,7 +200,7 @@ export default function DynamicContent() {
         <div 
           key={e.id} 
           className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
-          onClick={() => setSelectedImage(e.imageUrl!)}
+          onClick={() => window.open(e.imageUrl!, '_blank')}
         >
           <img src={e.imageUrl} alt={e.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
@@ -327,27 +260,6 @@ export default function DynamicContent() {
         <Carousel slides={announcementSlides} label="📣 Announcements" />
         <Carousel slides={eventSlides} label="📅 Upcoming Events" />
       </div>
-
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50 bg-black/40 rounded-full transition-colors"
-            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-            aria-label="Close modal"
-          >
-            <X className="w-8 h-8" />
-          </button>
-          <img 
-            src={selectedImage} 
-            alt="Expanded view" 
-            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
-            onClick={(e) => e.stopPropagation()} 
-          />
-        </div>
-      )}
     </>
   );
 }

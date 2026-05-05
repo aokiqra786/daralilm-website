@@ -62,8 +62,10 @@ export default function EventUploader() {
         const text = e.target?.result as string;
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         
-        const heading = lines.length > 0 ? lines[0] : "New Update";
-        const body = lines.length > 1 ? lines.slice(1).join(' ') : "";
+        const line1 = lines.length > 0 ? lines[0] : "New Update";
+        const line2 = lines.length > 1 ? lines[1] : "";
+        const line3 = lines.length > 2 ? lines[2] : "";
+        const body = lines.length > 3 ? lines.slice(3).join(' ') : "";
 
         const canvas = canvasRef.current;
         if (!canvas) return reject("Canvas not found");
@@ -94,24 +96,45 @@ export default function EventUploader() {
           ctx.fillStyle = "#ffffff";
           ctx.textAlign = "center";
           
-          // Type Label
-          ctx.font = "bold 40px sans-serif";
-          ctx.fillText(postType === "announcement" ? "📣 ANNOUNCEMENT" : "📅 UPCOMING EVENT", 540, 200);
-
-          // Heading
-          ctx.font = "bold 80px serif"; // Playfair equivalent
+          let currentY = 250;
           const maxWidth = 900;
-          wrapText(ctx, heading, 540, 350, maxWidth, 90);
+
+          // Type Label (Optional, keep it small at the very top)
+          ctx.font = "bold 30px sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+          ctx.fillText(postType === "announcement" ? "📣 ANNOUNCEMENT" : "📅 UPCOMING EVENT", 540, 150);
+
+          // Line 1: H1 Bold
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 80px serif"; // Playfair equivalent
+          currentY = wrapText(ctx, line1, 540, currentY, maxWidth, 90);
+
+          // Line 2: H2
+          if (line2) {
+            ctx.font = "bold 60px serif";
+            currentY += 20; // extra padding
+            currentY = wrapText(ctx, line2, 540, currentY, maxWidth, 70);
+          }
+
+          // Line 3: H3
+          if (line3) {
+            ctx.font = "bold 45px sans-serif";
+            currentY += 20;
+            currentY = wrapText(ctx, line3, 540, currentY, maxWidth, 55);
+          }
 
           // Body
-          ctx.font = "40px sans-serif";
-          ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-          wrapText(ctx, body, 540, 600, maxWidth, 50);
+          if (body) {
+            ctx.font = "35px sans-serif";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+            currentY += 30;
+            wrapText(ctx, body, 540, currentY, maxWidth, 45);
+          }
 
           // Footer
           ctx.font = "bold 30px sans-serif";
           ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-          ctx.fillText("SoCal Academy of Knowledge", 540, 1000);
+          ctx.fillText("SoCal Academy of Knowledge", 540, 1040);
 
           resolve(canvas.toDataURL("image/png"));
         };
@@ -123,7 +146,7 @@ export default function EventUploader() {
     });
   };
 
-  const wrapText = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+  const wrapText = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): number => {
     const words = text.split(' ');
     let line = '';
     let currentY = y;
@@ -133,14 +156,15 @@ export default function EventUploader() {
       const metrics = ctx.measureText(testLine);
       const testWidth = metrics.width;
       if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, currentY);
+        ctx.fillText(line.trim(), x, currentY);
         line = words[n] + ' ';
         currentY += lineHeight;
       } else {
         line = testLine;
       }
     }
-    ctx.fillText(line, x, currentY);
+    ctx.fillText(line.trim(), x, currentY);
+    return currentY + lineHeight;
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,7 +289,7 @@ export default function EventUploader() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full border border-slate-200">
-          <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">Event Uploader Login</h1>
+          <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">Announcement & Event Uploader Login</h1>
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Admin Password</label>
@@ -291,7 +315,7 @@ export default function EventUploader() {
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
         
         <div className="bg-blue-900 px-6 py-4">
-          <h1 className="text-2xl font-bold text-white">Event Uploader Tool</h1>
+          <h1 className="text-2xl font-bold text-white">Announcement and Event Uploader</h1>
           <p className="text-blue-100 text-sm">Upload announcements or events to the Home and Events pages.</p>
         </div>
 
@@ -389,38 +413,31 @@ export default function EventUploader() {
         <div className="bg-slate-100 p-6 md:p-8 border-t border-slate-200">
           <h2 className="text-xl font-bold text-slate-800 mb-6">Manage Active Posts</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Announcements</h3>
-              {activeAnnouncements.length === 0 ? (
-                <p className="text-slate-500 text-sm">No active announcements.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {activeAnnouncements.map(a => (
-                    <li key={a.id} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-slate-200">
-                      <span className="font-medium text-slate-800 truncate pr-4">{a.title}</span>
-                      <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Events</h3>
-              {activeEvents.length === 0 ? (
-                <p className="text-slate-500 text-sm">No active events.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {activeEvents.map(e => (
-                    <li key={e.id} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-slate-200">
-                      <span className="font-medium text-slate-800 truncate pr-4">{e.title}</span>
-                      <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+          <div className="bg-white rounded shadow-sm border border-slate-200 overflow-hidden">
+            {activeAnnouncements.length === 0 && activeEvents.length === 0 ? (
+              <p className="p-4 text-slate-500 text-sm">No active posts found.</p>
+            ) : (
+              <ul className="divide-y divide-slate-100">
+                {activeAnnouncements.map(a => (
+                  <li key={`ann-${a.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
+                    <div className="flex items-center gap-3">
+                      <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Announcement</span>
+                      <span className="font-medium text-slate-800">{a.title}</span>
+                    </div>
+                    <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                  </li>
+                ))}
+                {activeEvents.map(e => (
+                  <li key={`evt-${e.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
+                    <div className="flex items-center gap-3">
+                      <span className="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded">Event</span>
+                      <span className="font-medium text-slate-800">{e.title}</span>
+                    </div>
+                    <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
