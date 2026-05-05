@@ -12,6 +12,8 @@ export default function EventUploader() {
   const [publishDate, setPublishDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [caption, setCaption] = useState("");
   
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -283,33 +285,36 @@ export default function EventUploader() {
       }
 
       // 2. Submit to Announcements or Events API
-      let title = file.name.split('.')[0]; // Fallback
-      let bodyOrDesc = "Uploaded via tool";
+      let finalTitle = title.trim();
+      let finalBody = caption.trim();
 
       if (uploadType === "text") {
         const text = await file.text();
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        if (lines.length > 0) title = lines[0];
-        if (lines.length > 1) bodyOrDesc = lines.slice(1).join(' ');
+        if (lines.length > 0) finalTitle = lines[0]; // Override with first line of text file
+        if (lines.length > 1) finalBody = lines.slice(1).join(' ');
+      } else {
+        if (!finalTitle) finalTitle = file.name.split('.')[0];
+        if (!finalBody) finalBody = "Uploaded via Dar Al Ilm admin tool";
       }
 
       const today = new Date().toISOString();
       const endpoint = postType === "announcement" ? "/api/v1/announcements" : "/api/v1/events";
       
       const payload: any = {
-        title,
+        title: finalTitle,
         imageUrl,
         date: publishDate, // Using date field as Publish Date
         endDate: new Date(endDate).toISOString(),
       };
 
       if (postType === "announcement") {
-        payload.body = bodyOrDesc;
+        payload.body = finalBody;
         payload.category = "general";
         payload.isPinned = true;
         payload.startDate = publishDate; // Using Publish Date for announcements scheduling
       } else {
-        payload.description = bodyOrDesc;
+        payload.description = finalBody;
         payload.category = "community";
         payload.location = "TBD";
       }
@@ -326,6 +331,8 @@ export default function EventUploader() {
       setFile(null);
       setPreviewUrl(null);
       setEndDate("");
+      setTitle("");
+      setCaption("");
       const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       setRefreshKey(k => k + 1);
@@ -453,6 +460,32 @@ export default function EventUploader() {
                 required
               />
             </div>
+
+            {uploadType === "image" && (
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 space-y-4">
+                <h3 className="text-sm font-bold text-blue-900">Social Media & Website Info</h3>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Post Title</label>
+                  <input 
+                    type="text" 
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    placeholder="e.g., Community Iftar Dinner"
+                    className="border border-slate-300 rounded px-3 py-2 w-full"
+                    required={uploadType === "image"}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Description / Social Media Caption</label>
+                  <textarea 
+                    value={caption}
+                    onChange={e => setCaption(e.target.value)}
+                    placeholder="Write a caption to boost engagement on Facebook/Instagram..."
+                    className="border border-slate-300 rounded px-3 py-2 w-full h-24 resize-none"
+                  />
+                </div>
+              </div>
+            )}
 
             {previewUrl && (
               <div className="mt-6 border-t pt-6">
