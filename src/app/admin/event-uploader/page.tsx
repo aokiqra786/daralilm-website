@@ -7,7 +7,7 @@ export default function EventUploader() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   
-  const [postType, setPostType] = useState<"announcement" | "event">("announcement");
+  const [postType, setPostType] = useState<"announcement" | "event">("event");
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
   const [endDate, setEndDate] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -378,21 +378,7 @@ export default function EventUploader() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">What are you adding?</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="postType" checked={postType === "announcement"} onChange={() => setPostType("announcement")} />
-                    Announcement
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="postType" checked={postType === "event"} onChange={() => setPostType("event")} />
-                    Event
-                  </label>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Upload Format</label>
                 <div className="flex gap-4">

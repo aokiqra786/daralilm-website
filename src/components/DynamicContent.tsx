@@ -256,9 +256,13 @@ export default function DynamicContent() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <Carousel slides={announcementSlides} label="📣 Announcements" />
-        <Carousel slides={eventSlides} label="📅 Upcoming Events" />
+      <div className={`grid grid-cols-1 ${announcementSlides.length > 0 && eventSlides.length > 0 ? 'md:grid-cols-2' : ''} gap-12 justify-items-center`}>
+        {announcementSlides.length > 0 && (
+          <Carousel slides={announcementSlides} label="📣 Announcements" />
+        )}
+        {eventSlides.length > 0 && (
+          <Carousel slides={eventSlides} label={announcementSlides.length > 0 ? "📅 Upcoming Events" : "📣 Announcements & Events"} />
+        )}
       </div>
     </>
   );
