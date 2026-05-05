@@ -200,29 +200,33 @@ export default function EventUploader() {
           const ctx = canvas.getContext("2d");
           if (!ctx) return reject("Canvas error");
 
-          // Max dimension is 1080px to save space, but preserve aspect ratio!
-          const MAX_SIZE = 1080;
-          let width = img.width;
-          let height = img.height;
+          // Always output a perfect 1080x1080 square so it matches the box perfectly
+          const TARGET_SIZE = 1080;
+          canvas.width = TARGET_SIZE;
+          canvas.height = TARGET_SIZE;
 
-          if (width > MAX_SIZE || height > MAX_SIZE) {
-            const scale = Math.min(MAX_SIZE / width, MAX_SIZE / height);
-            width = width * scale;
-            height = height * scale;
-          }
+          // Fill with dark background (letterboxing)
+          ctx.fillStyle = "#0f172a"; // slate-900
+          ctx.fillRect(0, 0, TARGET_SIZE, TARGET_SIZE);
 
-          canvas.width = width;
-          canvas.height = height;
+          // Calculate scale to fit the entire image inside 1080x1080
+          const scale = Math.min(TARGET_SIZE / img.width, TARGET_SIZE / img.height);
+          const drawWidth = img.width * scale;
+          const drawHeight = img.height * scale;
+
+          // Center the image on the canvas
+          const offsetX = (TARGET_SIZE - drawWidth) / 2;
+          const offsetY = (TARGET_SIZE - drawHeight) / 2;
 
           // Draw with high quality smoothing
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = "high";
-          ctx.drawImage(img, 0, 0, width, height);
+          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
           canvas.toBlob((blob) => {
             if (blob) resolve(blob);
             else reject("Blob generation failed");
-          }, "image/jpeg", 0.9);
+          }, "image/jpeg", 0.95);
         };
         img.onerror = () => reject("Image load error");
         img.src = e.target?.result as string;
