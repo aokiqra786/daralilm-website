@@ -307,7 +307,7 @@ export default function EventUploader() {
         payload.body = bodyOrDesc;
         payload.category = "general";
         payload.isPinned = true;
-        payload.startDate = today;
+        payload.startDate = publishDate; // Using Publish Date for announcements scheduling
       } else {
         payload.description = bodyOrDesc;
         payload.category = "community";
@@ -380,7 +380,21 @@ export default function EventUploader() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">What are you adding?</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="postType" checked={postType === "announcement"} onChange={() => setPostType("announcement")} />
+                    Announcement
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="postType" checked={postType === "event"} onChange={() => setPostType("event")} />
+                    Event
+                  </label>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Upload Format</label>
                 <div className="flex gap-4">
@@ -470,17 +484,29 @@ export default function EventUploader() {
               <p className="p-4 text-slate-500 text-sm">No active posts found.</p>
             ) : (
               <ul className="divide-y divide-slate-100">
-                {activeAnnouncements.map(a => (
-                  <li key={`ann-${a.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
-                    <span className="font-medium text-slate-800">{a.title}</span>
-                    <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
-                  </li>
-                ))}
+                {activeAnnouncements.map(a => {
+                  const isScheduled = a.startDate > new Date().toISOString().split('T')[0];
+                  return (
+                    <li key={`ann-${a.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
+                      <div className="flex items-center gap-3">
+                        <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Announcement</span>
+                        <span className="font-medium text-slate-800">{a.title}</span>
+                        {isScheduled && (
+                          <span className="bg-purple-100 text-purple-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide">
+                            Scheduled
+                          </span>
+                        )}
+                      </div>
+                      <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                    </li>
+                  );
+                })}
                 {activeEvents.map(e => {
                   const isScheduled = e.date > new Date().toISOString().split('T')[0];
                   return (
                     <li key={`evt-${e.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
                       <div className="flex items-center gap-3">
+                        <span className="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded">Event</span>
                         <span className="font-medium text-slate-800">{e.title}</span>
                         {isScheduled && (
                           <span className="bg-purple-100 text-purple-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide">
