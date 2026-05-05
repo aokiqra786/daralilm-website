@@ -190,7 +190,7 @@ export default function EventUploader() {
     }
   };
 
-  const resizeAndCropImage = (file: File): Promise<Blob> => {
+  const resizeImage = (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -200,24 +200,24 @@ export default function EventUploader() {
           const ctx = canvas.getContext("2d");
           if (!ctx) return reject("Canvas error");
 
-          // Target size is 1080x1080 (1:1 aspect ratio)
-          const TARGET_SIZE = 1080;
-          canvas.width = TARGET_SIZE;
-          canvas.height = TARGET_SIZE;
+          // Max dimension is 1080px to save space, but preserve aspect ratio!
+          const MAX_SIZE = 1080;
+          let width = img.width;
+          let height = img.height;
 
-          // Calculate cover crop dimensions
-          const scale = Math.max(TARGET_SIZE / img.width, TARGET_SIZE / img.height);
-          const drawWidth = img.width * scale;
-          const drawHeight = img.height * scale;
-          
-          // Center the image
-          const offsetX = (TARGET_SIZE - drawWidth) / 2;
-          const offsetY = (TARGET_SIZE - drawHeight) / 2;
+          if (width > MAX_SIZE || height > MAX_SIZE) {
+            const scale = Math.min(MAX_SIZE / width, MAX_SIZE / height);
+            width = width * scale;
+            height = height * scale;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
 
           // Draw with high quality smoothing
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = "high";
-          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+          ctx.drawImage(img, 0, 0, width, height);
 
           canvas.toBlob((blob) => {
             if (blob) resolve(blob);
@@ -258,8 +258,8 @@ export default function EventUploader() {
         const data = await res.json();
         imageUrl = data.url;
       } else {
-        // Resize and crop uploaded images to 1080x1080
-        const resizedBlob = await resizeAndCropImage(file);
+        // Resize uploaded images (preserve aspect ratio)
+        const resizedBlob = await resizeImage(file);
         
         const formData = new FormData();
         formData.append("file", new File([resizedBlob], `upload_${Date.now()}.jpg`, { type: 'image/jpeg' }));

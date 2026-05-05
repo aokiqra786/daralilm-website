@@ -150,10 +150,10 @@ export default function DynamicContent() {
       return (
         <div 
           key={a.id} 
-          className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
+          className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
           onClick={() => window.open(a.imageUrl!, '_blank')}
         >
-          <img src={a.imageUrl} alt={a.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+          <img src={a.imageUrl} alt={a.title} className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
       );
     }
@@ -199,10 +199,10 @@ export default function DynamicContent() {
       return (
         <div 
           key={e.id} 
-          className="relative w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden cursor-pointer group"
+          className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
           onClick={() => window.open(e.imageUrl!, '_blank')}
         >
-          <img src={e.imageUrl} alt={e.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+          <img src={e.imageUrl} alt={e.title} className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500" />
         </div>
       );
     }
