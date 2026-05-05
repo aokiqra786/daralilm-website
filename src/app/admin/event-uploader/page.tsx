@@ -9,6 +9,7 @@ export default function EventUploader() {
   
   const [postType, setPostType] = useState<"announcement" | "event">("event");
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
+  const [publishDate, setPublishDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState("");
   const [file, setFile] = useState<File | null>(null);
   
@@ -27,7 +28,8 @@ export default function EventUploader() {
       if(Array.isArray(data)) setActiveAnnouncements(data);
     }).catch(() => {});
     
-    fetch("/api/v1/events?upcoming=true").then(r => r.ok ? r.json() : []).then(data => {
+    // For Admin view, fetch ALL events (so they can see scheduled future posts)
+    fetch("/api/v1/events").then(r => r.ok ? r.json() : []).then(data => {
       if(Array.isArray(data)) setActiveEvents(data);
     }).catch(() => {});
   }, [isAuthenticated, refreshKey]);
@@ -297,6 +299,7 @@ export default function EventUploader() {
       const payload: any = {
         title,
         imageUrl,
+        date: publishDate, // Using date field as Publish Date
         endDate: new Date(endDate).toISOString(),
       };
 
@@ -308,7 +311,6 @@ export default function EventUploader() {
       } else {
         payload.description = bodyOrDesc;
         payload.category = "community";
-        payload.date = today.split('T')[0];
         payload.location = "TBD";
       }
 
@@ -394,16 +396,30 @@ export default function EventUploader() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Expiration Date</label>
-              <p className="text-xs text-slate-500 mb-2">The post will be automatically removed after this date.</p>
-              <input 
-                type="date" 
-                value={endDate}
-                onChange={e => setEndDate(e.target.value)}
-                className="border border-slate-300 rounded px-3 py-2 w-full max-w-xs"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Publish Date</label>
+                <p className="text-xs text-slate-500 mb-2">When should this post appear on the site?</p>
+                <input 
+                  type="date" 
+                  value={publishDate}
+                  onChange={e => setPublishDate(e.target.value)}
+                  className="border border-slate-300 rounded px-3 py-2 w-full"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Expiration Date</label>
+                <p className="text-xs text-slate-500 mb-2">When should this post be removed?</p>
+                <input 
+                  type="date" 
+                  value={endDate}
+                  onChange={e => setEndDate(e.target.value)}
+                  className="border border-slate-300 rounded px-3 py-2 w-full"
+                  required
+                />
+              </div>
             </div>
 
             <div>
@@ -460,12 +476,22 @@ export default function EventUploader() {
                     <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
                   </li>
                 ))}
-                {activeEvents.map(e => (
-                  <li key={`evt-${e.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
-                    <span className="font-medium text-slate-800">{e.title}</span>
-                    <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
-                  </li>
-                ))}
+                {activeEvents.map(e => {
+                  const isScheduled = e.date > new Date().toISOString().split('T')[0];
+                  return (
+                    <li key={`evt-${e.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium text-slate-800">{e.title}</span>
+                        {isScheduled && (
+                          <span className="bg-purple-100 text-purple-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide">
+                            Scheduled
+                          </span>
+                        )}
+                      </div>
+                      <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>

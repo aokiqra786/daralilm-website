@@ -39,10 +39,13 @@ export async function GET(request: Request) {
       let query = supabase.from("events").select("*");
       
       if (upcoming) {
-        query = query.gte("date", today);
+        // Scheduled Publishing: Only show if publishDate (stored in 'date') is today or earlier
+        query = query.lte("date", today);
+        // Auto-expiration: Only show if it hasn't expired
+        query = query.gte("endDate", now);
       }
       
-      const { data, error } = await query.order("date", { ascending: true });
+      const { data, error } = await query.order("date", { ascending: false });
       if (error) throw error;
       return NextResponse.json(data);
     }
@@ -52,8 +55,8 @@ export async function GET(request: Request) {
     
     if (upcoming) {
       data = data.filter(e => {
-        if (e.date < today) return false;
-        if (e.endDate && e.endDate < now) return false;
+        if (e.date > today) return false; // Hide scheduled future posts
+        if (e.endDate && e.endDate < now) return false; // Hide expired posts
         return true;
       });
     }
