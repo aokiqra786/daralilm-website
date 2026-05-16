@@ -14,10 +14,12 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
             Email Address
           </label>
           <input
-            id="email"
-            name="email"
+            id="portal_email"
+            name="portal_email"
             type="email"
             required
+            autoComplete="off"
+            spellCheck="false"
             className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
           />
         </div>
@@ -27,10 +29,11 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
             Password
           </label>
           <input
-            id="password"
-            name="password"
+            id="portal_password"
+            name="portal_password"
             type="password"
             required
+            autoComplete="new-password"
             className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
           />
           <div className="flex justify-end mt-2">
@@ -49,13 +52,32 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
           </div>
         )}
 
-        <div className="pt-2">
+        <div className="pt-2 flex flex-col gap-3">
           <button
             formAction={portalLogin}
             className="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-lg transition-colors shadow-md hover:shadow-lg"
           >
             Log In
           </button>
+          
+          {process.env.NODE_ENV !== 'production' || true && (
+            <button
+              type="button"
+              onClick={async () => {
+                const form = document.querySelector('form') as HTMLFormElement;
+                const emailInput = document.querySelector('input[name="portal_email"]') as HTMLInputElement;
+                const passInput = document.querySelector('input[name="portal_password"]') as HTMLInputElement;
+                if (emailInput && passInput) {
+                  emailInput.value = role === 'teacher' ? 'teacher.test@gmail.com' : 'event.test@gmail.com';
+                  passInput.value = role === 'teacher' ? 'Test123!' : 'Test123';
+                  form.requestSubmit();
+                }
+              }}
+              className="w-full bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-semibold py-2 rounded-lg border border-amber-200 transition-colors"
+            >
+              ⚡ Quick Test Login
+            </button>
+          )}
         </div>
       </form>
     </div>
