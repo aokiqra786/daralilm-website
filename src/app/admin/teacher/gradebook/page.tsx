@@ -18,5 +18,14 @@ export default async function GradebookPage() {
     .eq('teacher_id', user!.id)
     .order('name')
 
-  return <GradebookClient classes={classes || []} teacherId={user!.id} />
+  // Transform the data to ensure 'students' join is handled correctly as an object, not an array
+  const transformedClasses = classes?.map(cls => ({
+    ...cls,
+    class_enrollments: cls.class_enrollments?.map(enr => ({
+      ...enr,
+      students: Array.isArray(enr.students) ? enr.students[0] : (enr.students || null)
+    })) || []
+  }))
+
+  return <GradebookClient classes={(transformedClasses || []) as any} teacherId={user!.id} />
 }
