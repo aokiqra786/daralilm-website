@@ -39,7 +39,9 @@ export async function portalLogin(formData: FormData) {
   if (expectedRole === 'event_uploader') redirectUrl = '/portal/events'
 
   if (error) {
-    return redirect(`${redirectUrl}?message=${encodeURIComponent(error.message)}`)
+    const debugUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'missing_url';
+    const errorMsg = error.message === 'fetch failed' ? `fetch failed for ${debugUrl}` : error.message;
+    return redirect(`${redirectUrl}?message=${encodeURIComponent(errorMsg)}`)
   }
 
   // Verify they have the correct role for this portal
