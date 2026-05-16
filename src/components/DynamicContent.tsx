@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Bell, Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
+import Image from "next/image";
 import { Announcement, Event } from "@/types";
 
 /* ─── Sample fallback data ─── */
@@ -153,7 +154,7 @@ export default function DynamicContent() {
           className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
           onClick={() => window.open(a.imageUrl!, '_blank')}
         >
-          <img src={a.imageUrl} alt={a.title} className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500" />
+          <Image src={a.imageUrl} alt={a.title} fill className="object-contain group-hover:scale-105 transition-transform duration-500" />
         </div>
       );
     }
@@ -202,7 +203,7 @@ export default function DynamicContent() {
           className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
           onClick={() => window.open(e.imageUrl!, '_blank')}
         >
-          <img src={e.imageUrl} alt={e.title} className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500" />
+          <Image src={e.imageUrl} alt={e.title} fill className="object-contain group-hover:scale-105 transition-transform duration-500" />
         </div>
       );
     }

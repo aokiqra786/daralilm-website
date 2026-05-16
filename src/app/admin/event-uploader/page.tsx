@@ -7,7 +7,6 @@ export default function EventUploader() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   
-  const [postType, setPostType] = useState<"announcement" | "event">("event");
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
   const [publishDate, setPublishDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState("");
@@ -20,28 +19,23 @@ export default function EventUploader() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [activeAnnouncements, setActiveAnnouncements] = useState<any[]>([]);
   const [activeEvents, setActiveEvents] = useState<any[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    fetch("/api/v1/announcements?active=true").then(r => r.ok ? r.json() : []).then(data => {
-      if(Array.isArray(data)) setActiveAnnouncements(data);
-    }).catch(() => {});
     
-    // For Admin view, fetch ALL events (so they can see scheduled future posts)
+    // For Admin view, fetch ALL events
     fetch("/api/v1/events").then(r => r.ok ? r.json() : []).then(data => {
       if(Array.isArray(data)) setActiveEvents(data);
     }).catch(() => {});
   }, [isAuthenticated, refreshKey]);
 
-  const handleDelete = async (type: "announcement" | "event", id: string) => {
-    if (!confirm("Are you sure you want to delete this post early?")) return;
-    const endpoint = type === 'announcement' ? `/api/v1/announcements?id=${id}` : `/api/v1/events?id=${id}`;
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this event early?")) return;
     
     try {
-      const res = await fetch(endpoint, { method: "DELETE" });
+      const res = await fetch(`/api/v1/events?id=${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       setRefreshKey(k => k + 1);
       alert("Successfully deleted!");
@@ -66,7 +60,7 @@ export default function EventUploader() {
         const text = e.target?.result as string;
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         
-        const line1 = lines.length > 0 ? lines[0] : "New Update";
+        const line1 = lines.length > 0 ? lines[0] : "New Event";
         const line2 = lines.length > 1 ? lines[1] : "";
         const line3 = lines.length > 2 ? lines[2] : "";
         const body = lines.length > 3 ? lines.slice(3).join(' ') : "";
@@ -103,10 +97,10 @@ export default function EventUploader() {
           let currentY = 250;
           const maxWidth = 900;
 
-          // Type Label (Optional, keep it small at the very top)
+          // Type Label
           ctx.font = "bold 30px sans-serif";
           ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-          ctx.fillText(postType === "announcement" ? "📣 ANNOUNCEMENT" : "📅 UPCOMING EVENT", 540, 150);
+          ctx.fillText("📅 UPCOMING EVENT", 540, 150);
 
           // Line 1: H1 Bold
           ctx.fillStyle = "#ffffff";
@@ -284,7 +278,7 @@ export default function EventUploader() {
         imageUrl = data.url;
       }
 
-      // 2. Submit to Announcements or Events API
+      // 2. Submit to Events API
       let finalTitle = title.trim();
       let finalBody = caption.trim();
 
@@ -295,39 +289,28 @@ export default function EventUploader() {
         if (lines.length > 1) finalBody = lines.slice(1).join(' ');
       } else {
         if (!finalTitle) finalTitle = file.name.split('.')[0];
-        if (!finalBody) finalBody = "Uploaded via Dar Al Ilm admin tool";
+        if (!finalBody) finalBody = "Uploaded via SoCal Academy of Knowledge admin tool";
       }
 
-      const today = new Date().toISOString();
-      const endpoint = postType === "announcement" ? "/api/v1/announcements" : "/api/v1/events";
-      
-      const payload: any = {
+      const payload = {
         title: finalTitle,
         imageUrl,
-        date: publishDate, // Using date field as Publish Date
+        date: publishDate,
         endDate: new Date(endDate).toISOString(),
+        description: finalBody,
+        category: "community",
+        location: "TBD",
       };
 
-      if (postType === "announcement") {
-        payload.body = finalBody;
-        payload.category = "general";
-        payload.isPinned = true;
-        payload.startDate = publishDate; // Using Publish Date for announcements scheduling
-      } else {
-        payload.description = finalBody;
-        payload.category = "community";
-        payload.location = "TBD";
-      }
-
-      const postRes = await fetch(endpoint, {
+      const postRes = await fetch("/api/v1/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      if (!postRes.ok) throw new Error(`Failed to create ${postType}`);
+      if (!postRes.ok) throw new Error(`Failed to create event`);
 
-      setMessage(`Successfully added ${postType}!`);
+      setMessage(`Successfully added event!`);
       setFile(null);
       setPreviewUrl(null);
       setEndDate("");
@@ -348,7 +331,7 @@ export default function EventUploader() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full border border-slate-200">
-          <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">Announcement & Event Uploader Login</h1>
+          <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">Event Uploader Login</h1>
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Admin Password</label>
@@ -374,8 +357,8 @@ export default function EventUploader() {
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
         
         <div className="bg-blue-900 px-6 py-4">
-          <h1 className="text-2xl font-bold text-white">Announcement and Event Uploader</h1>
-          <p className="text-blue-100 text-sm">Upload announcements or events to the Home and Events pages.</p>
+          <h1 className="text-2xl font-bold text-white">Event Uploader</h1>
+          <p className="text-blue-100 text-sm">Upload events to the Events page.</p>
         </div>
 
         <div className="p-6 md:p-8">
@@ -386,22 +369,7 @@ export default function EventUploader() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">What are you adding?</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="postType" checked={postType === "announcement"} onChange={() => setPostType("announcement")} />
-                    Announcement
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="postType" checked={postType === "event"} onChange={() => setPostType("event")} />
-                    Event
-                  </label>
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Upload Format</label>
                 <div className="flex gap-4">
@@ -502,7 +470,7 @@ export default function EventUploader() {
                 disabled={loading}
                 className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded shadow transition disabled:opacity-50"
               >
-                {loading ? "Uploading..." : "Upload Post"}
+                {loading ? "Uploading..." : "Upload Event"}
               </button>
             </div>
           </form>
@@ -510,30 +478,13 @@ export default function EventUploader() {
 
         {/* Manage Posts Section */}
         <div className="bg-slate-100 p-6 md:p-8 border-t border-slate-200">
-          <h2 className="text-xl font-bold text-slate-800 mb-6">Manage Active Posts</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-6">Manage Active Events</h2>
           
           <div className="bg-white rounded shadow-sm border border-slate-200 overflow-hidden">
-            {activeAnnouncements.length === 0 && activeEvents.length === 0 ? (
-              <p className="p-4 text-slate-500 text-sm">No active posts found.</p>
+            {activeEvents.length === 0 ? (
+              <p className="p-4 text-slate-500 text-sm">No active events found.</p>
             ) : (
               <ul className="divide-y divide-slate-100">
-                {activeAnnouncements.map(a => {
-                  const isScheduled = a.startDate > new Date().toISOString().split('T')[0];
-                  return (
-                    <li key={`ann-${a.id}`} className="flex justify-between items-center p-4 hover:bg-slate-50 transition">
-                      <div className="flex items-center gap-3">
-                        <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Announcement</span>
-                        <span className="font-medium text-slate-800">{a.title}</span>
-                        {isScheduled && (
-                          <span className="bg-purple-100 text-purple-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide">
-                            Scheduled
-                          </span>
-                        )}
-                      </div>
-                      <button onClick={() => handleDelete('announcement', a.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
-                    </li>
-                  );
-                })}
                 {activeEvents.map(e => {
                   const isScheduled = e.date > new Date().toISOString().split('T')[0];
                   return (
@@ -547,7 +498,7 @@ export default function EventUploader() {
                           </span>
                         )}
                       </div>
-                      <button onClick={() => handleDelete('event', e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
+                      <button onClick={() => handleDelete(e.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">Delete</button>
                     </li>
                   );
                 })}
@@ -558,7 +509,6 @@ export default function EventUploader() {
 
       </div>
       
-      {/* Hidden canvas for text-to-image processing */}
       <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );

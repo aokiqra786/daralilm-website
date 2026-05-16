@@ -1,0 +1,4 @@
+import { randomBytes, createHash } from 'crypto'
+import { createClient } from './src/utils/supabase/server.ts' // This won't work in a script easily
+
+// I'll create a temporary API route to do this since it has access to the server client and env vars.
