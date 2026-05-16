@@ -2,16 +2,22 @@ import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-const CRON_SECRET = process.env.CRON_SECRET ?? 'local-dev-secret'
-const ACADEMY_NAME = process.env.NEXT_PUBLIC_ACADEMY_NAME ?? 'SoCal Academy of Knowledge'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
-
 function fillTemplate(template: string, vars: Record<string, string>): string {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] ?? `{{${key}}}`)
 }
 
 export async function POST(req: NextRequest) {
+  const resendApiKey = process.env.RESEND_API_KEY
+  if (!resendApiKey) {
+    console.error('RESEND_API_KEY is missing')
+    return NextResponse.json({ error: 'Email service not configured' }, { status: 500 })
+  }
+  const resend = new Resend(resendApiKey)
+  
+  const CRON_SECRET = process.env.CRON_SECRET ?? 'local-dev-secret'
+  const ACADEMY_NAME = process.env.NEXT_PUBLIC_ACADEMY_NAME ?? 'SoCal Academy of Knowledge'
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
   // Protect the endpoint with a secret header
   const authHeader = req.headers.get('x-cron-secret')
   if (authHeader !== CRON_SECRET) {
@@ -130,7 +136,6 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true, date: today, results })
 }
 
-// GET is just for health check / manual test in browser
 export async function GET() {
   return NextResponse.json({ ok: true, message: 'Fee reminder cron endpoint is live. Use POST to trigger.' })
 }
