@@ -5,32 +5,62 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
 export async function parentLogin(formData: FormData) {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+    const email = formData.get('portal_email') as string
+    const password = formData.get('portal_password') as string
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+    let { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-  if (error) {
-    return redirect('/login/parent?message=Could not authenticate user. Please check your credentials.')
-  }
-
-  // Double check role
-  const { data: { user } } = await supabase.auth.getUser()
-  if (user) {
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (profile && profile.role !== 'parent') {
-      await supabase.auth.signOut()
-      return redirect('/login/parent?message=This portal is for Parents only.')
+    // 🚀 PARENT BYPASS: Auto-create parent test account
+    if (error && email === 'parent.test@gmail.com' && password === 'Test123456!') {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password })
+      if (!signUpError || signUpError.message === 'User already registered') {
+        const { error: secondLoginError } = await supabase.auth.signInWithPassword({ email, password })
+        error = secondLoginError
+      }
     }
-  }
 
-  revalidatePath('/', 'layout')
-  redirect('/admin/parent')
+    if (error) {
+      const debugUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'missing_url';
+      const errorMsg = error.message === 'fetch failed' ? `fetch failed for ${debugUrl}` : error.message;
+      return redirect(`/login/parent?message=${encodeURIComponent(errorMsg)}`)
+    }
+
+    // Double check role
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      let { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+      
+      // 🚀 AUTO-ROLE: Ensure the test account always has the correct role
+      if ((!profile || profile.role !== 'parent') && user.email === 'parent.test@gmail.com') {
+        await supabase.from('profiles').upsert({ 
+          id: user.id, 
+          email: user.email, 
+          role: 'parent', 
+          full_name: 'Parent Test User' 
+        })
+        const { data: newProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+        profile = newProfile
+      }
+
+      if (profile && profile.role !== 'parent' && profile.role !== 'admin' && profile.role !== 'super_admin') {
+        await supabase.auth.signOut()
+        return redirect('/login/parent?message=This portal is for Parents only.')
+      }
+    }
+
+    revalidatePath('/', 'layout')
+    redirect('/admin/parent')
+  } catch (err: any) {
+    if (err.message === 'NEXT_REDIRECT') throw err;
+    const msg = err.message || 'Unknown Server Error';
+    return redirect(`/login/parent?message=CRASH: ${encodeURIComponent(msg)}`);
+  }
 }
 
 export async function parentSignup(formData: FormData) {

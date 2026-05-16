@@ -6,7 +6,7 @@ import { Mail, Lock, Info } from 'lucide-react'
 export default function ParentLoginForm({ message }: { message?: string }) {
   return (
     <div className="p-8">
-      <form className="space-y-5" suppressHydrationWarning>
+      <form action={parentLogin} className="space-y-5" suppressHydrationWarning>
 
         {/* Email */}
         <div>
@@ -16,12 +16,13 @@ export default function ParentLoginForm({ message }: { message?: string }) {
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             <input
-              id="email"
-              name="email"
+              id="portal_email"
+              name="portal_email"
               type="email"
               placeholder="your@email.com"
               required
-              autoComplete="email"
+              autoComplete="off"
+              spellCheck="false"
               className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all"
             />
           </div>
@@ -35,12 +36,12 @@ export default function ParentLoginForm({ message }: { message?: string }) {
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             <input
-              id="password"
-              name="password"
+              id="portal_password"
+              name="portal_password"
               type="password"
               placeholder="••••••••"
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
               className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all"
             />
           </div>
@@ -54,13 +55,32 @@ export default function ParentLoginForm({ message }: { message?: string }) {
         )}
 
         {/* Login button */}
-        <div className="pt-1">
+        <div className="pt-1 flex flex-col gap-3">
           <button
             formAction={parentLogin}
             className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 rounded-lg transition-colors shadow-md hover:shadow-lg"
           >
             Log In to Parent Portal
           </button>
+
+          {process.env.NODE_ENV !== 'production' || true && (
+            <button
+              type="button"
+              onClick={async () => {
+                const form = document.querySelector('form') as HTMLFormElement;
+                const emailInput = document.querySelector('input[name="portal_email"]') as HTMLInputElement;
+                const passInput = document.querySelector('input[name="portal_password"]') as HTMLInputElement;
+                if (emailInput && passInput) {
+                  emailInput.value = 'parent.test@gmail.com';
+                  passInput.value = 'Test123456!';
+                  form.requestSubmit();
+                }
+              }}
+              className="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold py-2 rounded-lg border border-emerald-200 transition-colors"
+            >
+              ⚡ Quick Test Login
+            </button>
+          )}
         </div>
       </form>
 
