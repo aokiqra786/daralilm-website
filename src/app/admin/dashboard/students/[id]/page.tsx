@@ -171,17 +171,21 @@ export default async function StudentProfilePage({
             <div className="p-4">
               {enrollments && enrollments.length > 0 ? (
                 <div className="space-y-3">
-                  {enrollments.map(enr => (
-                    <div key={enr.id} className="flex justify-between items-center p-3 border border-slate-200 rounded-lg bg-white">
-                      <div>
-                        <h4 className="font-semibold text-slate-900">{enr.classes.name}</h4>
-                        <p className="text-sm text-slate-500">{enr.classes.program_type.replace('_', ' ')} • {enr.classes.schedule_days?.join(', ')}</p>
+                  {enrollments.map(enr => {
+                    const classData = Array.isArray(enr.classes) ? enr.classes[0] : enr.classes
+                    if (!classData) return null
+                    return (
+                      <div key={enr.id} className="flex justify-between items-center p-3 border border-slate-200 rounded-lg bg-white">
+                        <div>
+                          <h4 className="font-semibold text-slate-900">{classData.name}</h4>
+                          <p className="text-sm text-slate-500">{classData.program_type?.replace('_', ' ')} • {classData.schedule_days?.join(', ')}</p>
+                        </div>
+                        <Link href={`/admin/dashboard/classes/${enr.class_id}`} className="text-sm text-blue-600 font-medium hover:underline">
+                          View Class
+                        </Link>
                       </div>
-                      <Link href={`/admin/dashboard/classes/${enr.class_id}`} className="text-sm text-blue-600 font-medium hover:underline">
-                        View Class
-                      </Link>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               ) : (
                 <div className="text-center py-8 text-slate-500">
