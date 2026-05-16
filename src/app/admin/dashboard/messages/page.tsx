@@ -35,7 +35,11 @@ export default async function AdminMessagesPage({
   const classData = classes?.map(cls => {
     const clsEnrollments = enrollments?.filter(e => e.class_id === cls.id) || []
     const emails = Array.from(new Set(
-      clsEnrollments.map(e => e.students?.parent_email).filter(e => e && e.trim() !== '') || []
+      clsEnrollments.flatMap(e => {
+        // Supabase joins can return an array even for 1-to-1 relations
+        const studentData = Array.isArray(e.students) ? e.students[0] : e.students
+        return studentData?.parent_email ? [studentData.parent_email] : []
+      }).filter(e => e && typeof e === 'string' && e.trim() !== '')
     ))
     return {
       id: cls.id,
