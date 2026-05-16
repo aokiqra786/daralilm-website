@@ -38,33 +38,30 @@ export default async function TeacherReportsPage() {
     `)
     .order('created_at', { ascending: false })
 
-  // Filter grades to only this teacher's classes
-  const grades = (gradesRaw || []).filter(g =>
-    classIds.includes(g.assessments?.class_id)
-  )
+  // ── Transform data for client ────────────────────────────────────────────────
+  const attendance = (attendanceRaw || []).map((r: any) => ({
+    ...r,
+    students: Array.isArray(r.students) ? r.students[0] : r.students,
+    classes: Array.isArray(r.classes) ? r.classes[0] : r.classes
+  }))
 
-  // ── Fee records for enrolled students ────────────────────────────────────────
-  const { data: enrollments } = await supabase
-    .from('class_enrollments')
-    .select('student_id, students(id, full_name, registration_number, parent_name)')
-    .in('class_id', classIds.length ? classIds : ['00000000-0000-0000-0000-000000000000'])
+  const gradesProcessed = (gradesRaw || []).map((g: any) => ({
+    ...g,
+    students: Array.isArray(g.students) ? g.students[0] : g.students,
+    assessments: Array.isArray(g.assessments) ? g.assessments[0] : g.assessments
+  })).filter(g => classIds.includes(g.assessments?.class_id))
 
-  const studentIds = Array.from(new Set(
-    (enrollments || []).map((e: any) => e.student_id).filter(Boolean)
-  ))
-
-  const { data: feesRaw } = await supabase
-    .from('fee_records')
-    .select('id, student_id, amount, fee_type, payment_date, payment_method, remarks, students(full_name, registration_number)')
-    .in('student_id', studentIds.length ? studentIds : ['00000000-0000-0000-0000-000000000000'])
-    .order('payment_date', { ascending: false })
+  const fees = (feesRaw || []).map((f: any) => ({
+    ...f,
+    students: Array.isArray(f.students) ? f.students[0] : f.students
+  }))
 
   return (
     <TeacherReportsClient
       classes={classes || []}
-      attendance={attendanceRaw || []}
-      grades={grades}
-      fees={feesRaw || []}
+      attendance={attendance as any}
+      grades={gradesProcessed as any}
+      fees={fees as any}
     />
   )
 }

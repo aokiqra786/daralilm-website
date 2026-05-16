@@ -6,7 +6,7 @@ import { Printer, ClipboardCheck, GraduationCap, DollarSign, Calendar, ChevronDo
 // ── Types ────────────────────────────────────────────────────────────────────
 type Cls  = { id: string; name: string; program_type: string }
 type AttR = { id: string; class_id: string; student_id: string; date: string; status: string; students: any; classes: any }
-type Grade= { id: string; student_id: string; score: number; max_score: number; feedback: string; students: any; assessments: any }
+type Grade= { id: string; student_id: string; assessment_id: string; score: number; max_score: number; feedback: string; students: any; assessments: any }
 type Fee  = { id: string; student_id: string; amount: number; fee_type: string; payment_date: string; payment_method: string; remarks: string; students: any }
 
 const PERIOD_OPTIONS = ['Daily', 'Monthly', 'Custom'] as const
