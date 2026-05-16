@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function PortalLoginForm({ message, role }: { message?: string, role: string }) {
   return (
     <div className="p-8">
-      <form className="space-y-6" suppressHydrationWarning>
+      <form action={portalLogin} className="space-y-6" suppressHydrationWarning>
         <input type="hidden" name="role" value={role} />
         
         <div>
