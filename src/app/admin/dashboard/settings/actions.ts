@@ -7,7 +7,12 @@ import { randomBytes } from 'crypto'
 export async function inviteStaff(formData: FormData) {
   const supabase = await createClient()
 
-  // 1. Verify caller is an admin
+  // 1. Parse form
+  const email = formData.get('email') as string
+  const role = formData.get('role') as 'teacher' | 'event_uploader' | 'parent' | 'admin'
+  const fullName = formData.get('fullName') as string
+
+  // 2. Verify caller is an admin
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, message: 'Not authenticated' }
   
@@ -20,11 +25,6 @@ export async function inviteStaff(formData: FormData) {
   if (role === 'admin' && profile.role !== 'super_admin') {
     return { success: false, message: 'Only Super Admins can invite Staff Admins.' }
   }
-
-  // 2. Parse form
-  const email = formData.get('email') as string
-  const role = formData.get('role') as 'teacher' | 'event_uploader' | 'parent' | 'admin'
-  const fullName = formData.get('fullName') as string
 
   if (!email || !role || !fullName) {
     return { success: false, message: 'All fields are required.' }
