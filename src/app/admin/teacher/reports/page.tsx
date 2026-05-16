@@ -38,6 +38,22 @@ export default async function TeacherReportsPage() {
     `)
     .order('created_at', { ascending: false })
 
+  // ── Fee records for enrolled students ────────────────────────────────────────
+  const { data: enrollments } = await supabase
+    .from('class_enrollments')
+    .select('student_id, students(id, full_name, registration_number, parent_name)')
+    .in('class_id', classIds.length ? classIds : ['00000000-0000-0000-0000-000000000000'])
+
+  const studentIds = Array.from(new Set(
+    (enrollments || []).map((e: any) => e.student_id).filter(Boolean)
+  ))
+
+  const { data: feesRaw } = await supabase
+    .from('fee_records')
+    .select('id, student_id, amount, fee_type, payment_date, payment_method, remarks, students(full_name, registration_number)')
+    .in('student_id', studentIds.length ? studentIds : ['00000000-0000-0000-0000-000000000000'])
+    .order('payment_date', { ascending: false })
+
   // ── Transform data for client ────────────────────────────────────────────────
   const attendance = (attendanceRaw || []).map((r: any) => ({
     ...r,
