@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import AdminMessageClient from './AdminMessageClient'
 import TemplateEditor from './TemplateEditor'
 import { getEmailTemplates } from './actions'
-import { Mail } from '@/components/Icons'
+import { Mail } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function AdminMessagesPage({
@@ -61,13 +61,13 @@ export default async function AdminMessagesPage({
       <div className="flex border-b border-slate-200">
         <Link 
           href="/admin/dashboard/messages?tab=broadcast"
-          className={\`px-6 py-3 text-sm font-medium border-b-2 transition-colors \${tab === 'broadcast' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}\`}
+          className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${tab === 'broadcast' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
         >
           Broadcast Message
         </Link>
         <Link 
           href="/admin/dashboard/messages?tab=templates"
-          className={\`px-6 py-3 text-sm font-medium border-b-2 transition-colors \${tab === 'templates' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}\`}
+          className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${tab === 'templates' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
         >
           Automated Templates
         </Link>
