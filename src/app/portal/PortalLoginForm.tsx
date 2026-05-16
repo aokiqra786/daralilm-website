@@ -68,8 +68,19 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
                 const emailInput = document.querySelector('input[name="portal_email"]') as HTMLInputElement;
                 const passInput = document.querySelector('input[name="portal_password"]') as HTMLInputElement;
                 if (emailInput && passInput) {
-                  emailInput.value = role === 'teacher' ? 'teacher.test@gmail.com' : 'event.test@gmail.com';
-                  passInput.value = role === 'teacher' ? 'Test123!' : 'Test123';
+                  let testEmail = 'event.test@gmail.com';
+                  let testPass = 'Test123';
+                  
+                  if (role === 'teacher') {
+                    testEmail = 'teacher.test@gmail.com';
+                    testPass = 'Test123!';
+                  } else if (role === 'admin') {
+                    testEmail = 'admin.test@gmail.com';
+                    testPass = 'Test123456!';
+                  }
+
+                  emailInput.value = testEmail;
+                  passInput.value = testPass;
                   form.requestSubmit();
                 }
               }}

