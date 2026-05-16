@@ -17,5 +17,14 @@ export default async function ClassesPage() {
     .eq('teacher_id', user!.id)
     .order('name')
 
-  return <ClassesClient classes={classes || []} />
+  // Transform the data to ensure 'students' join is handled correctly as an object, not an array
+  const transformedClasses = classes?.map(cls => ({
+    ...cls,
+    class_enrollments: cls.class_enrollments?.map(enr => ({
+      ...enr,
+      students: Array.isArray(enr.students) ? enr.students[0] : (enr.students || null)
+    })) || []
+  }))
+
+  return <ClassesClient classes={(transformedClasses || []) as any} />
 }
