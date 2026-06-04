@@ -57,7 +57,7 @@ export default function ContactPage() {
                 </div>
                 <div className="ml-5">
                   <h3 className="text-xl font-bold text-slate-800">Our Location</h3>
-                  <p className="text-slate-600 mt-2 text-lg">8424 Tampa Ave<br />Northridge, CA 91324</p>
+                  <p className="text-slate-600 mt-2 text-lg">8414 Tampa Ave<br />Northridge, Ca, 91324</p>
                 </div>
               </div>
 
@@ -83,8 +83,8 @@ export default function ContactPage() {
                 <div className="ml-5">
                   <h3 className="text-xl font-bold text-slate-800">Email</h3>
                   <p className="text-slate-600 mt-2 text-lg">
-                    <a href="mailto:info@academyofknowledge.com" className="hover:text-blue-600 transition-colors">
-                      info@academyofknowledge.com
+                    <a href="mailto:info@SoCalAoK.com" className="hover:text-blue-600 transition-colors">
+                      info@SoCalAoK.com
                     </a>
                   </p>
                 </div>

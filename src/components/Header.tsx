@@ -2,34 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useState } from "react";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const supabase = createClient();
-    
-    // Get initial session
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    // Listen for changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    window.location.href = '/admin';
-  };
 
   return (
     <header className="w-full bg-blue-50/50 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100/50 shadow-sm">
@@ -64,11 +40,6 @@ export default function Header() {
               <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Coffee Page</Link>
               <Link href="/volunteers" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Volunteer</Link>
               
-              {user ? (
-                <Link href="/admin" className="text-indigo-700 hover:text-indigo-900 font-semibold transition-colors">Portal</Link>
-              ) : (
-                <Link href="/admin" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Login</Link>
-              )}
             </nav>
             
             <Link 
@@ -108,12 +79,6 @@ export default function Header() {
             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Events</Link>
             <Link href="/coffee" onClick={() => setIsMobileMenuOpen(false)} className="text-amber-600 font-bold text-lg border-b border-blue-100 pb-2">Coffee Page</Link>
             <Link href="/volunteers" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Volunteer</Link>
-            
-            {user ? (
-              <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-indigo-700 font-medium text-lg border-b border-blue-100 pb-2">Portal Dashboard</Link>
-            ) : (
-              <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Login</Link>
-            )}
             
             <Link href="/donate" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Donate</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Contact Us</Link>

@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="flex flex-col items-center space-y-4 mb-8">
           <div className="flex items-center text-blue-800">
             <MapPin className="h-5 w-5 mr-3 text-blue-600" />
-            <span>8424 Tampa Ave, Northridge, CA 91324</span>
+            <span>8414 Tampa Ave, Northridge, Ca, 91324</span>
           </div>
           <div className="flex items-center text-blue-800">
             <Phone className="h-5 w-5 mr-3 text-blue-600" />
@@ -27,7 +27,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center text-blue-800">
             <Mail className="h-5 w-5 mr-3 text-blue-600" />
-            <a href="mailto:info@academyofknowledge.com" className="hover:underline text-amber-600 font-semibold text-[17px]">info@academyofknowledge.com</a>
+            <a href="mailto:info@SoCalAoK.com" className="hover:underline text-amber-600 font-semibold text-[17px]">info@SoCalAoK.com</a>
           </div>
         </div>
 
