@@ -74,14 +74,14 @@ export default function CoffeePage() {
                 </li>
                 <li className="flex items-center gap-4">
                   <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                  <span><strong className="text-white">$1,456</strong> a year — from one young person</span>
+                  <span><strong className="text-white">$336</strong> a year — from one young person</span>
                 </li>
               </ul>
               
               <div className="mt-8 pt-8 border-t border-white/10">
                 <p className="text-lg text-white">
                   If 100 Gen Z youth do this together <br/>
-                  <span className="text-2xl font-bold text-amber-400 mt-2 block">→ $145,600 in one year</span>
+                  <span className="text-2xl font-bold text-amber-400 mt-2 block">→ $33,600 in one year</span>
                 </p>
               </div>
             </div>

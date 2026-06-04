@@ -44,21 +44,22 @@ export default function ProgramsPage() {
           </div>
         </div>
 
-        {/* Sunday School */}
-        <div id="sunday-school" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
+        {/* Weekend School */}
+        <div id="weekend-school" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-50">
-            <Image src="/Sunday.png" alt="Sunday School" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
+            <Image src="/Sunday.png" alt="Weekend School" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">
             <span className="text-orange-600 font-bold tracking-wider uppercase text-sm mb-2 block">Weekend Learning</span>
-            <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Sunday School</h2>
+            <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Weekend School</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
-              Designed for busy families, our Sunday School provides a comprehensive weekend learning experience. It combines Islamic history, foundational beliefs, and basic Arabic reading in a fun, engaging, and loving environment.
+              Designed for busy families, our Weekend School provides a comprehensive weekend learning experience. It combines Islamic history, foundational beliefs, and basic Arabic reading in a fun, engaging, and loving environment.
             </p>
             <ul className="space-y-3 mb-8">
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Engaging activities and projects</li>
-              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Sundays, 10:00 AM - 1:30 PM</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Saturday (Boy's Only) :  9:30 AM - 1:00 PM</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Sunday (Girl's Only) :  9:30 AM - 1:00 PM</li>
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Focus on Islamic identity and pride</li>
             </ul>
             <Link href="/admissions" className="inline-block bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-md font-semibold shadow-md transition-all">
