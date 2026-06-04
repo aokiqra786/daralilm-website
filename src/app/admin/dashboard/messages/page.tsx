@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import AdminMessageClient from './AdminMessageClient'
 import TemplateEditor from './TemplateEditor'
 import { getEmailTemplates } from './actions'
-import { Mail } from 'lucide-react'
+import { Mail } from '@/components/Icons'
 import Link from 'next/link'
 
 export default async function AdminMessagesPage({
