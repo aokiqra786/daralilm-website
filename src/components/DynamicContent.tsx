@@ -42,22 +42,19 @@ function Carousel({ slides, label }: { slides: React.ReactNode[]; label: string 
     <div className="flex flex-col items-center w-full">
       <h3 className="text-xl font-playfair font-bold text-blue-900 mb-4 tracking-wide">{label}</h3>
 
-      {/* 1:1 Instagram square */}
+      {/* Responsive auto-height container */}
       <div
-        className="relative w-full overflow-hidden rounded-2xl shadow-2xl"
-        style={{ aspectRatio: "1 / 1", maxWidth: "480px" }}
+        className="relative w-full overflow-hidden rounded-2xl shadow-2xl bg-transparent"
+        style={{ maxWidth: "480px" }}
         onMouseEnter={pause}
         onMouseLeave={resume}
       >
         {slides.map((slide, idx) => (
           <div
             key={idx}
-            className="absolute inset-0 transition-opacity duration-700"
-            style={{ 
-              opacity: idx === current ? 1 : 0, 
-              zIndex: idx === current ? 1 : 0,
-              pointerEvents: idx === current ? 'auto' : 'none'
-            }}
+            className={`w-full transition-opacity duration-500 ${
+              idx === current ? "block animate-in fade-in duration-500" : "hidden"
+            }`}
           >
             {slide}
           </div>
@@ -151,10 +148,14 @@ export default function DynamicContent() {
       return (
         <div 
           key={a.id} 
-          className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
+          className="relative w-full bg-transparent flex items-center justify-center overflow-hidden cursor-pointer group rounded-2xl"
           onClick={() => window.open(a.imageUrl!, '_blank')}
         >
-          <Image src={a.imageUrl} alt={a.title} fill className="object-contain group-hover:scale-105 transition-transform duration-500" />
+          <img 
+            src={a.imageUrl} 
+            alt={a.title} 
+            className="w-full h-auto max-h-[600px] object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500" 
+          />
         </div>
       );
     }
@@ -163,7 +164,7 @@ export default function DynamicContent() {
     return (
       <div
         key={a.id}
-        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden`}
+        className={`relative w-full aspect-square bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden rounded-2xl`}
       >
         {/* Decorative blobs */}
         <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-white/10" />
@@ -200,10 +201,14 @@ export default function DynamicContent() {
       return (
         <div 
           key={e.id} 
-          className="relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer group"
+          className="relative w-full bg-transparent flex items-center justify-center overflow-hidden cursor-pointer group rounded-2xl"
           onClick={() => window.open(e.imageUrl!, '_blank')}
         >
-          <Image src={e.imageUrl} alt={e.title} fill className="object-contain group-hover:scale-105 transition-transform duration-500" />
+          <img 
+            src={e.imageUrl} 
+            alt={e.title} 
+            className="w-full h-auto max-h-[600px] object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500" 
+          />
         </div>
       );
     }
@@ -215,7 +220,7 @@ export default function DynamicContent() {
     return (
       <div
         key={e.id}
-        className={`relative w-full h-full bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden`}
+        className={`relative w-full aspect-square bg-gradient-to-br ${p.bg} flex flex-col items-center justify-center p-8 text-center overflow-hidden rounded-2xl`}
       >
         {/* Decorative blobs */}
         <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full bg-white/5" />
