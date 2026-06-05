@@ -23,11 +23,11 @@ export default function Footer() {
           </div>
           <div className="flex items-center text-blue-800">
             <Phone className="h-5 w-5 mr-3 text-blue-600" />
-            <span>(123) 456-7890</span>
+            <span>818-452-5237</span>
           </div>
           <div className="flex items-center text-blue-800">
             <Mail className="h-5 w-5 mr-3 text-blue-600" />
-            <a href="mailto:info@SoCalAoK.com" className="hover:underline text-amber-600 font-semibold text-[17px]">info@SoCalAoK.com</a>
+            <a href="mailto:info@SoCalAoK.org" className="hover:underline text-amber-600 font-semibold text-[17px]">info@SoCalAoK.org</a>
           </div>
         </div>
 

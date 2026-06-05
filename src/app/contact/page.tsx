@@ -69,7 +69,7 @@ export default function ContactPage() {
                 </div>
                 <div className="ml-5">
                   <h3 className="text-xl font-bold text-slate-800">Phone</h3>
-                  <p className="text-slate-600 mt-2 text-lg">(123) 456-7890</p>
+                  <p className="text-slate-600 mt-2 text-lg">818-452-5237</p>
                   <p className="text-sm text-slate-500 mt-1">Mon-Fri: 9:00 AM - 5:00 PM</p>
                 </div>
               </div>
@@ -83,8 +83,8 @@ export default function ContactPage() {
                 <div className="ml-5">
                   <h3 className="text-xl font-bold text-slate-800">Email</h3>
                   <p className="text-slate-600 mt-2 text-lg">
-                    <a href="mailto:info@SoCalAoK.com" className="hover:text-blue-600 transition-colors">
-                      info@SoCalAoK.com
+                    <a href="mailto:info@SoCalAoK.org" className="hover:text-blue-600 transition-colors">
+                      info@SoCalAoK.org
                     </a>
                   </p>
                 </div>
