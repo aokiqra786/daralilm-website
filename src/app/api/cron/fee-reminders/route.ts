@@ -14,13 +14,13 @@ export async function POST(req: NextRequest) {
   }
   const resend = new Resend(resendApiKey)
   
-  const CRON_SECRET = process.env.CRON_SECRET ?? 'local-dev-secret'
+  const CRON_SECRET = process.env.CRON_SECRET
   const ACADEMY_NAME = process.env.NEXT_PUBLIC_ACADEMY_NAME ?? 'SoCal Academy of Knowledge'
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
   // Protect the endpoint with a secret header
   const authHeader = req.headers.get('x-cron-secret')
-  if (authHeader !== CRON_SECRET) {
+  if (!CRON_SECRET || authHeader !== CRON_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
