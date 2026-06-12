@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { createHash } from 'crypto'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -15,10 +16,14 @@ export async function completeOnboarding(formData: FormData) {
   }
 
   const supabase = await createClient()
+  // Service-role client for privileged writes (token consumption, role
+  // assignment, teacher/parent linking). The user session must never set roles.
+  const admin = createAdminClient()
 
-  // 1. Validate Token Again
+  // 1. Validate Token Again (read via service role; does not rely on
+  // invite_tokens being readable by anonymous callers)
   const tokenHash = createHash('sha256').update(token).digest('hex')
-  const { data: invite, error: inviteError } = await supabase
+  const { data: invite, error: inviteError } = await admin
     .from('invite_tokens')
     .select('*')
     .eq('token_hash', tokenHash)
@@ -46,16 +51,16 @@ export async function completeOnboarding(formData: FormData) {
   }
 
   // 3. Mark token as used
-  await supabase
+  await admin
     .from('invite_tokens')
     .update({ used_at: new Date().toISOString() })
     .eq('id', invite.id)
 
-  // 4. Set the correct role in profiles
+  // 4. Set the correct role in profiles (service role; user session cannot set roles)
   // (The trigger made them a 'user', we overwrite it)
-  await supabase
+  await admin
     .from('profiles')
-    .update({ 
+    .update({
       role: invite.role,
       full_name: invite.full_name
     })
@@ -63,7 +68,7 @@ export async function completeOnboarding(formData: FormData) {
 
   // 4b. If this is a teacher, link their profile_id to the teachers table
   if (invite.role === 'teacher') {
-    await supabase
+    await admin
       .from('teachers')
       .update({ profile_id: authData.user.id })
       .eq('email', invite.email)
@@ -77,7 +82,7 @@ export async function completeOnboarding(formData: FormData) {
   if (invite.role === 'event_uploader') return redirect('/admin/event-uploader')
   if (invite.role === 'parent') {
     // Auto-link parent to all students with matching email
-    const { data: allStudents } = await supabase
+    const { data: allStudents } = await admin
       .from('students')
       .select('id')
       .eq('parent_email', invite.email)
@@ -87,7 +92,7 @@ export async function completeOnboarding(formData: FormData) {
         parent_id: authData.user!.id,
         student_id: s.id
       }))
-      await supabase.from('parent_students').insert(parentStudentLinks)
+      await admin.from('parent_students').insert(parentStudentLinks)
     }
     return redirect('/admin/parent')
   }

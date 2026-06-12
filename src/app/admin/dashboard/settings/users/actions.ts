@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export async function revokeUserAccess(formData: FormData) {
@@ -31,9 +32,11 @@ export async function revokeUserAccess(formData: FormData) {
     throw new Error('Only Super Admins can revoke access for other Super Admins.')
   }
 
-  // 2. Change their role to 'inactive'
-  // By changing the role, the portalLogin logic will deny them access because 'inactive' is not a valid portal role.
-  const { error } = await supabase
+  // 2. Change their role to 'inactive' via the service-role client.
+  // Admins edit OTHER users' rows, which the RLS self-update policy (auth.uid() = id)
+  // does not permit, so this must go through the service role after the role check above.
+  const admin = createAdminClient()
+  const { error } = await admin
     .from('profiles')
     .update({ role: 'inactive' })
     .eq('id', targetUserId)
@@ -46,14 +49,24 @@ export async function revokeUserAccess(formData: FormData) {
 }
 
 export async function restoreUserAccess(formData: FormData) {
-    // Optional: a way to restore them to 'user' so they can be re-invited or given a role manually in DB.
-    // We'll skip implementing the UI for this unless requested, but the action is good to have.
+    // Restore a revoked user back to 'user' so they can be re-invited.
     const supabase = await createClient()
+
+    // Verify the caller is an admin (this action previously had NO auth check).
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error('Unauthorized')
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+    if (!profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
+      throw new Error('Unauthorized role')
+    }
+
     const targetUserId = formData.get('userId') as string
-    
-    const { error } = await supabase.from('profiles').update({ role: 'user' }).eq('id', targetUserId)
+    if (!targetUserId) throw new Error('Target user ID missing')
+
+    const admin = createAdminClient()
+    const { error } = await admin.from('profiles').update({ role: 'user' }).eq('id', targetUserId)
     if (error) throw new Error(error.message)
-    
+
     revalidatePath('/admin/dashboard/settings/users')
 }
 

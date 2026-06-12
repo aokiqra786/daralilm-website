@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 
 export async function parentLogin(formData: FormData) {
   try {
@@ -44,6 +45,9 @@ export async function parentLogin(formData: FormData) {
 
 export async function parentSignup(formData: FormData) {
   const supabase = await createClient()
+  // Service-role client for privileged writes (role assignment, student linking).
+  // The user session must never be able to set its own role.
+  const admin = createAdminClient()
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -53,8 +57,10 @@ export async function parentSignup(formData: FormData) {
     return redirect('/login/parent?message=Child Registration Number is required.')
   }
 
-  // Verify the child registration number exists AND matches the parent email
-  const { data: student, error: studentError } = await supabase
+  // Verify the child registration number exists AND matches the parent email.
+  // Uses the service-role client so this check does not depend on `students`
+  // being readable by anonymous callers.
+  const { data: student, error: studentError } = await admin
     .from('students')
     .select('id')
     .eq('registration_number', childRegNumber)
@@ -65,7 +71,7 @@ export async function parentSignup(formData: FormData) {
     return redirect('/login/parent?message=No student found matching this email and Registration Number.')
   }
 
-  // Create the auth user
+  // Create the auth user (public sign-up on the normal client)
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
@@ -76,14 +82,14 @@ export async function parentSignup(formData: FormData) {
   }
 
   // Important: In Supabase, the 'public.handle_new_user()' trigger creates the profile with role 'user'.
-  // We need to immediately update it to 'parent'
-  await supabase
+  // We set it to 'parent' via the service-role client (the user session cannot change its own role).
+  await admin
     .from('profiles')
     .update({ role: 'parent' })
     .eq('id', authData.user.id)
 
   // Link the parent to all students matching this email
-  const { data: allStudents } = await supabase
+  const { data: allStudents } = await admin
     .from('students')
     .select('id')
     .eq('parent_email', email)
@@ -94,7 +100,7 @@ export async function parentSignup(formData: FormData) {
       student_id: s.id
     }))
 
-    await supabase.from('parent_students').insert(parentStudentLinks)
+    await admin.from('parent_students').insert(parentStudentLinks)
   }
 
   revalidatePath('/', 'layout')
