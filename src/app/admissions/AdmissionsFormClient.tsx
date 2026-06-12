@@ -109,7 +109,8 @@ export default function AdmissionsFormClient() {
             >
               <option value="">Select a program...</option>
               <option value="Evening Qur'an Classes">Evening Qur&apos;an Classes</option>
-              <option value="Sunday School">Sunday School</option>
+              {/* value kept as "Sunday School" to match backend program key; label rebranded to "Weekend School" */}
+              <option value="Sunday School">Weekend School</option>
               <option value="Vocational Programs">Vocational Programs</option>
               <option value="Youth Activities">Youth Activities</option>
             </select>

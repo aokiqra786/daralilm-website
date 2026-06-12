@@ -30,7 +30,7 @@ export default function Home() {
               Nurturing Faith <br/> & Knowledge
             </h1>
             <p className="text-xl md:text-2xl text-blue-50 mb-8 font-light drop-shadow-md">
-              Evening Qur'an Classes &bull; Sunday School <br/>
+              Evening Qur'an Classes &bull; Weekend School <br/>
               Vocational Programs &bull; Youth Activities
             </p>
             

@@ -74,7 +74,7 @@ export default async function AdmissionsPage({
               <ul className="space-y-4">
                 {[
                   ["Evening Qur'an Classes", '$50 / month'],
-                  ['Sunday School', '$100 / month'],
+                  ['Weekend School', '$100 / month'],
                   ['Full Time Hifz and Academic', 'TBA'],
                   ['Registration Fee / Material (Once a Year)', '$50'],
                 ].map(([label, price]) => (
