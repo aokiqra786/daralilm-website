@@ -64,14 +64,14 @@ function Carousel({ slides, label }: { slides: React.ReactNode[]; label: string 
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur-sm transition"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-3 backdrop-blur-sm transition"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur-sm transition"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-3 backdrop-blur-sm transition"
               aria-label="Next slide"
             >
               <ChevronRight className="w-5 h-5" />
@@ -85,11 +85,15 @@ function Carousel({ slides, label }: { slides: React.ReactNode[]; label: string 
               <button
                 key={idx}
                 onClick={() => setCurrent(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  idx === current ? "bg-white w-5" : "bg-white/50 w-2"
-                }`}
+                className="flex items-center justify-center h-11 w-6"
                 aria-label={`Go to slide ${idx + 1}`}
-              />
+              >
+                <span
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    idx === current ? "bg-white w-5" : "bg-white/50 w-2"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}
