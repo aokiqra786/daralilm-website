@@ -260,6 +260,23 @@ export default function DynamicContent() {
     );
   });
 
+  /* Empty state — nothing posted yet */
+  if (announcementSlides.length === 0 && eventSlides.length === 0) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center text-center py-14 px-6 rounded-2xl border border-dashed border-blue-200 bg-white/60">
+        <div className="mb-4 rounded-full bg-blue-50 p-4">
+          <Bell className="w-8 h-8 text-blue-700" />
+        </div>
+        <h3 className="text-xl font-playfair font-bold text-blue-900 mb-2">
+          Nothing posted right now
+        </h3>
+        <p className="text-slate-600 max-w-md">
+          Check back soon — we share class updates, closures, and upcoming community events here as they&apos;re scheduled.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={`grid grid-cols-1 ${announcementSlides.length > 0 && eventSlides.length > 0 ? 'md:grid-cols-2' : ''} gap-12 justify-items-center`}>
