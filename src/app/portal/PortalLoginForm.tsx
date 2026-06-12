@@ -59,36 +59,6 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
           >
             Log In
           </button>
-          
-          {process.env.NODE_ENV !== 'production' || true && (
-            <button
-              type="button"
-              onClick={async () => {
-                const form = document.querySelector('form') as HTMLFormElement;
-                const emailInput = document.querySelector('input[name="portal_email"]') as HTMLInputElement;
-                const passInput = document.querySelector('input[name="portal_password"]') as HTMLInputElement;
-                if (emailInput && passInput) {
-                  let testEmail = 'event.test@gmail.com';
-                  let testPass = 'Test123';
-                  
-                  if (role === 'teacher') {
-                    testEmail = 'teacher.test@gmail.com';
-                    testPass = 'Test123!';
-                  } else if (role === 'admin') {
-                    testEmail = 'admin.test@gmail.com';
-                    testPass = 'Test123456!';
-                  }
-
-                  emailInput.value = testEmail;
-                  passInput.value = testPass;
-                  form.requestSubmit();
-                }
-              }}
-              className="w-full bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-semibold py-2 rounded-lg border border-amber-200 transition-colors"
-            >
-              ⚡ Quick Test Login
-            </button>
-          )}
         </div>
       </form>
     </div>

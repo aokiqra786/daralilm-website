@@ -11,19 +11,10 @@ export async function parentLogin(formData: FormData) {
     const email = formData.get('portal_email') as string
     const password = formData.get('portal_password') as string
 
-    let { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
-
-    // 🚀 PARENT BYPASS: Auto-create parent test account
-    if (error && email === 'parent.test@gmail.com' && password === 'Test123456!') {
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password })
-      if (!signUpError || signUpError.message === 'User already registered') {
-        const { error: secondLoginError } = await supabase.auth.signInWithPassword({ email, password })
-        error = secondLoginError
-      }
-    }
 
     if (error) {
       const debugUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'missing_url';
@@ -34,21 +25,9 @@ export async function parentLogin(formData: FormData) {
     // Double check role
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-      let { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-      
-      // 🚀 AUTO-ROLE: Ensure the test account always has the correct role
-      if ((!profile || profile.role !== 'parent') && user.email === 'parent.test@gmail.com') {
-        await supabase.from('profiles').upsert({ 
-          id: user.id, 
-          email: user.email, 
-          role: 'parent', 
-          full_name: 'Parent Test User' 
-        })
-        const { data: newProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-        profile = newProfile
-      }
+      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
 
-      if (profile && profile.role !== 'parent' && profile.role !== 'admin' && profile.role !== 'super_admin') {
+      if (!profile || (profile.role !== 'parent' && profile.role !== 'admin' && profile.role !== 'super_admin')) {
         await supabase.auth.signOut()
         return redirect('/login/parent?message=This portal is for Parents only.')
       }
@@ -114,7 +93,7 @@ export async function parentSignup(formData: FormData) {
       parent_id: authData.user!.id,
       student_id: s.id
     }))
-    
+
     await supabase.from('parent_students').insert(parentStudentLinks)
   }
 

@@ -62,25 +62,6 @@ export default function ParentLoginForm({ message }: { message?: string }) {
           >
             Log In to Parent Portal
           </button>
-
-          {process.env.NODE_ENV !== 'production' || true && (
-            <button
-              type="button"
-              onClick={async () => {
-                const form = document.querySelector('form') as HTMLFormElement;
-                const emailInput = document.querySelector('input[name="portal_email"]') as HTMLInputElement;
-                const passInput = document.querySelector('input[name="portal_password"]') as HTMLInputElement;
-                if (emailInput && passInput) {
-                  emailInput.value = 'parent.test@gmail.com';
-                  passInput.value = 'Test123456!';
-                  form.requestSubmit();
-                }
-              }}
-              className="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold py-2 rounded-lg border border-emerald-200 transition-colors"
-            >
-              ⚡ Quick Test Login
-            </button>
-          )}
         </div>
       </form>
 
