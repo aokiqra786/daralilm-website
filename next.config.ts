@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    // Serve the static brand guidelines document at the clean URL /brand.
+    return [{ source: "/brand", destination: "/brand.html" }];
+  },
 };
 
 export default nextConfig;
