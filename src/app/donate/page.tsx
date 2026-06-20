@@ -7,6 +7,11 @@ export default function DonatePage() {
   const [amount, setAmount] = useState<number | string>(100);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [donationType, setDonationType] = useState<"one-time" | "monthly">("one-time");
+  const [showGiveInfo, setShowGiveInfo] = useState(false);
+
+  // Interim giving path until a merchant link (LaunchGood/Zeffy) is live.
+  // When the campaign URL exists, replace the button's onClick with an <a href={GIVING_URL}>.
+  const ZELLE_EMAIL = "iqra@socalaok.org";
 
   const handleAmountClick = (val: number | string) => {
     setAmount(val);
@@ -150,9 +155,27 @@ export default function DonatePage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-gradient-to-r from-orange-400 to-amber-500 hover:from-orange-500 hover:to-amber-600 text-white font-bold py-4 px-4 rounded-md shadow-lg transition-all transform hover:-translate-y-0.5 text-lg mt-4">
+                <button
+                  onClick={() => setShowGiveInfo(true)}
+                  className="w-full bg-gradient-to-r from-orange-400 to-amber-500 hover:from-orange-500 hover:to-amber-600 text-white font-bold py-4 px-4 rounded-md shadow-lg transition-all transform hover:-translate-y-0.5 text-lg mt-4"
+                >
                   Donate {amount === 'custom' ? (customAmount ? `$${customAmount}` : '') : `$${amount}`}
                 </button>
+                {showGiveInfo && (
+                  <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
+                    <p className="text-sm text-slate-700">
+                      Online giving is launching soon. To donate now, send a Zelle payment to{" "}
+                      <a href={`mailto:${ZELLE_EMAIL}`} className="font-semibold text-amber-700 underline">
+                        {ZELLE_EMAIL}
+                      </a>{" "}
+                      or{" "}
+                      <a href="/contact" className="font-semibold text-amber-700 underline">
+                        contact us
+                      </a>
+                      . JazakAllahu Khairan.
+                    </p>
+                  </div>
+                )}
                 <div className="flex items-center justify-center mt-4">
                   <span className="text-xs text-slate-500 flex items-center">🔒 Secure Payment Processing</span>
                 </div>

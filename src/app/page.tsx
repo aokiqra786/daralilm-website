@@ -103,11 +103,11 @@ export default function Home() {
           </div>
           
           <div className="relative rounded-2xl overflow-hidden shadow-2xl h-64 flex items-center justify-center group border-4 border-orange-100">
-            <Image src="/academic_bg.png" alt="Full time Academic Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
+            <Image src="/academic_bg.png" alt="K-12 Homeschool Academic Support Program" fill className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-150 brightness-75" />
             <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/40" />
             <div className="relative z-10 text-center px-4">
-              <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">Full Time Academic Program</h2>
-              <p className="text-blue-100 mt-2 font-medium">Coming Soon</p>
+              <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-white drop-shadow-md">K-12 Homeschool Academic Support Program</h2>
+              <p className="text-blue-100 mt-2 font-medium">Academic support for homeschoolers · Coming Soon</p>
             </div>
           </div>
         </div>

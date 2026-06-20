@@ -45,7 +45,7 @@ export default function AdminMessageClient({
           to: recipientEmails,
           subject,
           message,
-          replyTo: 'admin@socalacademy.org',
+          replyTo: 'admin@socalaok.org',
           senderName: 'Administration'
         }),
       })
@@ -126,7 +126,7 @@ export default function AdminMessageClient({
           className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"
         />
         <p className="text-xs text-slate-500 mt-2">
-          This email will be sent from admin@socalacademy.org. Replies will come to this address.
+          This email will be sent from admin@socalaok.org. Replies will come to this address.
         </p>
       </div>
 

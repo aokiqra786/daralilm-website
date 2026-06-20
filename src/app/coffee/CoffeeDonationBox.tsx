@@ -6,8 +6,12 @@ export default function CoffeeDonationBox() {
   const [frequency, setFrequency] = useState<'One Time' | 'Weekly' | 'Monthly'>('Weekly')
   const [amount, setAmount] = useState<number | 'custom'>(7)
   const [customAmount, setCustomAmount] = useState<string>('')
+  const [showGiveInfo, setShowGiveInfo] = useState(false)
 
   const predefinedAmounts = [5, 7, 10, 20, 30]
+
+  // Interim giving path until a merchant link (LaunchGood/Zeffy) is live.
+  const ZELLE_EMAIL = 'iqra@socalaok.org'
 
   return (
     <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl relative overflow-hidden">
@@ -96,10 +100,29 @@ export default function CoffeeDonationBox() {
         </div>
 
         {/* Submit Button */}
-        <button className="w-full bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-slate-900 font-bold text-lg py-4 rounded-xl shadow-xl shadow-amber-500/20 transform hover:-translate-y-0.5 transition-all duration-300">
+        <button
+          onClick={() => setShowGiveInfo(true)}
+          className="w-full bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-slate-900 font-bold text-lg py-4 rounded-xl shadow-xl shadow-amber-500/20 transform hover:-translate-y-0.5 transition-all duration-300"
+        >
           Give for the Sake of Allah
         </button>
-        
+
+        {showGiveInfo && (
+          <div className="mt-4 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-center">
+            <p className="text-sm text-slate-200">
+              Online giving is launching soon. To donate now, send a Zelle payment to{' '}
+              <a href={`mailto:${ZELLE_EMAIL}`} className="font-semibold text-amber-400 underline">
+                {ZELLE_EMAIL}
+              </a>{' '}
+              or{' '}
+              <a href="/contact" className="font-semibold text-amber-400 underline">
+                contact us
+              </a>
+              . JazakAllahu Khairan.
+            </p>
+          </div>
+        )}
+
         <p className="text-center text-xs text-slate-400 mt-4 opacity-70">
           Secure donation processing. Cancel recurring gifts anytime.
         </p>

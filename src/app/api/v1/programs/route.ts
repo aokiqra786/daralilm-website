@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Program } from "@/types";
+import { requireAdmin, authErrorResponse } from "@/utils/supabase/auth";
 
 // Mock data fallback
 const mockPrograms: Program[] = [
@@ -24,10 +25,10 @@ const mockPrograms: Program[] = [
     id: "2",
     slug: "weekend-school",
     name: "Weekend School",
-    category: "weekend_school",
+    category: "sunday_school",
     shortDescription: "Comprehensive Islamic education.",
     longDescription: "A comprehensive program covering Islamic studies, Arabic language, and Qur'an for children.",
-    schedule: "Saturday (Boy's Only) : 9:30 AM - 1:00 PM, Sunday (Girl's Only) : 9:30 AM - 1:00 PM",
+    schedule: "Saturday (Girls Only) : 9:30 AM - 1:00 PM, Sunday (Boys Only) : 9:30 AM - 1:00 PM",
     ageRange: "5-15 years",
     fees: "$60/month",
     instructor: "Various Teachers",
@@ -55,15 +56,18 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  let authed;
+  try {
+    authed = await requireAdmin();
+  } catch (e) {
+    return authErrorResponse(e);
+  }
+
   try {
     const body = await request.json();
-    
-    // Simple authentication check (to be expanded with JWT)
-    // const authHeader = request.headers.get("authorization");
-    // if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (isSupabaseConfigured()) {
-      const { data, error } = await supabase.from("programs").insert(body).select().single();
+      const { data, error } = await authed.supabase.from("programs").insert(body).select().single();
       if (error) throw error;
       return NextResponse.json(data, { status: 201 });
     }

@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [75, 100],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
 };
 
 export default nextConfig;
