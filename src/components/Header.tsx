@@ -20,14 +20,14 @@ export default function Header() {
           {/* Logo container fitting inside the header */}
           <div className="flex-shrink-0 flex items-center h-full relative z-50">
             <Link href="/" className="flex items-center gap-2 h-full w-full">
-              <div className="relative h-20 w-48 sm:w-64 md:w-80">
+              <div className="relative h-[60px] w-16">
                 <Image
                   src="/brand/logo/AoK_Logo_Color_transparent.png"
                   alt="SoCal Academy of Knowledge Logo"
                   fill
                   quality={100}
-                  sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"
-                  className="object-contain object-left drop-shadow-xl contrast-105 saturate-110"
+                  sizes="64px"
+                  className="object-contain object-left drop-shadow-md contrast-105 saturate-110"
                   priority
                 />
               </div>
@@ -35,8 +35,8 @@ export default function Header() {
           </div>
           
           {/* Desktop Navigation & Button */}
-          <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex space-x-8 items-center">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
+            <nav className="flex items-center space-x-4 lg:space-x-6 whitespace-nowrap">
               <Link href="/" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Home</Link>
               <Link href="/about" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">About Us</Link>
               <Link href="/programs" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Programs</Link>
