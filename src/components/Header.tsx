@@ -16,9 +16,9 @@ export default function Header() {
           <div className="flex-shrink-0 flex items-center h-full relative z-50">
             <Link href="/" className="flex items-center gap-2 h-full w-full">
               <div className="relative h-20 w-48 sm:w-64 md:w-80">
-                <Image 
-                  src="/new_logo.png" 
-                  alt="SoCal Academy of Knowledge Logo" 
+                <Image
+                  src="/brand/logo/AoK_Logo_Color_transparent.png"
+                  alt="SoCal Academy of Knowledge Logo"
                   fill
                   quality={100}
                   sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"
