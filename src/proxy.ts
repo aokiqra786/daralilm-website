@@ -23,7 +23,9 @@ import { updateSession } from "@/utils/supabase/middleware";
  * guards (admin/dashboard, admin/teacher, admin/parent) + Supabase RLS, which remain
  * the real data boundary.
  */
-const ISOLATION = process.env.PORTAL_SUBDOMAINS_ENABLED === "true";
+const ISOLATION = ["true", "1", "yes", "on"].includes(
+  (process.env.PORTAL_SUBDOMAINS_ENABLED ?? "").trim().toLowerCase()
+);
 
 type Portal = "admin" | "teacher" | "parent";
 
