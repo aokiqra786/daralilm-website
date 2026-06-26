@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [75, 100],
   },
+  async rewrites() {
+    // Serve the static brand guidelines document at the clean URL /brand.
+    return [{ source: "/brand", destination: "/brand.html" }];
+  },
 };
 
 export default nextConfig;

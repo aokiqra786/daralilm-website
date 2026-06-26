@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Brand Guidelines — SoCal Academy of Knowledge</title>
+<meta name="description" content="The official brand guidelines for SoCal Academy of Knowledge — logo, color, typography, voice, and usage standards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#15263F;--navy2:#22395C;--green:#1E4D3B;--gold:#C9A24A;--goldd:#A8842F;--goldl:#E6CE82;--parch:#F6F1E4;--ink:#1c2a3f;--muted:#5b6675;--line:#e4ddca}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,Arial,sans-serif;color:var(--ink);background:var(--parch);line-height:1.65}
+.amiri{font-family:'Amiri',serif;direction:rtl}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;color:var(--navy);font-weight:700;line-height:1.15}
+a{color:var(--navy)}
+.topbar{background:var(--navy);text-align:center;padding:8px}
+.topbar .amiri{color:var(--gold);font-size:26px;line-height:1}
+.header{background:#fff;border-bottom:3px solid var(--gold);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.header .logo{width:230px;max-width:52vw}
+.header .meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.badge{font-size:13px;color:var(--muted)}
+.btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;padding:9px 16px;border-radius:8px;font-size:14px}
+.btn.alt{background:transparent;color:var(--navy);border:1px solid var(--navy)}
+.wrap{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:230px 1fr;gap:36px;padding:32px 24px 80px}
+nav.toc{position:sticky;top:96px;align-self:start;font-size:14px;border-left:2px solid var(--line);padding-left:16px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:6px 0;border:0}
+nav.toc a:hover{color:var(--navy)}
+section{margin-bottom:54px;scroll-margin-top:96px}
+section>h2{font-size:26px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:18px}
+section>h2 .num{color:var(--gold);font-size:18px;margin-right:8px}
+h3{font-size:18px;margin:22px 0 8px;color:var(--green)}
+p{margin:0 0 12px;max-width:70ch}
+.lead{font-size:18px}
+ul{margin:0 0 14px 20px}
+li{margin:5px 0;max-width:70ch}
+table{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:8px 0 6px}
+.card{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.card.dark{background:var(--navy);border-color:var(--navy)}
+.card .cap{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
+.card.dark .cap{color:#cdd6e4}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.swatch{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.swatch .chip{height:84px}
+.swatch .info{padding:10px 12px;font-size:13px}
+.swatch .info b{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy)}
+.swatch .info span{display:block;color:var(--muted);font-size:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.do{border-left:4px solid var(--green);border-radius:0;background:#fff;padding:12px 14px}
+.dont{border-left:4px solid #b03a2e;border-radius:0;background:#fff;padding:12px 14px}
+.callout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.callout .amiri{color:var(--gold);font-size:30px}
+.specimen-serif{font-family:'Playfair Display',serif;color:var(--navy)}
+.specimen-sans{font-family:'Inter',sans-serif;color:var(--ink)}
+.foot{background:var(--navy);color:#cdd6e4;text-align:center;padding:26px 20px;font-size:13.5px}
+.foot .g{color:var(--gold)}
+.foot a{color:var(--goldl)}
+@media(max-width:820px){.wrap{grid-template-columns:1fr;gap:8px}nav.toc{position:static;border-left:0;padding-left:0;display:flex;flex-wrap:wrap;gap:6px 14px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:8px}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><span class="amiri" aria-label="Bismillah ar-Rahman ar-Raheem">&#xFDFD;</span></div>
+
+<div class="header">
+  <div class="logo"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1340 300" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g10" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/><g transform="translate(-38,-12.5) scale(0.5)">
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g10)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g10)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g10)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g10)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g10)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g10)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g></g>
+ <text x="246" y="140" font-size="54" fill="#15263F" font-weight="bold" letter-spacing="0.5">SoCal Academy of Knowledge</text>
+ <line x1="248" y1="166" x2="1020" y2="166" stroke="#C9A24A" stroke-width="2.5"/>
+ <text x="248" y="202" font-size="26" fill="#A8842F" font-style="italic">Nurturing Faith &amp; Knowledge</text></svg></div>
+  <div class="meta">
+    <span class="badge">Brand Guidelines &middot; Version 1.1 &middot; June 2026</span>
+    <a class="btn" href="AoK_Brand_Guidelines.pdf" target="_blank" rel="noopener">Open PDF</a>
+    <a class="btn alt" href="AoK_Brand_Guidelines.pdf" download>Download</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sections">
+    <a href="#glance">1. At a glance</a>
+    <a href="#naming">2. Naming &amp; spelling</a>
+    <a href="#logo">3. Logo</a>
+    <a href="#color">4. Color</a>
+    <a href="#type">5. Typography</a>
+    <a href="#motifs">6. Motifs</a>
+    <a href="#imagery">7. Imagery</a>
+    <a href="#voice">8. Voice &amp; tone</a>
+    <a href="#islamic">9. Islamic standards</a>
+    <a href="#applications">10. Applications</a>
+    <a href="#assets">11. Asset index</a>
+  </nav>
+
+  <main>
+    <section id="glance">
+      <h2><span class="num">01</span>Brand at a glance</h2>
+      <p class="lead">SoCal Academy of Knowledge (SoCal AoK) is a prestigious, academically serious Islamic institution in Northridge, California. It teaches the Qur'an, the authentic Sunnah, and essential life and academic skills &mdash; from the Evening Maktab and Weekend School to vocational and youth programs, and its two differentiators: a full-time Hifz program and a K-12 Homeschool Academic Support program no other valley institution offers at this level.</p>
+      <h3>Personality</h3>
+      <p>Prestigious and academic, yet warm. Scholarly without being distant; trustworthy and rooted in tradition; welcoming to families of every background.</p>
+      <h3>Brand pillars</h3>
+      <ul>
+        <li><b>Faith</b> &mdash; grounded in the Qur'an and authentic Sunnah.</li>
+        <li><b>Knowledge</b> &mdash; rigorous, structured learning (the lamp of noor over the open Qur'an).</li>
+        <li><b>Character</b> &mdash; adab, integrity (Amanah), and excellence (Ihsan).</li>
+        <li><b>Community</b> &mdash; a supportive Ummah for students and families.</li>
+      </ul>
+      <h3>Promise</h3>
+      <p class="specimen-serif" style="font-size:22px;font-style:italic">Nurturing Faith &amp; Knowledge.</p>
+    </section>
+
+    <section id="naming">
+      <h2><span class="num">02</span>Naming &amp; spelling standards</h2>
+      <p>Consistency here is the fastest credibility win.</p>
+      <table>
+        <tr><th>Use this</th><th>Not this</th><th>Note</th></tr>
+        <tr><td>SoCal Academy of Knowledge</td><td>Socal Academy / SCAK</td><td>Full legal name</td></tr>
+        <tr><td>SoCal AoK</td><td>SOCAL AOK (except in the seal)</td><td>Short form; keep the casing S, C, AoK</td></tr>
+        <tr><td>socalaok.org &middot; info@socalaok.org</td><td>Info@SoCalAoK.org</td><td>Lowercase URLs &amp; emails</td></tr>
+        <tr><td>Maktab</td><td>Maktub</td><td>Evening Qur'an program</td></tr>
+        <tr><td>Nazra</td><td>Nazarah</td><td>Scholar-verified spelling</td></tr>
+        <tr><td>K-12 Homeschool Academic Support Program</td><td>Full-Time Academic Program</td><td>Academic support for homeschoolers &mdash; not full curriculum/device provision</td></tr>
+        <tr><td>Qur'an, Hifz, Tajweed, Aqeedah, Seerah</td><td>Quran / Hafiz (program)</td><td>Consistent Islamic terminology</td></tr>
+      </table>
+    </section>
+
+    <section id="logo">
+      <h2><span class="num">03</span>Logo</h2>
+      <p>The primary mark is the <b>Mihrab Crest</b>: a pointed Islamic arch framing a slender crescent and stars, with rays of noor descending onto an open Qur'an and a qalam (pen) resting on its page &mdash; faith, knowledge, and learning in one emblem.</p>
+      <div class="grid">
+        <div class="card"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 820" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g2)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g2)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g2)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g2)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g2)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g2)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g>
+ <text x="310" y="664" text-anchor="middle" font-size="35" fill="#15263F" font-weight="bold" letter-spacing="0.4">SoCal Academy of Knowledge</text>
+ <line x1="160" y1="690" x2="252" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <line x1="368" y1="690" x2="460" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <circle cx="310" cy="690" r="3.5" fill="#1E4D3B"/>
+ <text x="310" y="720" text-anchor="middle" font-size="20" fill="#A8842F" font-style="italic" letter-spacing="1">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">Primary lockup &mdash; full name</div></div>
+        <div class="card"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 830" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g3)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g3)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g3)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g3)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g3)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g3)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g>
+ <text x="310" y="648" text-anchor="middle" font-size="50" fill="#15263F" font-weight="bold" letter-spacing="0.5">SoCal</text>
+ <text x="310" y="692" text-anchor="middle" font-size="30" fill="#15263F" font-weight="bold" letter-spacing="0.8">Academy of Knowledge</text>
+ <line x1="160" y1="718" x2="252" y2="718" stroke="#C9A24A" stroke-width="2"/>
+ <line x1="368" y1="718" x2="460" y2="718" stroke="#C9A24A" stroke-width="2"/>
+ <circle cx="310" cy="718" r="3.5" fill="#1E4D3B"/>
+ <text x="310" y="748" text-anchor="middle" font-size="20" fill="#A8842F" font-style="italic" letter-spacing="1">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">Primary lockup &mdash; stacked</div></div>
+        <div class="card"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="30 40 560 560" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g8" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g8)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g8)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g8)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g8)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g8)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g8)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g></svg><div class="cap">Emblem (favicon / app icon)</div></div>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column:span 2"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1340 300" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/><g transform="translate(-38,-12.5) scale(0.5)">
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g1)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g1)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g1)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g1)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g1)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g1)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g></g>
+ <text x="246" y="140" font-size="54" fill="#15263F" font-weight="bold" letter-spacing="0.5">SoCal Academy of Knowledge</text>
+ <line x1="248" y1="166" x2="1020" y2="166" stroke="#C9A24A" stroke-width="2.5"/>
+ <text x="248" y="202" font-size="26" fill="#A8842F" font-style="italic">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">Horizontal lockup</div></div>
+        <div class="card dark"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 820" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g5" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#15263F"/>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g5)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#0E1B30"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g5)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#22395C"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#E6CE82" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g5)"/>
+ <circle cx="316" cy="191" r="47" fill="#22395C"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g5)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g5)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g5)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g>
+ <text x="310" y="664" text-anchor="middle" font-size="35" fill="#F6F1E4" font-weight="bold" letter-spacing="0.4">SoCal Academy of Knowledge</text>
+ <line x1="160" y1="690" x2="252" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <line x1="368" y1="690" x2="460" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <circle cx="310" cy="690" r="3.5" fill="#C9A24A"/>
+ <text x="310" y="720" text-anchor="middle" font-size="20" fill="#C9A24A" font-style="italic" letter-spacing="1">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">Reversed (dark backgrounds)</div></div>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column:span 2"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><defs><linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient></defs><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/><g transform="translate(-30,18) scale(0.62)">
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="url(#g4)"/>
+ <rect x="172" y="580" width="276" height="12" rx="4" fill="#1E4D3B"/>
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="url(#g4)"/>
+ <path d="M134,560 L134,253 Q134,131 310,77 Q486,131 486,253 L486,560 Z" fill="#15263F"/>
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g4)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g4)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g4)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="url(#g4)"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/>
+ </g></g>
+ <text x="330" y="184" font-size="72" fill="#15263F" font-weight="bold" letter-spacing="0.5">SoCal</text>
+ <text x="332" y="236" font-size="40" fill="#15263F" font-weight="bold" letter-spacing="0.5">Academy of Knowledge</text>
+ <line x1="332" y1="258" x2="332" y2="258" stroke="none"/>
+ <line x1="332" y1="260" x2="780" y2="260" stroke="#C9A24A" stroke-width="2.5"/>
+ <text x="332" y="300" font-size="27" fill="#A8842F" font-style="italic" letter-spacing="0.5">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">Horizontal lockup &mdash; stacked</div></div>
+      </div>
+      <div class="grid">
+        <div class="card"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 820" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><rect x="-200" y="-200" width="2000" height="2000" fill="#F6F1E4"/>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="#15263F"/>
+ 
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="#15263F"/>
+ 
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#15263F" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#15263F" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="#15263F"/>
+ <circle cx="316" cy="191" r="47" fill="#F6F1E4"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="#15263F"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="#15263F"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="#15263F"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="none" stroke="#15263F" stroke-width="3"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="none" stroke="#15263F" stroke-width="3"/>
+ <path d="M310,470 L310,532" stroke="#15263F" stroke-width="3"/>
+ <g stroke="#15263F" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#15263F"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#15263F" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#15263F" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#15263F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#15263F"/>
+ </g>
+ <text x="310" y="664" text-anchor="middle" font-size="35" fill="#15263F" font-weight="bold" letter-spacing="0.4">SoCal Academy of Knowledge</text>
+ <line x1="160" y1="690" x2="252" y2="690" stroke="#15263F" stroke-width="2"/>
+ <line x1="368" y1="690" x2="460" y2="690" stroke="#15263F" stroke-width="2"/>
+ <circle cx="310" cy="690" r="3.5" fill="#15263F"/>
+ <text x="310" y="720" text-anchor="middle" font-size="20" fill="#15263F" font-style="italic" letter-spacing="1">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">One-color navy</div></div>
+        <div class="card dark"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 820" font-family="'Playfair Display', Georgia, 'Times New Roman', serif"><rect x="-200" y="-200" width="2000" height="2000" fill="#15263F"/>
+ <rect x="150" y="556" width="320" height="20" rx="4" fill="#C9A24A"/>
+ 
+ <path d="M120,560 L120,250 Q120,118 310,58 Q500,118 500,250 L500,560 Z" fill="#C9A24A"/>
+ 
+ <path d="M150,548 L150,258 Q150,146 310,98 Q470,146 470,258 L470,548 Z" fill="none" stroke="#C9A24A" stroke-width="2.5" opacity="0.85"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="#C9A24A"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="#C9A24A"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="#C9A24A"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="#C9A24A"/>
+ 
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="none" stroke="#C9A24A" stroke-width="3"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="none" stroke="#C9A24A" stroke-width="3"/>
+ <path d="M310,470 L310,532" stroke="#C9A24A" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="#C9A24A"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#C9A24A" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#C9A24A"/>
+  <circle cx="397" cy="481" r="2.2" fill="#C9A24A"/>
+ </g>
+ <text x="310" y="664" text-anchor="middle" font-size="35" fill="#C9A24A" font-weight="bold" letter-spacing="0.4">SoCal Academy of Knowledge</text>
+ <line x1="160" y1="690" x2="252" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <line x1="368" y1="690" x2="460" y2="690" stroke="#C9A24A" stroke-width="2"/>
+ <circle cx="310" cy="690" r="3.5" fill="#C9A24A"/>
+ <text x="310" y="720" text-anchor="middle" font-size="20" fill="#C9A24A" font-style="italic" letter-spacing="1">Nurturing Faith &amp; Knowledge</text></svg><div class="cap">One-color gold</div></div>
+      </div>
+      <h3>Clear space &amp; minimum size</h3>
+      <ul>
+        <li>Keep clear space on all sides at least equal to the height of the crescent in the mark.</li>
+        <li>Minimum size: full lockup no smaller than ~110px / 28mm wide; emblem favicon no smaller than 16px.</li>
+      </ul>
+      <h3>Misuse &mdash; never</h3>
+      <ul>
+        <li>Recolor outside the palette, add gradients/shadows/glow, or outline the mark.</li>
+        <li>Stretch, condense, or rotate it.</li>
+        <li>Place the color emblem on a busy photo without its navy field behind it.</li>
+        <li>Embed the Bismillah or Qur'anic text inside the compact logo or favicon.</li>
+      </ul>
+    </section>
+
+    <section id="color">
+      <h2><span class="num">04</span>Color palette</h2>
+      <p>Navy dominates, green supports, gold is a precious accent (roughly 10% of any layout), on a parchment field.</p>
+      <div class="sw">
+        <div class="swatch"><div class="chip" style="background:#15263F"></div><div class="info"><b>Midnight Navy</b><span>HEX #15263F</span><span>RGB 21&middot;38&middot;63</span><span>CMYK 66&middot;40&middot;0&middot;75</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#1E4D3B"></div><div class="info"><b>Scholar Green</b><span>HEX #1E4D3B</span><span>RGB 30&middot;77&middot;59</span><span>CMYK 61&middot;0&middot;24&middot;70</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#C9A24A"></div><div class="info"><b>Noor Gold</b><span>HEX #C9A24A</span><span>RGB 201&middot;162&middot;74</span><span>CMYK 0&middot;19&middot;63&middot;21</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#E6CE82"></div><div class="info"><b>Gold Light</b><span>HEX #E6CE82</span><span>RGB 230&middot;206&middot;130</span><span>CMYK 0&middot;10&middot;43&middot;10</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#F6F1E4;border-bottom:1px solid var(--line)"></div><div class="info"><b>Parchment</b><span>HEX #F6F1E4</span><span>RGB 246&middot;241&middot;228</span><span>CMYK 0&middot;2&middot;7&middot;4</span></div></div>
+      </div>
+      <p style="margin-top:10px">Usage: Midnight Navy for primary surfaces and headings; Scholar Green for secondary elements and confirmations; Noor Gold for accents, rules, and CTAs only; Parchment as the warm background. Maintain WCAG AA contrast.</p>
+    </section>
+
+    <section id="type">
+      <h2><span class="num">05</span>Typography</h2>
+      <p>The official typefaces are <b>Playfair Display</b> (display) and <b>Inter</b> (body). Both are royalty-free under the SIL Open Font License and already load on socalaok.org.</p>
+      <div class="two">
+        <div class="card"><div class="specimen-serif" style="font-size:34px">Playfair Display</div><p class="badge" style="margin-top:6px">Display &amp; headings &middot; weights 600&ndash;800. Page titles, section heads, the wordmark feel.</p></div>
+        <div class="card"><div class="specimen-sans" style="font-size:30px">Inter</div><p class="badge" style="margin-top:6px">Body &amp; UI &middot; weights 400&ndash;600. Body copy, navigation, forms, captions.</p></div>
+      </div>
+      <p style="margin-top:12px"><b>Arabic:</b> <span class="amiri" style="font-size:22px;color:var(--navy)">دار العلم</span> and the Bismillah are set in <b>Amiri</b>. Keep hierarchy clear: one display weight per screen, generous line spacing, and never set long body copy in the serif.</p>
+    </section>
+
+    <section id="motifs">
+      <h2><span class="num">06</span>Motifs &amp; iconography</h2>
+      <p>Four motifs carry the brand. Use them deliberately and sparingly.</p>
+      <ul>
+        <li><b>Mihrab arch</b> &mdash; structure, tradition, sacred space; the frame of the crest.</li>
+        <li><b>Crescent &amp; stars</b> &mdash; Islamic identity; the night of learning and reflection.</li>
+        <li><b>Open Qur'an</b> &mdash; knowledge at the center of everything the academy does.</li>
+        <li><b>Noor (light)</b> &mdash; guidance and enlightenment, shown as descending rays.</li>
+      </ul>
+      <p>A geometric eight-point star pattern may be used as a subtle background accent in gold or green at low opacity. Avoid clip-art or photographic icons.</p>
+    </section>
+
+    <section id="imagery">
+      <h2><span class="num">07</span>Imagery &amp; photography</h2>
+      <ul>
+        <li>Warm, natural light; authentic moments of students and teachers learning &mdash; not staged stock.</li>
+        <li>Respect modesty norms and the privacy of minors; obtain consent before publishing any child's image.</li>
+        <li>Favor compositions that harmonize with navy, green, and gold; avoid clashing or oversaturated tones.</li>
+      </ul>
+    </section>
+
+    <section id="voice">
+      <h2><span class="num">08</span>Voice &amp; tone</h2>
+      <p>Prestigious yet warm; scholarly but accessible; confident without boasting. Lead with the benefit to the child and family, and use Islamic terminology correctly and respectfully.</p>
+      <div class="two">
+        <div class="do"><b>Do</b><ul><li>&ldquo;A structured Hifz path guided by qualified, caring instructors.&rdquo;</li><li>&ldquo;Nurturing faith, character, and academic excellence.&rdquo;</li><li>Address parents' real questions plainly.</li></ul></div>
+        <div class="dont"><b>Don't</b><ul><li>&ldquo;The best Islamic school in California, guaranteed.&rdquo;</li><li>Jargon, hype, or fear-based messaging.</li><li>Overuse exclamation points or buzzwords.</li></ul></div>
+      </div>
+    </section>
+
+    <section id="islamic">
+      <h2><span class="num">09</span>Islamic standards &amp; adab</h2>
+      <div class="callout"><span class="amiri" aria-label="Bismillah">&#xFDFD;</span></div>
+      <ul>
+        <li><b>Bismillah placement:</b> use the Bismillah as a header/banner element on the website and letterhead, set with the Unicode ligature (U+FDFD) in Amiri &mdash; never baked into the compact logo or favicon.</li>
+        <li><b>Adab with sacred text:</b> Qur'anic text must be legible, never stretched, cropped, or placed on floor graphics or low-traffic merchandise.</li>
+        <li><b>Credibility:</b> present teacher credentials and ijazah where possible &mdash; authentic scholarship is core to the brand.</li>
+        <li><b>Arabic name:</b> the academy's Arabic name is <span class="amiri" style="font-size:18px">دار العلم</span> (Dar al-&#700;Ilm). It appears on the website header and letterhead in Amiri &mdash; not inside the compact logo, which stays English-only.</li>
+      </ul>
+    </section>
+
+    <section id="applications">
+      <h2><span class="num">10</span>Applications</h2>
+      <table>
+        <tr><th>Surface</th><th>Guidance</th></tr>
+        <tr><td>Website header</td><td>Horizontal lockup; Bismillah banner element above the nav.</td></tr>
+        <tr><td>Letterhead / documents</td><td>Primary or horizontal lockup; Bismillah header centered; navy/gold rule.</td></tr>
+        <tr><td>Flyers</td><td>Unify to this palette and type; gold used as accent only.</td></tr>
+        <tr><td>Social avatar</td><td>Emblem-only on a navy square.</td></tr>
+        <tr><td>Signage</td><td>Primary or reversed lockup; mind minimum size and clear space.</td></tr>
+        <tr><td>Certificates / ijazah</td><td>Use the circular Seal (shown right) &mdash; it matches the emblem and suits formal documents.</td></tr>
+      </table>
+      <div class="grid"><div class="card" style="max-width:300px"><svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 620" font-family="'Playfair Display', Georgia, serif">
+ <defs>
+  <linearGradient id="g9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E6CE82"/><stop offset="0.5" stop-color="#C9A24A"/><stop offset="1" stop-color="#A8842F"/></linearGradient>
+  <path id="top9" d="M 92,310 A 218,218 0 0 1 528,310" fill="none"/>
+  <path id="bot9" d="M 116,310 A 194,194 0 0 0 504,310" fill="none"/>
+ </defs>
+ 
+ <circle cx="310" cy="310" r="246" fill="#1E4D3B"/>
+ <circle cx="310" cy="310" r="246" fill="none" stroke="#15263F" stroke-width="5"/>
+ <circle cx="310" cy="310" r="212" fill="none" stroke="url(#g9)" stroke-width="4"/>
+ <circle cx="310" cy="310" r="176" fill="#15263F"/>
+ <circle cx="310" cy="310" r="176" fill="none" stroke="#C9A24A" stroke-width="1.5" opacity="0.5"/>
+ <text fill="#E8DFC6" font-size="30" letter-spacing="4" font-weight="bold"><textPath href="#top9" startOffset="50%" text-anchor="middle">SOCAL ACADEMY OF KNOWLEDGE</textPath></text>
+ <text fill="#C9A24A" font-size="21" letter-spacing="6"><textPath href="#bot9" startOffset="50%" text-anchor="middle">NORTHRIDGE  ·  CALIFORNIA</textPath></text>
+ <path d="M86.0,301.0 L88.1,307.1 L94.6,307.2 L89.4,311.1 L91.3,317.3 L86.0,313.6 L80.7,317.3 L82.6,311.1 L77.4,307.2 L83.9,307.1 Z" fill="#C9A24A"/>
+ <path d="M534.0,301.0 L536.1,307.1 L542.6,307.2 L537.4,311.1 L539.3,317.3 L534.0,313.6 L528.7,317.3 L530.6,311.1 L525.4,307.2 L531.9,307.1 Z" fill="#C9A24A"/>
+ <g transform="translate(82,76) scale(0.70)">
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <line x1="292" y1="305" x2="244" y2="445"/><line x1="301" y1="305" x2="282" y2="445"/><line x1="310" y1="305" x2="310" y2="445"/><line x1="319" y1="305" x2="338" y2="445"/><line x1="328" y1="305" x2="376" y2="445"/></g>
+ <circle cx="300" cy="200" r="50" fill="url(#g9)"/>
+ <circle cx="316" cy="191" r="47" fill="#15263F"/>
+ <path d="M372.0,135.0 L375.5,145.1 L386.3,145.4 L377.7,151.9 L380.8,162.1 L372.0,156.0 L363.2,162.1 L366.3,151.9 L357.7,145.4 L368.5,145.1 Z" fill="url(#g9)"/>
+ <path d="M360.0,194.0 L362.6,201.4 L370.5,201.6 L364.2,206.4 L366.5,213.9 L360.0,209.4 L353.5,213.9 L355.8,206.4 L349.5,201.6 L357.4,201.4 Z" fill="url(#g9)"/>
+ <path d="M388.0,178.0 L389.9,183.4 L395.6,183.5 L391.0,187.0 L392.7,192.5 L388.0,189.2 L383.3,192.5 L385.0,187.0 L380.4,183.5 L386.1,183.4 Z" fill="#E6CE82"/>
+ <path d="M310,470 C275,452 230,450 196,458 L196,520 C230,512 275,514 310,532 Z" fill="#F6F1E4"/>
+ <path d="M310,470 C345,452 390,450 424,458 L424,520 C390,512 345,514 310,532 Z" fill="#EFE7D2"/>
+ <path d="M310,470 L310,532" stroke="#A8842F" stroke-width="3"/>
+ <g stroke="#C9A24A" stroke-width="2" opacity="0.7" fill="none">
+  <path d="M214,474 C244,468 280,470 302,482"/><path d="M214,490 C244,484 280,486 302,498"/>
+  <path d="M406,474 C376,468 340,470 318,482"/><path d="M406,490 C376,484 340,486 318,498"/></g>
+ <path d="M196,520 L310,532 L424,520 L424,532 L310,546 L196,532 Z" fill="url(#g9)"/>
+ <g stroke-linecap="round">
+  <line x1="454" y1="418" x2="408" y2="466" stroke="#C9A24A" stroke-width="9"/>
+  <line x1="450" y1="423" x2="430" y2="444" stroke="#F6F1E4" stroke-width="2.4" opacity="0.65"/>
+  <path d="M408,466 L419,460 L396,481 Z" fill="#A8842F"/>
+  <circle cx="397" cy="481" r="2.2" fill="#A8842F"/></g></g>
+</svg><div class="cap">Certificate / ijazah seal</div></div></div>
+    </section>
+
+    <section id="assets">
+      <h2><span class="num">11</span>Asset index</h2>
+      <p>The full editable asset set (SVG masters + PNG) is maintained in the project's Brand Assets folder:</p>
+      <ul>
+        <li>Logo &mdash; primary (full name &amp; stacked), horizontal, horizontal-stacked, reversed, one-color navy/gold, emblem</li>
+        <li>Favicon &amp; app icon</li>
+        <li>Certificate seal</li>
+        <li>Color reference strip</li>
+        <li>Templates &mdash; web header, letterhead, Bismillah element (HTML)</li>
+        <li>This document as PDF (top of page)</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<div class="foot">
+  8414 Tampa Ave, Northridge, CA 91324 <span class="g">&middot;</span> 818-452-5237 <span class="g">&middot;</span> <a href="mailto:info@socalaok.org">info@socalaok.org</a> <span class="g">&middot;</span> <a href="https://socalaok.org">socalaok.org</a>
+  <div style="margin-top:8px;color:#8a96a8">Brand Guidelines v1.1 &middot; Nurturing Faith &amp; Knowledge</div>
+</div>
+
+</body>
+</html>
