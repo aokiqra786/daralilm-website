@@ -31,10 +31,10 @@ export default function ProgramsPage() {
             <span className="text-amber-600 font-bold tracking-wider uppercase text-sm mb-2 block">Ages 5 - High School</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Evening Qur'an Classes</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
-              Our flagship Evening Maktub program focuses on teaching students how to read, recite, and memorize the Holy Qur'an with proper Tajweed. Alongside Qur'anic studies, students are taught essential Islamic studies (Aqeedah, Fiqh, Seerah, and Islamic Character).
+              Our flagship Evening Maktab program focuses on teaching students how to read, recite, and memorize the Holy Qur'an with proper Tajweed. Alongside Qur'anic studies, students are taught essential Islamic studies (Aqeedah, Fiqh, Seerah, and Islamic Character).
             </p>
             <ul className="space-y-3 mb-8">
-              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Structured curriculum (Nazarah and Hifz)</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Structured curriculum (Nazra and Hifz)</li>
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Monday to Thursday, 5:30 PM - 7:30 PM</li>
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Qualified and experienced instructors</li>
             </ul>
