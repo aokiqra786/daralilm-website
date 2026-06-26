@@ -11,6 +11,15 @@
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
+
+  /* Approved brand palette (board-approved logo, 2026-06). Add-only — existing
+     blue-900/amber usage is unchanged. Utilities: bg-navy, text-green, text-gold, bg-parchment, … */
+  --color-navy: #15263f;
+  --color-green: #005418;
+  --color-green-light: #0a6e22;
+  --color-gold: #e4a800;
+  --color-gold-deep: #b47800;
+  --color-parchment: #f6f1e4;
 }
 
 @media (prefers-color-scheme: dark) {
