@@ -39,7 +39,7 @@ export default function Header() {
               <Link href="/events" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Events</Link>
               <Link href="/volunteers" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Volunteer</Link>
               <Link href="/contact" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Contact</Link>
-              <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Give</Link>
+              <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Coffee Page</Link>
 
             </nav>
             
@@ -78,7 +78,7 @@ export default function Header() {
             <Link href="/programs" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Programs</Link>
             <Link href="/admissions" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Admissions</Link>
             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Events</Link>
-            <Link href="/coffee" onClick={() => setIsMobileMenuOpen(false)} className="text-amber-600 font-bold text-lg border-b border-blue-100 pb-2">Give</Link>
+            <Link href="/coffee" onClick={() => setIsMobileMenuOpen(false)} className="text-amber-600 font-bold text-lg border-b border-blue-100 pb-2">Coffee Page</Link>
             <Link href="/volunteers" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Volunteer</Link>
             
             <Link href="/donate" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Donate</Link>
