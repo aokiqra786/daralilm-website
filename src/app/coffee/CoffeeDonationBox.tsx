@@ -11,7 +11,7 @@ export default function CoffeeDonationBox() {
   const predefinedAmounts = [5, 7, 10, 20, 30]
 
   // Interim giving path until a merchant link (LaunchGood/Zeffy) is live.
-  const ZELLE_EMAIL = 'iqra@socalaok.org'
+  const ZELLE_TAG = 'socalaok'
 
   return (
     <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl relative overflow-hidden">
@@ -111,9 +111,7 @@ export default function CoffeeDonationBox() {
           <div className="mt-4 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-center">
             <p className="text-sm text-slate-200">
               Online giving is launching soon. To donate now, send a Zelle payment to{' '}
-              <a href={`mailto:${ZELLE_EMAIL}`} className="font-semibold text-amber-400 underline">
-                {ZELLE_EMAIL}
-              </a>{' '}
+              <span className="font-semibold text-amber-400">{ZELLE_TAG}</span>{' '}
               or{' '}
               <a href="/contact" className="font-semibold text-amber-400 underline">
                 contact us

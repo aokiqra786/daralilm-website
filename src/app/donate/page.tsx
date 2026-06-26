@@ -11,7 +11,7 @@ export default function DonatePage() {
 
   // Interim giving path until a merchant link (LaunchGood/Zeffy) is live.
   // When the campaign URL exists, replace the button's onClick with an <a href={GIVING_URL}>.
-  const ZELLE_EMAIL = "iqra@socalaok.org";
+  const ZELLE_TAG = "socalaok";
 
   const handleAmountClick = (val: number | string) => {
     setAmount(val);
@@ -165,9 +165,7 @@ export default function DonatePage() {
                   <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
                     <p className="text-sm text-slate-700">
                       Online giving is launching soon. To donate now, send a Zelle payment to{" "}
-                      <a href={`mailto:${ZELLE_EMAIL}`} className="font-semibold text-amber-700 underline">
-                        {ZELLE_EMAIL}
-                      </a>{" "}
+                      <span className="font-semibold text-amber-700">{ZELLE_TAG}</span>{" "}
                       or{" "}
                       <a href="/contact" className="font-semibold text-amber-700 underline">
                         contact us
