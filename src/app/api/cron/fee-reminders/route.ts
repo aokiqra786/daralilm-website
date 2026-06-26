@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
 
       try {
         await resend.emails.send({
-          from: `${ACADEMY_NAME} <admin@socalacademy.org>`,
+          from: `${ACADEMY_NAME} <admin@socalaok.org>`,
           to: [student.parent_email],
           subject,
           html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;white-space:pre-line;padding:20px;">${textBody.replace(/\n/g, '<br/>')}</div>`,

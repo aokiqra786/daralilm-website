@@ -58,8 +58,8 @@ export default function ProgramsPage() {
             </p>
             <ul className="space-y-3 mb-8">
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Engaging activities and projects</li>
-              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Saturday (Boy's Only) :  9:30 AM - 1:00 PM</li>
-              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Sunday (Girl's Only) :  9:30 AM - 1:00 PM</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Saturday (Girls Only) :  9:30 AM - 1:00 PM</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Sunday (Boys Only) :  9:30 AM - 1:00 PM</li>
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Focus on Islamic identity and pride</li>
             </ul>
             <Link href="/admissions" className="inline-block bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-md font-semibold shadow-md transition-all">

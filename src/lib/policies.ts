@@ -737,7 +737,7 @@ Please read this document carefully. If you have questions, you are encouraged t
 
 11.3 The most current version of all Academy policies will be available through the Academy's online portal. It is the responsibility of each enrolled family, staff member, and volunteer to review policies periodically.
 
-11.4 Questions regarding this policy may be directed in writing to the Academy Director at admin@socalacademy.org.`
+11.4 Questions regarding this policy may be directed in writing to the Academy Director at admin@socalaok.org.`
     },
     {
       heading: "12. Acknowledgement of Agreement",

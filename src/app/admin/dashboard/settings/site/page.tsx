@@ -37,7 +37,7 @@ export default function SiteSettingsPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Contact Email</label>
-              <input type="email" defaultValue="admin@socalacademy.org" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="email" defaultValue="admin@socalaok.org" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Contact Phone</label>

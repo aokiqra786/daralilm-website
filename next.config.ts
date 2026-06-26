@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [75, 100],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   async rewrites() {
     // Serve the static brand guidelines document at the clean URL /brand.
     return [{ source: "/brand", destination: "/brand.html" }];

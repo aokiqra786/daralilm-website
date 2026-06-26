@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Event } from "@/types";
 import { readData, writeData } from "@/lib/localDb";
+import { requireAdmin, authErrorResponse } from "@/utils/supabase/auth";
 
 const mockEvents: Event[] = [
   {
@@ -71,17 +72,24 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  let authed;
+  try {
+    authed = await requireAdmin();
+  } catch (e) {
+    return authErrorResponse(e);
+  }
+
   try {
     const body = await request.json();
 
     if (isSupabaseConfigured()) {
-      const { data, error } = await supabase.from("events").insert(body).select().single();
+      const { data, error } = await authed.supabase.from("events").insert(body).select().single();
       if (error) throw error;
       return NextResponse.json(data, { status: 201 });
     }
-    
+
     // Fallback to local DB
-    const newEvent: Event = { 
+    const newEvent: Event = {
       ...body, 
       id: Date.now().toString(), 
       createdAt: new Date().toISOString(),
@@ -100,13 +108,20 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  let authed;
+  try {
+    authed = await requireAdmin();
+  } catch (e) {
+    return authErrorResponse(e);
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "No ID provided" }, { status: 400 });
 
     if (isSupabaseConfigured()) {
-      const { error } = await supabase.from("events").delete().eq("id", id);
+      const { error } = await authed.supabase.from("events").delete().eq("id", id);
       if (error) throw error;
       return NextResponse.json({ success: true });
     }

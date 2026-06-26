@@ -24,7 +24,7 @@ export default function ParentMessageClient({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          to: ['admin@socalacademy.org'], // Target admin email
+          to: ['admin@socalaok.org'], // Target admin email
           subject: `[Parent Contact] ${subject}`,
           message,
           replyTo: parentEmail,

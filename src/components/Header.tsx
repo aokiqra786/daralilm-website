@@ -37,9 +37,10 @@ export default function Header() {
               <Link href="/programs" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Programs</Link>
               <Link href="/admissions" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Admissions</Link>
               <Link href="/events" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Events</Link>
-              <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Coffee Page</Link>
               <Link href="/volunteers" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Volunteer</Link>
-              
+              <Link href="/contact" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Contact</Link>
+              <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Coffee Page</Link>
+
             </nav>
             
             <Link 

@@ -75,7 +75,8 @@ export default async function AdmissionsPage({
                 {[
                   ["Evening Qur'an Classes", '$50 / month'],
                   ['Weekend School', '$100 / month'],
-                  ['Full Time Hifz and Academic', 'TBA'],
+                  ['Full-Time Hifz Program', 'TBA'],
+                  ['K-12 Homeschool Academic Support', 'TBA'],
                   ['Registration Fee / Material (Once a Year)', '$50'],
                 ].map(([label, price]) => (
                   <li key={label} className="flex justify-between items-center border-b border-slate-100 pb-3 last:border-0">
