@@ -22,7 +22,7 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-2 h-full w-full">
               <div className="relative h-20 w-48 sm:w-64 md:w-80">
                 <Image
-                  src="/brand/logo/AoK_Logo_Color.svg"
+                  src="/brand/logo/AoK_Logo_Color_transparent.png"
                   alt="SoCal Academy of Knowledge Logo"
                   fill
                   quality={100}
