@@ -90,6 +90,28 @@ export default async function AdmissionsPage({
                 </li>
               </ul>
             </div>
+
+            <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-blue-900 mt-12 mb-6">
+              Required Documents
+            </h2>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <p className="text-slate-600 mb-4">
+                Please have these ready to submit during enrollment:
+              </p>
+              <ul className="space-y-3">
+                {[
+                  "Student's birth certificate",
+                  'Immunization records',
+                  'Most recent report card / transcript',
+                  'Recent passport-style photo',
+                ].map((doc) => (
+                  <li key={doc} className="flex items-start text-slate-700">
+                    <CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" />
+                    {doc}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Right — Form or Success State */}

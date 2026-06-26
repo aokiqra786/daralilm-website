@@ -8,6 +8,11 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
+    <>
+    {/* Bismillah bar */}
+    <div className="w-full bg-green text-center py-1.5">
+      <span lang="ar" dir="rtl" className="font-arabic text-gold text-2xl leading-none" aria-label="Bismillah ar-Rahman ar-Raheem">﷽</span>
+    </div>
     <header className="w-full bg-blue-50/50 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100/50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 relative">
@@ -44,8 +49,8 @@ export default function Header() {
             </nav>
             
             <Link 
-              href="/donate" 
-              className="bg-gradient-to-r from-orange-400 to-amber-500 hover:from-blue-600 hover:to-blue-800 text-white px-6 py-2 rounded-md font-semibold shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              href="/donate"
+              className="bg-gold text-navy hover:bg-gold-deep hover:text-white px-6 py-2 rounded-md font-semibold shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
             >
               Donate
             </Link>
@@ -87,5 +92,6 @@ export default function Header() {
         </div>
       )}
     </header>
+    </>
   );
 }

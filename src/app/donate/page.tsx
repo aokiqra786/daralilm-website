@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { Heart, Landmark, HandCoins } from "lucide-react";
+import { AmountPicker } from "@/components/ui";
 
 export default function DonatePage() {
-  const [amount, setAmount] = useState<number | string>(100);
+  const [amount, setAmount] = useState<number | "custom">(100);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [donationType, setDonationType] = useState<"one-time" | "monthly">("one-time");
   const [showGiveInfo, setShowGiveInfo] = useState(false);
@@ -12,11 +13,6 @@ export default function DonatePage() {
   // Interim giving path until a merchant link (LaunchGood/Zeffy) is live.
   // When the campaign URL exists, replace the button's onClick with an <a href={GIVING_URL}>.
   const ZELLE_TAG = "socalaok";
-
-  const handleAmountClick = (val: number | string) => {
-    setAmount(val);
-    setCustomAmount("");
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-slate-50">
@@ -105,39 +101,14 @@ export default function DonatePage() {
 
                 {/* Amount Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-3 text-center">Select Amount</label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-                    {[50, 100, 250, 500, 1000].map((val) => (
-                      <button 
-                        key={val}
-                        onClick={() => handleAmountClick(val)}
-                        className={`py-3 rounded-lg font-bold border transition-all ${amount === val ? 'bg-blue-600 text-white border-blue-700 shadow-md' : 'bg-white text-slate-700 border-slate-300 hover:border-blue-400'}`}
-                      >
-                        ${val}
-                      </button>
-                    ))}
-                    <button 
-                      onClick={() => handleAmountClick('custom')}
-                      className={`py-3 rounded-lg font-bold border transition-all ${amount === 'custom' ? 'bg-blue-600 text-white border-blue-700 shadow-md' : 'bg-white text-slate-700 border-slate-300 hover:border-blue-400'}`}
-                    >
-                      Custom
-                    </button>
-                  </div>
-                  
-                  {amount === 'custom' && (
-                    <div className="relative mt-2">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-slate-500 sm:text-sm">$</span>
-                      </div>
-                      <input 
-                        type="number" 
-                        value={customAmount}
-                        onChange={(e) => setCustomAmount(e.target.value)}
-                        className="pl-7 w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-lg font-semibold" 
-                        placeholder="Enter amount" 
-                      />
-                    </div>
-                  )}
+                  <span className="block text-sm font-medium text-slate-700 mb-3 text-center">Select Amount</span>
+                  <AmountPicker
+                    amounts={[50, 100, 250, 500, 1000]}
+                    value={amount}
+                    onChange={setAmount}
+                    customAmount={customAmount}
+                    onCustomChange={setCustomAmount}
+                  />
                 </div>
 
                 {/* User Info */}
