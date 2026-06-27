@@ -71,7 +71,7 @@ export default function Home() {
               <h3 className="text-base font-bold text-blue-900 group-hover:text-amber-700">Weekend School</h3>
             </div>
           </Link>
-          <Link href="/programs#vocational-programs" className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
+          <Link href="/programs#vocational" className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/Voca.png" alt="Vocational Programs" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>
@@ -79,7 +79,7 @@ export default function Home() {
               <h3 className="text-base font-bold text-blue-900 group-hover:text-amber-700">Vocational Programs</h3>
             </div>
           </Link>
-          <Link href="/programs#youth-activities" className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
+          <Link href="/programs#youth" className="bg-white hover:bg-amber-50 rounded-lg shadow-xl overflow-hidden flex flex-col items-center text-center border-b-4 border-amber-600 hover:-translate-y-2 transition-all duration-300 cursor-pointer group block">
             <div className="relative w-full h-32 sm:h-40 bg-slate-100 overflow-hidden">
               <Image src="/youth.png" alt="Youth Activities" fill quality={100} sizes="(max-width: 768px) 100vw, 25vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-500" />
             </div>

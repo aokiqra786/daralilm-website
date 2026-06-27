@@ -74,7 +74,7 @@ export default function ProgramsPage() {
         </div>
 
         {/* Vocational Programs */}
-        <div id="vocational-programs" className="flex flex-col md:flex-row items-center gap-12 group pt-8">
+        <div id="vocational" className="flex flex-col md:flex-row items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-50">
             <Image src="/Voca.png" alt="Vocational Programs" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
@@ -97,7 +97,7 @@ export default function ProgramsPage() {
         </div>
 
         {/* Youth Activities */}
-        <div id="youth-activities" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
+        <div id="youth" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
           <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-green-50">
             <Image src="/youth.png" alt="Youth Activities" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
             <div className="absolute inset-0 bg-blue-900/10" />
@@ -115,6 +115,52 @@ export default function ProgramsPage() {
             </ul>
             <Link href="/events" className="inline-block bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-md font-semibold shadow-md transition-all">
               View Schedule
+            </Link>
+          </div>
+        </div>
+
+        {/* Full-Time Hifz Program */}
+        <div id="hifz" className="flex flex-col md:flex-row items-center gap-12 group pt-8">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-emerald-50">
+            <Image src="/hifz_bg.png" alt="Full-Time Hifz Program" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
+            <div className="absolute inset-0 bg-blue-900/10" />
+          </div>
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <span className="text-emerald-600 font-bold tracking-wider uppercase text-sm mb-2 block">Coming Soon</span>
+            <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Full-Time Hifz Program</h2>
+            <p className="text-slate-700 leading-relaxed mb-6">
+              A dedicated full-time program for students committed to memorizing the entire Holy Qur&apos;an with proper Tajweed, under the guidance of qualified huffaz, alongside essential Islamic and academic studies.
+            </p>
+            <ul className="space-y-3 mb-8">
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" /> Structured memorization with one-on-one attention</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" /> Tajweed, revision, and character development</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" /> Balanced with academic support</li>
+            </ul>
+            <Link href="/admissions" className="inline-block bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-md font-semibold shadow-md transition-all">
+              Enroll Your Child
+            </Link>
+          </div>
+        </div>
+
+        {/* K-12 Homeschool Academic Support */}
+        <div id="k12" className="flex flex-col md:flex-row-reverse items-center gap-12 group pt-8">
+          <div className="w-full md:w-1/2 relative h-[250px] sm:h-[350px] rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-50">
+            <Image src="/academic_bg.png" alt="K-12 Homeschool Academic Support Program" fill quality={100} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-110 contrast-105 saturate-110 brightness-105 transition-all duration-700" />
+            <div className="absolute inset-0 bg-blue-900/10" />
+          </div>
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <span className="text-amber-600 font-bold tracking-wider uppercase text-sm mb-2 block">Academic Support &middot; Coming Soon</span>
+            <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">K-12 Homeschool Academic Support</h2>
+            <p className="text-slate-700 leading-relaxed mb-6">
+              Academic support for homeschooling families &mdash; structured help with core K-12 subjects in a faith-centered environment. This is supplemental support for homeschoolers, not a full curriculum or device provision.
+            </p>
+            <ul className="space-y-3 mb-8">
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Guided support across core subjects</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Flexible scheduling for homeschool families</li>
+              <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" /> Faith-centered learning environment</li>
+            </ul>
+            <Link href="/admissions" className="inline-block bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-md font-semibold shadow-md transition-all">
+              Enroll Your Child
             </Link>
           </div>
         </div>
