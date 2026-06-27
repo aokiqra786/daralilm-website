@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-// Board/counsel to set before publishing.
-const EFFECTIVE_DATE = "[Effective Date]";
+// Board-approved effective date.
+const EFFECTIVE_DATE = "June 1, 2026";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
