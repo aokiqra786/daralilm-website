@@ -10,6 +10,8 @@ export default function AdmissionsFormClient() {
       </h2>
 
       <form action={submitAdmissionApplication} className="space-y-6">
+        {/* Honeypot — hidden from users; bot submissions are dropped server-side */}
+        <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
         {/* Parent Info */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-slate-800 border-b pb-2">

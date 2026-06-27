@@ -2,10 +2,23 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
+import { z } from 'zod'
 import { Resend } from 'resend'
+import { HONEYPOT_FIELD, honeypotTripped, rateLimit, clientIp } from '@/lib/security'
 
 // Sender must be on the Resend-verified domain (socalaok.org).
 const ADMISSIONS_FROM = 'SoCal Academy of Knowledge <admission@socalaok.org>'
+
+const AdmissionSchema = z.object({
+  studentName: z.string().trim().min(1).max(200),
+  parentEmail: z.string().trim().email().max(254),
+  parentName: z.string().trim().max(200).optional(),
+  parentPhone: z.string().trim().max(50).optional(),
+  dateOfBirth: z.string().trim().max(40).optional(),
+  programInterest: z.string().trim().max(200).optional(),
+  notes: z.string().trim().max(5000).optional(),
+})
 
 function getResend() {
   const apiKey = process.env.RESEND_API_KEY
@@ -14,6 +27,15 @@ function getResend() {
 }
 
 export async function submitAdmissionApplication(formData: FormData) {
+  const h = await headers()
+  if (!rateLimit(`admission:${clientIp(h)}`, 5)) {
+    redirect('/admissions?error=failed')
+  }
+  // Honeypot: pretend success so bots don't retry.
+  if (honeypotTripped(formData.get(HONEYPOT_FIELD))) {
+    redirect('/admissions?success=submitted')
+  }
+
   const supabase = await createClient()
 
   const parentFirstName = (formData.get('parentFirstName') as string)?.trim()
@@ -26,6 +48,13 @@ export async function submitAdmissionApplication(formData: FormData) {
   const notes           = (formData.get('notes')           as string)?.trim()
 
   const parentFullName = [parentFirstName, parentLastName].filter(Boolean).join(' ')
+
+  const valid = AdmissionSchema.safeParse({
+    studentName, parentEmail, parentName: parentFullName, parentPhone, dateOfBirth, programInterest, notes,
+  })
+  if (!valid.success) {
+    redirect('/admissions?error=failed')
+  }
 
   const { error } = await supabase
     .from('admission_applications')

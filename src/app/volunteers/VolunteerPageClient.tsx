@@ -100,6 +100,8 @@ export default function VolunteerPageClient() {
                   )}
 
                   <form action={submitVolunteerApplication} className="space-y-8">
+                    {/* Honeypot — hidden from users; bot submissions are dropped server-side */}
+                    <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
 
                     {/* 1. Personal Info */}
                     <section>
