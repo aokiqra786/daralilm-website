@@ -1,14 +1,23 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
+import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 import { Resend } from 'resend'
 import { HONEYPOT_FIELD, honeypotTripped, rateLimit, clientIp } from '@/lib/security'
 
 // Sender must be on the Resend-verified domain (socalaok.org).
 const ADMISSIONS_FROM = 'SoCal Academy of Knowledge <admission@socalaok.org>'
+
+// Optional document uploads -> private bucket, written server-side via the
+// service-role client (the bucket has no anon policy, so it stays fully private).
+const DOC_BUCKET = 'admissions-docs'
+const ALLOWED_DOC_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg', 'image/jpg', 'image/webp'])
+const MAX_DOC_BYTES = 5 * 1024 * 1024 // 5 MB each
+const MAX_DOCS = 5
 
 const AdmissionSchema = z.object({
   studentName: z.string().trim().min(1).max(200),
@@ -56,6 +65,34 @@ export async function submitAdmissionApplication(formData: FormData) {
     redirect('/admissions?error=failed')
   }
 
+  // Optional documents: validate + upload to the private bucket via service-role.
+  const files = formData
+    .getAll('documents')
+    .filter((f): f is File => f instanceof File && f.size > 0)
+  if (files.length > MAX_DOCS) {
+    redirect('/admissions?error=failed')
+  }
+  const documentPaths: string[] = []
+  if (files.length > 0) {
+    const admin = createAdminClient()
+    for (const file of files) {
+      if (file.size > MAX_DOC_BYTES || !ALLOWED_DOC_TYPES.has(file.type)) {
+        redirect('/admissions?error=failed')
+      }
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-100) || 'file'
+      const path = `applications/${randomUUID()}/${safeName}`
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const { error: upErr } = await admin.storage
+        .from(DOC_BUCKET)
+        .upload(path, buffer, { contentType: file.type, upsert: false })
+      if (upErr) {
+        console.error('Admission document upload failed:', upErr.message)
+        redirect('/admissions?error=failed')
+      }
+      documentPaths.push(path)
+    }
+  }
+
   const { error } = await supabase
     .from('admission_applications')
     .insert({
@@ -67,6 +104,9 @@ export async function submitAdmissionApplication(formData: FormData) {
       program_interest: programInterest || null,
       notes:            notes || null,
       status:           'pending',
+      // Only set when files were uploaded, so the form still works before the
+      // `documents` column migration is applied.
+      ...(documentPaths.length ? { documents: documentPaths } : {}),
     })
 
   if (error) {
