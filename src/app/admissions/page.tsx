@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import { CheckCircle2, AlertCircle } from '@/components/Icons'
 import AdmissionsFormClient from './AdmissionsFormClient'
+
+export const metadata: Metadata = {
+  title: 'Admissions',
+  description:
+    'Enroll your child at SoCal Academy of Knowledge. See our programs, tuition, required documents, and apply online.',
+}
 
 export default async function AdmissionsPage({
   searchParams,
