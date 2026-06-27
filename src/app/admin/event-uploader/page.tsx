@@ -4,9 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function EventUploader() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-  
+  // Auth is enforced server-side by layout.tsx (role check). No client gate.
   const [uploadType, setUploadType] = useState<"text" | "image">("text");
   const [publishDate, setPublishDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState("");
@@ -23,13 +21,11 @@ export default function EventUploader() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-    
     // For Admin view, fetch ALL events
     fetch("/api/v1/events").then(r => r.ok ? r.json() : []).then(data => {
       if(Array.isArray(data)) setActiveEvents(data);
     }).catch(() => {});
-  }, [isAuthenticated, refreshKey]);
+  }, [refreshKey]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this event early?")) return;
@@ -41,15 +37,6 @@ export default function EventUploader() {
       alert("Successfully deleted!");
     } catch (err) {
       alert("Error deleting post");
-    }
-  };
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === "admin123") {
-      setIsAuthenticated(true);
-    } else {
-      alert("Incorrect password");
     }
   };
 
@@ -317,31 +304,6 @@ export default function EventUploader() {
       setLoading(false);
     }
   };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full border border-slate-200">
-          <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">Event Uploader Login</h1>
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Admin Password</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full border border-slate-300 rounded px-3 py-2"
-                required
-              />
-            </div>
-            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">

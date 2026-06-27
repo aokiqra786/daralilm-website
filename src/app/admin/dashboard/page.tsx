@@ -40,6 +40,15 @@ export default async function AdminDashboardHome() {
     .from('teachers')
     .select('*', { count: 'exact', head: true })
 
+  // Fee collected this month (mirrors the Fee Management dashboard)
+  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
+  const { data: feeRows } = await supabase
+    .from('fee_records')
+    .select('amount_paid')
+    .gte('paid_date', monthStart)
+  const feeCollected = (feeRows ?? []).reduce((sum, r: any) => sum + Number(r.amount_paid || 0), 0)
+  const feeCollectedLabel = feeCollected.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+
   return (
     <div className="space-y-8">
       {/* Personalised Greeting */}
@@ -100,7 +109,7 @@ export default async function AdminDashboardHome() {
               <DollarSign className="w-5 h-5 text-emerald-600" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-slate-900">--</p>
+          <p className="text-3xl font-bold text-slate-900">{feeCollectedLabel}</p>
           <Link href="/admin/dashboard/fees" className="mt-2 flex items-center text-sm text-blue-600 hover:text-blue-700 font-medium group">
             View fee reports
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />

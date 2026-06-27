@@ -17,7 +17,7 @@ export default async function StudentProgressPage() {
   // Grades for all children
   const { data: gradesData } = await supabase
     .from('grades')
-    .select(`grade, assessments(name, assessment_type, assessment_date, classes(name)), students(full_name)`)
+    .select(`student_id, grade, assessments(name, assessment_type, assessment_date, classes(name))`)
     .in('student_id', childIds.length > 0 ? childIds : ['none'])
 
   // Attendance for all children
@@ -28,7 +28,7 @@ export default async function StudentProgressPage() {
 
   // Build per-child summaries
   const summaries = children.map(child => {
-    const childGrades     = (gradesData || []).filter((g: any) => g.students?.full_name === child.full_name)
+    const childGrades     = (gradesData || []).filter((g: any) => g.student_id === child.id)
     const childAttendance = (attendanceData || []).filter((a: any) => a.student_id === child.id)
     const present         = childAttendance.filter((a: any) => a.status === 'present').length
     const total           = childAttendance.length

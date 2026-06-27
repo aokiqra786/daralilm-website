@@ -18,6 +18,44 @@ export default async function FeesPage() {
     day: s.key === 'fee_monthly_reminder' ? 27 : s.key === 'fee_unpaid_1st_notice' ? 5 : 10,
   }))
 
+  // ── Fee aggregation (replaces the old hardcoded $0.00 / 0 placeholders) ──
+  const now = new Date()
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+  const today = now.toISOString().split('T')[0]
+
+  // Total Collected this month = sum of amount_paid on records paid this month
+  const { data: collectedRows } = await supabase
+    .from('fee_records')
+    .select('amount_paid')
+    .gte('paid_date', monthStart)
+  const totalCollected = (collectedRows ?? []).reduce((sum, r: any) => sum + Number(r.amount_paid || 0), 0)
+
+  // Pending dues = outstanding balance on everything not fully paid
+  const { data: pendingRows } = await supabase
+    .from('fee_records')
+    .select('balance_due')
+    .neq('status', 'paid')
+  const pendingDues = (pendingRows ?? []).reduce((sum, r: any) => sum + Number(r.balance_due || 0), 0)
+
+  // Active discounts = fee_adjustments currently in their validity window
+  const { data: adjustmentRows } = await supabase
+    .from('fee_adjustments')
+    .select('valid_from, valid_until')
+  const activeDiscounts = (adjustmentRows ?? []).filter((a: any) => {
+    const fromOk = !a.valid_from || a.valid_from <= today
+    const untilOk = !a.valid_until || a.valid_until >= today
+    return fromOk && untilOk
+  }).length
+
+  // Recent billing activity (real records, not a static placeholder)
+  const { data: recentBilling } = await supabase
+    .from('fee_records')
+    .select('id, net_amount, amount_paid, status, billing_period, students(full_name)')
+    .order('created_at', { ascending: false })
+    .limit(10)
+
+  const fmt = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -49,21 +87,21 @@ export default async function FeesPage() {
             <h3 className="font-semibold text-slate-700">Total Collected</h3>
             <span className="text-emerald-600 bg-emerald-50 px-2 py-1 rounded text-xs font-medium">This Month</span>
           </div>
-          <p className="text-3xl font-bold text-slate-900">$0.00</p>
+          <p className="text-3xl font-bold text-slate-900">{fmt(totalCollected)}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold text-slate-700">Pending Dues</h3>
             <span className="text-amber-600 bg-amber-50 px-2 py-1 rounded text-xs font-medium">Active</span>
           </div>
-          <p className="text-3xl font-bold text-slate-900">$0.00</p>
+          <p className="text-3xl font-bold text-slate-900">{fmt(pendingDues)}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold text-slate-700">Active Discounts</h3>
             <span className="text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs font-medium">Students</span>
           </div>
-          <p className="text-3xl font-bold text-slate-900">0</p>
+          <p className="text-3xl font-bold text-slate-900">{activeDiscounts}</p>
         </div>
       </div>
 
@@ -89,10 +127,29 @@ export default async function FeesPage() {
             />
           </div>
         </div>
-        <div className="p-12 text-center text-slate-500">
-          <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-          <p>No billing records found for this period.</p>
-        </div>
+        {(recentBilling && recentBilling.length > 0) ? (
+          <ul className="divide-y divide-slate-100">
+            {recentBilling.map((r: any) => (
+              <li key={r.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                <div className="flex items-center gap-3">
+                  <span className="font-medium text-slate-800">{r.students?.full_name ?? 'Unknown student'}</span>
+                  {r.billing_period && <span className="text-slate-400 text-xs">{r.billing_period}</span>}
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-slate-600">{fmt(Number(r.amount_paid || 0))} / {fmt(Number(r.net_amount || 0))}</span>
+                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.status === 'paid' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
+                    {r.status ?? 'pending'}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="p-12 text-center text-slate-500">
+            <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <p>No billing records found yet.</p>
+          </div>
+        )}
       </div>
     </div>
   )
