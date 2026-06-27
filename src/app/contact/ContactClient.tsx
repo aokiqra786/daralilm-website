@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Input, Textarea, Button } from "@/components/ui";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "", company: "" });
@@ -131,70 +132,54 @@ export default function ContactPage() {
                   </div>
                 )}
                 
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors" 
-                    placeholder="John Doe" 
-                  />
-                </div>
-                
+                <Input
+                  label="Full Name"
+                  id="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="John Doe"
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition-colors" 
-                      placeholder="john@example.com" 
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition-colors" 
-                      placeholder="(555) 123-4567" 
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">Your Message *</label>
-                  <textarea 
-                    id="message" 
+                  <Input
+                    label="Email Address"
+                    id="email"
+                    type="email"
                     required
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition-colors resize-none" 
-                    placeholder="How can we help you today?" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@example.com"
+                  />
+                  <Input
+                    label="Phone Number"
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="(555) 123-4567"
                   />
                 </div>
 
-                <button 
-                  type="submit" 
-                  disabled={status === "submitting"}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold py-4 px-6 rounded-md shadow-md transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-                >
+                <Textarea
+                  label="Your Message"
+                  id="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="How can we help you today?"
+                />
+
+                <Button type="submit" size="lg" loading={status === "submitting"} className="w-full">
                   {status === "submitting" ? "Sending..." : (
                     <>
                       Send Message
                       <Send className="w-5 h-5" />
                     </>
                   )}
-                </button>
+                </Button>
               </form>
             )}
           </div>
