@@ -1,7 +1,12 @@
-"use client";
-
+import type { Metadata } from "next";
 import { BookHeart, Target, Users, Shield } from "lucide-react";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about SoCal Academy of Knowledge — our mission, values, and faculty providing quality Islamic education in Northridge, California.",
+};
 
 export default function AboutPage() {
   return (

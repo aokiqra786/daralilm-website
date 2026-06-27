@@ -1,8 +1,13 @@
-"use client";
-
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Programs",
+  description:
+    "Explore our programs: Evening Maktab (Qur'an & Tajweed), Weekend School, Full-Time Hifz, K-12 Homeschool Academic Support, vocational programs, and youth activities.",
+};
 
 export default function ProgramsPage() {
   return (
