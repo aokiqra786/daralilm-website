@@ -130,6 +130,21 @@ export default function AdmissionsFormClient() {
               placeholder="Any information we should know..."
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Supporting Documents <span className="text-slate-400">(optional)</span>
+            </label>
+            <input
+              type="file"
+              name="documents"
+              multiple
+              accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp"
+              className="w-full text-sm text-slate-700 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+            />
+            <p className="text-xs text-slate-500 mt-1">
+              Birth certificate, immunization records, report card, or photo. PDF/JPG/PNG, up to 5 MB each (max 5 files).
+            </p>
+          </div>
         </div>
 
         <button
