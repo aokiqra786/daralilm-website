@@ -49,6 +49,11 @@ export async function submitVolunteerApplication(formData: FormData) {
     redirect('/volunteers?error=failed')
   }
 
+  // Liability waiver must be acknowledged.
+  if (formData.get('waiver') !== 'on') {
+    redirect('/volunteers?error=failed')
+  }
+
   const { error } = await supabase.from('volunteers').insert({
     full_name: fullName,
     date_of_birth: dob,
