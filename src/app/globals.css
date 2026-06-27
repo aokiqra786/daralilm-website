@@ -36,10 +36,12 @@
      bg-green / text-gold / border-line / etc. Existing blue-900/amber usage is unchanged. */
   --color-green: #005418;
   --color-green-700: #0a6e22;
+  --color-green-900: #013a11;
   --color-gold: #e4a800;
   --color-gold-deep: #b47800;
   --color-navy: #15263f;
   --color-parchment: #f6f1e4;
+  --color-cream: #eaf1e8;
 
   /* Neutrals */
   --color-ink: #1d2b20;
