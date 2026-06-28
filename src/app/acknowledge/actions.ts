@@ -1,10 +1,13 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export async function submitAcknowledgement(token: string, fullNameSigned: string, ipAddress: string) {
-  const supabase = await createClient()
+  // Unauthenticated invitee flow, gated by the random token validated below.
+  // Service-role client so the post-acknowledgement writes (activating the
+  // teacher/student record, issuing the invite_token) aren't blocked by RLS.
+  const supabase = createAdminClient()
 
   // 1. Get the acknowledgement record
   const { data: ack, error: ackError } = await supabase

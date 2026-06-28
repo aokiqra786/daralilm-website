@@ -58,6 +58,7 @@ export default function GradebookClient({ classes, teacherId }: { classes: Class
 
   const saveGrade = async (assessmentId: string, studentId: string, grade: string) => {
     const key = `${assessmentId}-${studentId}`
+    const prevGrade = grades[assessmentId]?.[studentId] ?? ''
     setSaving(key)
     setGrades(prev => ({
       ...prev,
@@ -65,10 +66,21 @@ export default function GradebookClient({ classes, teacherId }: { classes: Class
     }))
 
     const supabase = createClient()
-    await supabase.from('grades').upsert(
+    const { error } = await supabase.from('grades').upsert(
       { assessment_id: assessmentId, student_id: studentId, grade, recorded_by: teacherId },
       { onConflict: 'assessment_id,student_id' }
     )
+    if (error) {
+      // The save failed (e.g. permission/network). Revert the optimistic change
+      // so the grid doesn't show a grade that was never persisted, and tell the
+      // teacher. Success stays quiet to avoid spamming toasts during fast entry.
+      setGrades(prev => ({
+        ...prev,
+        [assessmentId]: { ...(prev[assessmentId] || {}), [studentId]: prevGrade }
+      }))
+      setToast({ success: false, message: 'Could not save grade — please try again.' })
+      setTimeout(() => setToast(null), 4000)
+    }
     setSaving(null)
   }
 
