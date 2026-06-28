@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import Image from 'next/image'
 import AcknowledgeClient from './AcknowledgeClient'
 import { STUDENT_POLICY, TEACHER_POLICY, VOLUNTEER_POLICY, EVENT_UPLOADER_POLICY, DISCLAIMER_POLICY } from '@/lib/policies'
@@ -18,7 +18,9 @@ export default async function AcknowledgePage(props: { searchParams: Promise<{ t
     )
   }
 
-  const supabase = await createClient()
+  // The invitee is unauthenticated; the random token is the gate. Use the
+  // service-role client (admin-only RLS on the table) to look it up server-side.
+  const supabase = createAdminClient()
   const { data: ack, error } = await supabase
     .from('policy_acknowledgements')
     .select('*')
