@@ -13,9 +13,10 @@ export default async function OnboardPage({
   const { token, message } = await searchParams
 
   // Map URL path to DB role
-  const expectedRole = role === 'teacher' ? 'teacher' 
-    : role === 'event-uploader' ? 'event_uploader' 
+  const expectedRole = role === 'teacher' ? 'teacher'
+    : role === 'event-uploader' ? 'event_uploader'
     : role === 'parent' ? 'parent'
+    : role === 'admin' ? 'admin'
     : ''
 
   const roleTitle = role === 'parent' ? 'Parent Portal' : 'Staff Onboarding'
