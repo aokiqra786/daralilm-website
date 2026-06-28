@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { createHash } from 'crypto'
 import OnboardClient, { ErrorState } from './OnboardClient'
 
@@ -28,7 +28,10 @@ export default async function OnboardPage({
     return <ErrorState message="Invalid or missing invite link." />
   }
 
-  const supabase = await createClient()
+  // Service-role client: invite_tokens has RLS that only allows admins, and the
+  // onboarding visitor is unauthenticated. Validation is gated by the secret
+  // token, so reading via the service role here mirrors the onboarding action.
+  const supabase = createAdminClient()
 
   // Hash the incoming raw token to look it up in the DB securely
   const tokenHash = createHash('sha256').update(token).digest('hex')
