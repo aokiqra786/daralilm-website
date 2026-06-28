@@ -4,8 +4,9 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Resend } from "resend";
 import { HONEYPOT_FIELD, honeypotTripped, rateLimit, clientIp } from "@/lib/security";
 
-// Sender must be on a domain verified in Resend. The live domain is socalaok.org.
-const CONTACT_FROM = "SoCal Academy of Knowledge <info@socalaok.org>";
+// Sender must be on a domain verified in Resend. The verified sending domain is
+// send.socalaok.org (the apex socalaok.org hosts Private Email, not Resend).
+const CONTACT_FROM = "SoCal Academy of Knowledge <info@send.socalaok.org>";
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1).max(200),

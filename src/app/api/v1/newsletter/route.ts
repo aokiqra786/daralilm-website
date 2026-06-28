@@ -3,8 +3,9 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { HONEYPOT_FIELD, honeypotTripped, rateLimit, clientIp } from "@/lib/security";
 
-// Sender must be on the Resend-verified domain (socalaok.org).
-const FROM = "SoCal Academy of Knowledge <info@socalaok.org>";
+// Sender must be on the Resend-verified domain (send.socalaok.org). The apex
+// socalaok.org is NOT verified in Resend; it hosts the Private Email mailboxes.
+const FROM = "SoCal Academy of Knowledge <info@send.socalaok.org>";
 const EmailSchema = z.string().trim().email().max(254);
 
 function getResend() {

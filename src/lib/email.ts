@@ -145,7 +145,7 @@ export async function sendInviteEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge Admin <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>',
       to: [email],
       subject,
       html,
@@ -217,7 +217,7 @@ export async function sendParentRegistrationEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge Admin <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>',
       to: [email],
       subject,
       html,
@@ -253,7 +253,7 @@ export async function sendWaitingListEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge <admin@send.socalaok.org>',
       to: [email],
       subject: `Application Received – ${studentName} | SoCal Academy of Knowledge`,
       html: `
@@ -349,7 +349,7 @@ export async function sendDirectMessage({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: `${fromName} <admin@socalaok.org>`,
+      from: `${fromName} <admin@send.socalaok.org>`,
       to,
       replyTo: replyTo || 'admin@socalaok.org',
       subject,
@@ -432,7 +432,7 @@ export async function sendVolunteerApprovalEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge Admin <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>',
       to: [email],
       subject,
       html,
@@ -500,7 +500,7 @@ export async function sendAcknowledgementReminderEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge Admin <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>',
       to: [email],
       subject,
       html,
@@ -574,7 +574,7 @@ export async function sendSignatureRequestEmail({
     if (!resend) throw new Error('Email service not configured (Missing API Key)')
 
     const { data, error } = await resend.emails.send({
-      from: 'SoCal Academy of Knowledge Admin <admin@socalaok.org>',
+      from: 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>',
       to: [email],
       subject,
       html,
