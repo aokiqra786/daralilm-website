@@ -15,18 +15,18 @@ export default function Header() {
     </div>
     <header className="w-full bg-blue-50/50 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100/50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 relative">
+        <div className="flex justify-between h-24 relative">
           
           {/* Logo container fitting inside the header */}
           <div className="flex-shrink-0 flex items-center h-full relative z-50">
             <Link href="/" className="flex items-center gap-2 h-full w-full">
-              <div className="relative h-[60px] w-16">
+              <div className="relative h-[84px] w-24">
                 <Image
                   src="/brand/logo/AoK_Logo_Color_transparent.png"
                   alt="SoCal Academy of Knowledge Logo"
                   fill
                   quality={100}
-                  sizes="64px"
+                  sizes="96px"
                   className="object-contain object-left drop-shadow-md contrast-105 saturate-110"
                   priority
                 />
@@ -76,7 +76,7 @@ export default function Header() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-blue-50 border-b border-blue-100 shadow-md absolute w-full top-20 left-0">
+        <div className="md:hidden bg-blue-50 border-b border-blue-100 shadow-md absolute w-full top-24 left-0">
           <nav className="flex flex-col px-6 py-4 space-y-4">
             <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Home</Link>
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">About Us</Link>
