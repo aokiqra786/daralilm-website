@@ -22,7 +22,11 @@ export default async function CreateAdjustmentPage() {
     const discountFlat = formData.get('discountFlat') as string
     const reason = formData.get('reason') as string
 
-    const { data: profile } = await db.from('profiles').select('id').single()
+    // Use the authenticated user as the approver. (The old
+    // `profiles.select('id').single()` broke once RLS let an admin see every
+    // profile row — .single() then errors on multiple rows and approved_by
+    // silently became null.)
+    const { data: { user } } = await db.auth.getUser()
 
     const { error } = await db.from('fee_adjustments').insert({
       student_id: studentId,
@@ -30,7 +34,7 @@ export default async function CreateAdjustmentPage() {
       discount_pct: discountPct ? parseInt(discountPct) : 0,
       discount_flat: discountFlat ? parseFloat(discountFlat) : 0,
       reason,
-      approved_by: profile?.id
+      approved_by: user?.id
     })
 
     if (error) {
