@@ -58,14 +58,16 @@ export async function inviteStaff(formData: FormData) {
   const emailResult = await sendSignatureRequestEmail({
     email,
     name: fullName,
-    role: role as any,
+    role: role,
     token: ackToken
   })
 
   if (!emailResult.success) {
-    return { 
-      success: true, 
-      message: `Invite generated but email failed to send. Manually copy the link:\n${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/acknowledge?token=${ackToken}` 
+    const reason = (emailResult.error as { message?: string } | undefined)?.message || 'Unknown email error'
+    const link = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/acknowledge?token=${ackToken}`
+    return {
+      success: false,
+      message: `Invite link created, but the email could NOT be sent (${reason}). Share this link with them manually:\n${link}`
     }
   }
 
