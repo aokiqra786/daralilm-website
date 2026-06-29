@@ -2,7 +2,51 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { createAdminClient } from '@/utils/supabase/admin'
+import { requireSuperAdmin } from '@/utils/supabase/auth'
 import { revalidatePath } from 'next/cache'
+
+const EDITABLE_ROLES = ['super_admin', 'admin', 'teacher', 'parent', 'event_uploader', 'user']
+
+/**
+ * Edit a user's profile: full name, role, and the board/treasurer flags.
+ * Super-admin only. Writes via the service role because tier1_01 revokes UPDATE
+ * on profiles' privileged columns from authenticated sessions.
+ */
+export async function updateUserProfile(
+  formData: FormData
+): Promise<{ success: boolean; message: string }> {
+  let ctx
+  try {
+    ctx = await requireSuperAdmin()
+  } catch {
+    return { success: false, message: 'Only super admins can edit users.' }
+  }
+
+  const targetUserId = formData.get('userId') as string
+  const full_name = (formData.get('full_name') as string)?.trim() || null
+  const role = formData.get('role') as string
+  const is_board = formData.get('is_board') === 'on'
+  const is_treasurer = formData.get('is_treasurer') === 'on'
+
+  if (!targetUserId) return { success: false, message: 'Missing user.' }
+  if (!EDITABLE_ROLES.includes(role)) return { success: false, message: 'Invalid role.' }
+  // Lockout protection: a super admin cannot demote themselves.
+  if (targetUserId === ctx.user.id && role !== 'super_admin') {
+    return { success: false, message: "You can't change your own super-admin role (lockout protection)." }
+  }
+
+  const admin = createAdminClient()
+  const { error } = await admin
+    .from('profiles')
+    .update({ full_name, role, is_board, is_treasurer })
+    .eq('id', targetUserId)
+
+  if (error) return { success: false, message: error.message }
+
+  revalidatePath(`/admin/dashboard/settings/users/${targetUserId}`)
+  revalidatePath('/admin/dashboard/settings/users')
+  return { success: true, message: 'User updated.' }
+}
 
 export async function revokeUserAccess(formData: FormData) {
   const supabase = await createClient()

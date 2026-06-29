@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { UserCog, ArrowLeft, CheckCircle, Clock, Shield } from '@/components/Icons'
+import { UserCog, ArrowLeft } from '@/components/Icons'
 import Link from 'next/link'
 import UserActionButtons from './UserActionButtons'
 
@@ -22,6 +22,12 @@ export default async function UserManagementPage() {
     .from('profiles')
     .select('id, full_name, email, role, created_at')
     .order('created_at', { ascending: false })
+
+  // Only super admins may open the edit view (it can change roles + board/treasurer).
+  const { data: me } = currentUser
+    ? await supabase.from('profiles').select('role').eq('id', currentUser.id).single()
+    : { data: null }
+  const isSuper = me?.role === 'super_admin'
 
   // Initialize core roles to 0 so their cards always display
   const roleCounts: Record<string, number> = {
@@ -94,7 +100,12 @@ export default async function UserManagementPage() {
                   <td className="py-3 px-4 text-slate-500">
                     {new Date(p.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </td>
-                  <td className="py-3 px-4 text-right space-x-2">
+                  <td className="py-3 px-4 text-right space-x-3">
+                    {isSuper && (
+                      <Link href={`/admin/dashboard/settings/users/${p.id}`} className="text-sm font-semibold text-blue-600 hover:text-blue-700">
+                        Edit
+                      </Link>
+                    )}
                     {p.id !== currentUser?.id && p.role !== 'inactive' && p.role !== 'super_admin' && (
                       <UserActionButtons userId={p.id} email={p.email} fullName={p.full_name} />
                     )}
