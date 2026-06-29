@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import ShareEvent from '@/components/ShareEvent'
 
 type PublicEvent = {
   id: string
@@ -94,6 +95,15 @@ export default async function PublicEventPage({
           </a>
         </p>
       )}
+
+      <div className="mt-8 max-w-md">
+        <ShareEvent
+          url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://socalaok.org'}/events/${slug}`}
+          title={ev.title}
+          published
+          variant="public"
+        />
+      </div>
 
       <div className="mt-8">
         <Link

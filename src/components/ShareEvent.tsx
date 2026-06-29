@@ -7,10 +7,12 @@ export default function ShareEvent({
   url,
   title,
   published,
+  variant = 'admin',
 }: {
   url: string | null
   title: string
   published: boolean
+  variant?: 'admin' | 'public'
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -45,22 +47,25 @@ export default function ShareEvent({
     }
   }
 
+  const wrap =
+    variant === 'public'
+      ? 'rounded-2xl border border-line bg-parchment p-6'
+      : 'rounded-xl border border-slate-200 bg-white p-6'
   const linkClass =
-    'rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:border-green hover:text-green'
+    'rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:border-green hover:text-green'
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-6">
+    <section className={wrap}>
       <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-green">
         <Share2 className="h-5 w-5" /> Share this event
       </h3>
-      <p className="mt-1 text-xs text-slate-500">Public link to the event page.</p>
 
       <div className="mt-3 flex gap-2">
         <input
           readOnly
           value={url}
           onFocus={(e) => e.currentTarget.select()}
-          className="min-w-0 flex-1 rounded-md border border-slate-300 bg-slate-50 px-2 py-1.5 text-sm text-slate-700"
+          className="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-700"
           aria-label="Public event link"
         />
         <button

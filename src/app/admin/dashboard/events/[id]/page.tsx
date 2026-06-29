@@ -12,7 +12,7 @@ import {
 import EventActions from './EventActions'
 import RsvpPanel from './RsvpPanel'
 import FlyerUpload from './FlyerUpload'
-import ShareEvent from './ShareEvent'
+import ShareEvent from '@/components/ShareEvent'
 
 export const metadata = { title: 'Event Review' }
 
