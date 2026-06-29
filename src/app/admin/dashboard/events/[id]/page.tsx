@@ -244,12 +244,11 @@ export default async function EventReviewPage({
             outstanding={outstanding}
           />
           {canManageFlyer && <FlyerUpload eventId={id} currentUrl={ev.flyer_url ?? null} />}
-          {status === 'published' && ev.slug && (
-            <ShareEvent
-              url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://socalaok.org'}/events/${ev.slug}`}
-              title={ev.title}
-            />
-          )}
+          <ShareEvent
+            url={ev.slug ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://socalaok.org'}/events/${ev.slug}` : null}
+            title={ev.title}
+            published={status === 'published'}
+          />
         </div>
       </div>
     </div>

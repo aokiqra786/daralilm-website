@@ -3,8 +3,30 @@
 import { useState } from 'react'
 import { Share2, Copy, Check, Mail } from 'lucide-react'
 
-export default function ShareEvent({ url, title }: { url: string; title: string }) {
+export default function ShareEvent({
+  url,
+  title,
+  published,
+}: {
+  url: string | null
+  title: string
+  published: boolean
+}) {
   const [copied, setCopied] = useState(false)
+
+  // Sharing needs a live public link, which only exists once the event is published.
+  if (!published || !url) {
+    return (
+      <section className="rounded-xl border border-slate-200 bg-white p-6">
+        <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-green">
+          <Share2 className="h-5 w-5" /> Share this event
+        </h3>
+        <p className="mt-1 text-sm text-slate-500">
+          A public share link becomes available once this event is published.
+        </p>
+      </section>
+    )
+  }
 
   const enc = encodeURIComponent
   const shareText = `${title} — `
@@ -15,7 +37,7 @@ export default function ShareEvent({ url, title }: { url: string; title: string 
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(url as string)
       setCopied(true)
       setTimeout(() => setCopied(false), 1800)
     } catch {
