@@ -53,15 +53,6 @@ export default function ShareEvent({
     }
   }
 
-  // Instagram & TikTok have no web link-prefill, so we copy the link and open the
-  // platform — the user pastes it into their post/story.
-  async function shareToApp(dest: string) {
-    await copyLink()
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2500)
-    window.open(dest, '_blank', 'noopener,noreferrer')
-  }
-
   const wrap =
     variant === 'public'
       ? 'rounded-2xl border border-line bg-parchment p-6'
@@ -100,13 +91,7 @@ export default function ShareEvent({
         <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={linkClass}>WhatsApp</a>
         <a href={facebook} target="_blank" rel="noopener noreferrer" className={linkClass}>Facebook</a>
         <a href={x} target="_blank" rel="noopener noreferrer" className={linkClass}>X</a>
-        <button type="button" onClick={() => shareToApp('https://www.instagram.com/')} className={linkClass}>Instagram</button>
-        <button type="button" onClick={() => shareToApp('https://www.tiktok.com/')} className={linkClass}>TikTok</button>
       </div>
-      <p className="mt-2 text-xs text-slate-500">
-        Instagram &amp; TikTok don&apos;t accept shared links directly — we copy the link so you can
-        paste it into your post or story.
-      </p>
     </section>
   )
 }
