@@ -31,6 +31,10 @@
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-playfair), Georgia, serif;
   --font-arabic: var(--font-amiri), "Amiri", serif;
+  /* font-playfair is used in ~77 files but had no token, so it rendered as the
+     default sans. Map it to the Playfair stack (next/font sets --font-playfair
+     on <html>) so the utility actually renders Playfair Display site-wide. */
+  --font-playfair: var(--font-playfair), Georgia, serif;
 
   /* Approved brand palette (board-approved logo v2, 2026-06). Additive — generates
      bg-green / text-gold / border-line / etc. Existing blue-900/amber usage is unchanged. */
