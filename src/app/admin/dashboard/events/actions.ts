@@ -37,6 +37,12 @@ function flyerError(file: File | null): string | null {
 async function uploadFlyerFile(admin: Admin, eventId: string, file: File): Promise<{ url?: string; error?: string }> {
   const err = flyerError(file)
   if (err) return { error: err }
+  // The SQL `insert into storage.buckets` doesn't always register with the
+  // Storage service, so ensure the bucket exists (idempotent) before uploading.
+  const { data: bucket } = await admin.storage.getBucket('event-flyers')
+  if (!bucket) {
+    await admin.storage.createBucket('event-flyers', { public: true })
+  }
   const buf = Buffer.from(await file.arrayBuffer())
   const path = `${eventId}/flyer-${Date.now()}.pdf`
   const { error: upErr } = await admin.storage.from('event-flyers').upload(path, buf, {

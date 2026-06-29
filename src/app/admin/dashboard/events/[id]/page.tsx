@@ -12,6 +12,7 @@ import {
 import EventActions from './EventActions'
 import RsvpPanel from './RsvpPanel'
 import FlyerUpload from './FlyerUpload'
+import ShareEvent from './ShareEvent'
 
 export const metadata = { title: 'Event Review' }
 
@@ -243,6 +244,12 @@ export default async function EventReviewPage({
             outstanding={outstanding}
           />
           {canManageFlyer && <FlyerUpload eventId={id} currentUrl={ev.flyer_url ?? null} />}
+          {status === 'published' && ev.slug && (
+            <ShareEvent
+              url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://socalaok.org'}/events/${ev.slug}`}
+              title={ev.title}
+            />
+          )}
         </div>
       </div>
     </div>
