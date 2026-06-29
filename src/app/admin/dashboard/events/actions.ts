@@ -100,6 +100,9 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
       category: event_type,
       event_date,
       event_end,
+      // legacy publish-date column is NOT NULL on the ad-hoc events table;
+      // seed it from the event date so proposal inserts succeed.
+      date: (event_date || new Date().toISOString()).slice(0, 10),
       location,
       capacity,
       attendee_fee: Number.isNaN(attendee_fee) ? 0 : attendee_fee,
