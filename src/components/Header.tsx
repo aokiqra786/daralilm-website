@@ -38,13 +38,13 @@ export default function Header() {
           <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
             <nav className="flex items-center space-x-4 lg:space-x-6 whitespace-nowrap">
               <Link href="/" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Home</Link>
-              <Link href="/about" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">About Us</Link>
               <Link href="/programs" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Programs</Link>
               <Link href="/admissions" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Admissions</Link>
               <Link href="/events" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Events</Link>
               <Link href="/volunteers" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Volunteer</Link>
-              <Link href="/contact" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Contact</Link>
               <Link href="/coffee" className="text-amber-600 hover:text-amber-800 font-bold transition-colors">Coffee Page</Link>
+              <Link href="/about" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">About Us</Link>
+              <Link href="/contact" className="text-blue-900 hover:text-blue-700 font-medium transition-colors">Contact</Link>
 
             </nav>
             
@@ -79,15 +79,14 @@ export default function Header() {
         <div className="md:hidden bg-blue-50 border-b border-blue-100 shadow-md absolute w-full top-24 left-0">
           <nav className="flex flex-col px-6 py-4 space-y-4">
             <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Home</Link>
-            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">About Us</Link>
             <Link href="/programs" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Programs</Link>
             <Link href="/admissions" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Admissions</Link>
             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Events</Link>
-            <Link href="/coffee" onClick={() => setIsMobileMenuOpen(false)} className="text-amber-600 font-bold text-lg border-b border-blue-100 pb-2">Coffee Page</Link>
             <Link href="/volunteers" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Volunteer</Link>
-            
-            <Link href="/donate" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Donate</Link>
+            <Link href="/coffee" onClick={() => setIsMobileMenuOpen(false)} className="text-amber-600 font-bold text-lg border-b border-blue-100 pb-2">Coffee Page</Link>
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">About Us</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Contact Us</Link>
+            <Link href="/donate" onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 font-medium text-lg border-b border-blue-100 pb-2">Donate</Link>
           </nav>
         </div>
       )}
