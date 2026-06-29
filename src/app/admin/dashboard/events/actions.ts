@@ -59,19 +59,39 @@ async function eventTitle(admin: Admin, id: string) {
   const { data } = await admin.from('events').select('title').eq('id', id).single()
   return (data?.title as string) || 'Event'
 }
+// Resolve emails from auth.users (authoritative login email; profiles.email is
+// often null). Map of profile/user id -> email.
+async function authEmailMap(admin: Admin): Promise<Map<string, string>> {
+  const map = new Map<string, string>()
+  const { data } = await admin.auth.admin.listUsers({ perPage: 1000 })
+  ;(data?.users || []).forEach((u) => {
+    if (u.email) map.set(u.id, u.email)
+  })
+  return map
+}
+
+// Strictly by flag — board notifications go ONLY to board members (is_board),
+// treasurer notifications ONLY to the treasurer (is_treasurer). Admins are NOT
+// included unless they also hold the flag.
+async function emailsByFlag(admin: Admin, column: 'is_board' | 'is_treasurer'): Promise<string[]> {
+  const { data } = await admin.from('profiles').select('id').eq(column, true)
+  const ids = ((data as { id: string }[]) || []).map((r) => r.id)
+  if (!ids.length) return []
+  const map = await authEmailMap(admin)
+  return ids.map((id) => map.get(id)).filter(Boolean) as string[]
+}
 async function boardEmails(admin: Admin): Promise<string[]> {
-  const { data } = await admin.from('profiles').select('email').or('is_board.eq.true,role.in.(admin,super_admin)')
-  return ((data as { email: string }[]) || []).map((r) => r.email).filter(Boolean)
+  return emailsByFlag(admin, 'is_board')
 }
 async function treasurerEmails(admin: Admin): Promise<string[]> {
-  const { data } = await admin.from('profiles').select('email').or('is_treasurer.eq.true,role.eq.super_admin')
-  return ((data as { email: string }[]) || []).map((r) => r.email).filter(Boolean)
+  return emailsByFlag(admin, 'is_treasurer')
 }
 async function submitterEmails(admin: Admin, id: string): Promise<string[]> {
   const { data: ev } = await admin.from('events').select('submitted_by').eq('id', id).single()
   if (!ev?.submitted_by) return []
-  const { data: p } = await admin.from('profiles').select('email').eq('id', ev.submitted_by).single()
-  return p?.email ? [p.email as string] : []
+  const map = await authEmailMap(admin)
+  const e = map.get(ev.submitted_by as string)
+  return e ? [e] : []
 }
 
 function parseBudgetItems(formData: FormData) {
