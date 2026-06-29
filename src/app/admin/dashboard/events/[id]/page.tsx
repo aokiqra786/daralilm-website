@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { requireEventStaff, isBoard, isTreasurer } from '@/utils/supabase/auth'
+import { createAdminClient } from '@/utils/supabase/admin'
 import {
   STATUS_LABELS,
   STATUS_CHIP,
@@ -9,6 +10,7 @@ import {
   type EventStatus,
 } from '@/lib/eventsWorkflow'
 import EventActions from './EventActions'
+import RsvpPanel from './RsvpPanel'
 
 export const metadata = { title: 'Event Review' }
 
@@ -84,6 +86,26 @@ export default async function EventReviewPage({
   const canSubmit =
     ['draft', 'changes_requested'].includes(status) &&
     (isBoard(ctx.profile) || ev.submitted_by === ctx.user.id)
+  const canPublish = isBoard(ctx.profile) && status === 'approved'
+
+  // RSVP data (staff, published events). Service role: teachers/volunteers
+  // lists are staff-only UI; reading via admin avoids per-table RLS gaps.
+  type Person = { id: string; full_name: string | null; email: string | null }
+  type Rsvp = { id: string; name: string | null; email: string; invitee_kind: string; status: string; role_assignment: string | null }
+  let teachers: Person[] = []
+  let volunteers: Person[] = []
+  let rsvps: Rsvp[] = []
+  if (canSeeMoney && status === 'published') {
+    const admin = createAdminClient()
+    const [{ data: t }, { data: v }, { data: rs }] = await Promise.all([
+      admin.from('teachers').select('id, full_name, email').order('full_name'),
+      admin.from('volunteers').select('id, full_name, email').order('full_name'),
+      admin.from('event_rsvps').select('id, name, email, invitee_kind, status, role_assignment').eq('event_id', id),
+    ])
+    teachers = (t as Person[]) || []
+    volunteers = (v as Person[]) || []
+    rsvps = (rs as Rsvp[]) || []
+  }
 
   return (
     <div className="p-6 md:p-8">
@@ -121,6 +143,10 @@ export default async function EventReviewPage({
               <div><div className="text-slate-500">Volunteers</div><div className="whitespace-pre-wrap text-slate-800">{staffing.volunteers || '—'}</div></div>
             </div>
           </section>
+
+          {canSeeMoney && status === 'published' && (
+            <RsvpPanel eventId={id} teachers={teachers} volunteers={volunteers} rsvps={rsvps} />
+          )}
 
           {/* Budget — board/treasurer/admin only */}
           {canSeeMoney && (
@@ -187,6 +213,7 @@ export default async function EventReviewPage({
             canBoard={canBoard}
             canTreasurer={canTreasurer}
             canSubmit={canSubmit}
+            canPublish={canPublish}
             estTotal={fin?.est_expenses_total ?? null}
             boardTotal={fin?.board_expenses_total ?? null}
             estNet={net}

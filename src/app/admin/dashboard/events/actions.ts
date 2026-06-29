@@ -8,12 +8,38 @@ import {
   requireTreasurer,
 } from '@/utils/supabase/auth'
 import type { EventStatus } from '@/lib/eventsWorkflow'
+import {
+  sendEventSubmittedEmail,
+  sendEventChangesRequestedEmail,
+  sendEventTreasurerNeededEmail,
+  sendEventApprovedEmail,
+} from '@/lib/email'
 
 type Result = { success: boolean; message: string; eventId?: string }
+type Admin = ReturnType<typeof createAdminClient>
 
-// NOTE: notifications (Resend) are intentionally deferred to the next pass; the
-// state machine + audit trail land here. TODO(next-pass): fire role-scoped
-// emails on submit/changes/treasurer/approve/publish per the notification matrix.
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const link = (id: string) => `${SITE}/admin/dashboard/events/${id}`
+
+// ── recipient helpers (service role; bypasses RLS to read profile emails) ──
+async function eventTitle(admin: Admin, id: string) {
+  const { data } = await admin.from('events').select('title').eq('id', id).single()
+  return (data?.title as string) || 'Event'
+}
+async function boardEmails(admin: Admin): Promise<string[]> {
+  const { data } = await admin.from('profiles').select('email').or('is_board.eq.true,role.in.(admin,super_admin)')
+  return ((data as { email: string }[]) || []).map((r) => r.email).filter(Boolean)
+}
+async function treasurerEmails(admin: Admin): Promise<string[]> {
+  const { data } = await admin.from('profiles').select('email').or('is_treasurer.eq.true,role.eq.super_admin')
+  return ((data as { email: string }[]) || []).map((r) => r.email).filter(Boolean)
+}
+async function submitterEmails(admin: Admin, id: string): Promise<string[]> {
+  const { data: ev } = await admin.from('events').select('submitted_by').eq('id', id).single()
+  if (!ev?.submitted_by) return []
+  const { data: p } = await admin.from('profiles').select('email').eq('id', ev.submitted_by).single()
+  return p?.email ? [p.email as string] : []
+}
 
 function parseBudgetItems(formData: FormData) {
   const categories = formData.getAll('budget_category') as string[]
@@ -71,7 +97,7 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
       description,
       summary,
       event_type,
-      category: event_type, // keep legacy column populated
+      category: event_type,
       event_date,
       event_end,
       location,
@@ -115,6 +141,10 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
     note: null,
   })
 
+  if (submit) {
+    await sendEventSubmittedEmail({ to: await boardEmails(admin), eventTitle: title, link: link(ev.id) })
+  }
+
   revalidatePath('/admin/dashboard/events')
   return {
     success: true,
@@ -142,6 +172,7 @@ export async function submitProposal(formData: FormData): Promise<Result> {
   await admin.from('event_approvals').insert({
     event_id: eventId, stage: 'submit', action: 'resubmit', actor: ctx.user.id,
   })
+  await sendEventSubmittedEmail({ to: await boardEmails(admin), eventTitle: await eventTitle(admin, eventId), link: link(eventId) })
   revalidatePath(`/admin/dashboard/events/${eventId}`)
   revalidatePath('/admin/dashboard/events')
   return { success: true, message: 'Submitted for board review.' }
@@ -156,7 +187,7 @@ export async function boardReview(formData: FormData): Promise<Result> {
     return { success: false, message: 'Only board members can review proposals.' }
   }
   const eventId = formData.get('eventId') as string
-  const action = formData.get('action') as string // 'approve' | 'request_changes' | 'decline'
+  const action = formData.get('action') as string
   const note = (formData.get('note') as string)?.trim() || null
   const confirmedTotalRaw = formData.get('board_total') as string
 
@@ -166,6 +197,7 @@ export async function boardReview(formData: FormData): Promise<Result> {
   if (!['pending_board', 'changes_requested'].includes(ev.status)) {
     return { success: false, message: 'This proposal is not awaiting board review.' }
   }
+  const title = await eventTitle(admin, eventId)
 
   if (action === 'approve') {
     const { data: fin } = await admin
@@ -181,6 +213,7 @@ export async function boardReview(formData: FormData): Promise<Result> {
       event_id: eventId, stage: 'board',
       action: confirmedTotalRaw ? 'override' : 'confirm', actor: ctx.user.id, note,
     })
+    await sendEventTreasurerNeededEmail({ to: await treasurerEmails(admin), eventTitle: title, link: link(eventId) })
     revalidatePath(`/admin/dashboard/events/${eventId}`)
     revalidatePath('/admin/dashboard/events')
     return { success: true, message: 'Budget confirmed. Sent to the treasurer.' }
@@ -190,8 +223,9 @@ export async function boardReview(formData: FormData): Promise<Result> {
     const status: EventStatus = action === 'decline' ? 'declined' : 'changes_requested'
     await admin.from('events').update({ status }).eq('id', eventId)
     await admin.from('event_approvals').insert({
-      event_id: eventId, stage: 'board', action: action, actor: ctx.user.id, note,
+      event_id: eventId, stage: 'board', action, actor: ctx.user.id, note,
     })
+    await sendEventChangesRequestedEmail({ to: await submitterEmails(admin, eventId), eventTitle: title, note, link: link(eventId) })
     revalidatePath(`/admin/dashboard/events/${eventId}`)
     revalidatePath('/admin/dashboard/events')
     return { success: true, message: action === 'decline' ? 'Proposal declined.' : 'Changes requested.' }
@@ -209,7 +243,7 @@ export async function treasurerReview(formData: FormData): Promise<Result> {
     return { success: false, message: 'Only the treasurer can approve funds.' }
   }
   const eventId = formData.get('eventId') as string
-  const action = formData.get('action') as string // 'approve' | 'hold' | 'request_changes' | 'decline'
+  const action = formData.get('action') as string
   const note = (formData.get('note') as string)?.trim() || null
   const approvedRaw = formData.get('approved_amount') as string
 
@@ -219,6 +253,7 @@ export async function treasurerReview(formData: FormData): Promise<Result> {
   if (!['pending_treasurer', 'on_hold'].includes(ev.status)) {
     return { success: false, message: 'This proposal is not awaiting treasurer approval.' }
   }
+  const title = await eventTitle(admin, eventId)
 
   if (action === 'approve') {
     const { data: fin } = await admin
@@ -233,6 +268,12 @@ export async function treasurerReview(formData: FormData): Promise<Result> {
     await admin.from('event_approvals').insert({
       event_id: eventId, stage: 'treasurer', action: 'approve', actor: ctx.user.id, note,
     })
+    const recipients = [
+      ...(await submitterEmails(admin, eventId)),
+      ...(await boardEmails(admin)),
+      ...(await treasurerEmails(admin)),
+    ]
+    await sendEventApprovedEmail({ to: recipients, eventTitle: title, link: link(eventId) })
     revalidatePath(`/admin/dashboard/events/${eventId}`)
     revalidatePath('/admin/dashboard/events')
     return { success: true, message: 'Funds approved.' }
@@ -253,10 +294,45 @@ export async function treasurerReview(formData: FormData): Promise<Result> {
   await admin.from('event_approvals').insert({
     event_id: eventId, stage: 'treasurer', action, actor: ctx.user.id, note,
   })
+  await sendEventChangesRequestedEmail({ to: await submitterEmails(admin, eventId), eventTitle: title, note, link: link(eventId) })
   revalidatePath(`/admin/dashboard/events/${eventId}`)
   revalidatePath('/admin/dashboard/events')
   const msg =
     action === 'hold' ? 'Placed on hold.' :
     action === 'decline' ? 'Proposal declined.' : 'Changes requested.'
   return { success: true, message: msg }
+}
+
+function slugify(title: string, id: string) {
+  const base = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 50)
+  return `${base || 'event'}-${id.slice(0, 6)}`
+}
+
+/** Publish an approved event → it appears in public_events (homepage slider + /events). */
+export async function publishEvent(formData: FormData): Promise<Result> {
+  let ctx
+  try {
+    ctx = await requireBoard()
+  } catch {
+    return { success: false, message: 'Only board members or admins can publish.' }
+  }
+  const eventId = formData.get('eventId') as string
+  const admin = createAdminClient()
+  const { data: ev } = await admin.from('events').select('status, title, slug').eq('id', eventId).single()
+  if (!ev) return { success: false, message: 'Event not found.' }
+  if (ev.status !== 'approved') {
+    return { success: false, message: 'Only approved events can be published.' }
+  }
+  const slug = ev.slug || slugify(ev.title, eventId)
+  await admin.from('events')
+    .update({ status: 'published', published_at: new Date().toISOString(), slug })
+    .eq('id', eventId)
+  await admin.from('event_approvals').insert({
+    event_id: eventId, stage: 'publish', action: 'publish', actor: ctx.user.id,
+  })
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  revalidatePath('/admin/dashboard/events')
+  revalidatePath('/events')
+  revalidatePath('/')
+  return { success: true, message: 'Event published. It now appears on the website.' }
 }

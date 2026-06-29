@@ -17,6 +17,7 @@ type ApiEvent = {
   date?: string;
   location?: string;
   imageUrl?: string;
+  slug?: string | null;
 };
 
 function prefersReducedMotion(): boolean {
@@ -183,7 +184,7 @@ export default function EventsSlider() {
                     aria-label={dateLabel ? `${dateLabel}: ${ev.title}` : ev.title}
                   >
                     <Link
-                      href="/events"
+                      href={ev.slug ? `/events/${ev.slug}` : "/events"}
                       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[16/9] w-full bg-parchment">

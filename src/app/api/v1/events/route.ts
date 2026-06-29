@@ -37,15 +37,21 @@ export async function GET(request: Request) {
     const now = new Date().toISOString();
 
     if (isSupabaseConfigured()) {
-      let query = supabase.from("events").select("*");
-      
-      if (upcoming) {
-        // Scheduled Publishing: Only show if publishDate (stored in 'date') is today or earlier
-        query = query.lte("date", today);
-        // Auto-expiration: Only show if it hasn't expired
-        query = query.gte("endDate", now);
+      // Prefer the budget-free, published-only projection (public_events view).
+      // It already filters to published + upcoming, so no date math is needed.
+      const viewRes = await supabase
+        .from("public_events")
+        .select("*")
+        .order("date", { ascending: true });
+      if (!viewRes.error) {
+        return NextResponse.json(viewRes.data);
       }
-      
+      // Fallback when the view isn't present yet (migration 2b not applied):
+      // legacy behavior on the events table so the live feed never breaks.
+      let query = supabase.from("events").select("*");
+      if (upcoming) {
+        query = query.lte("date", today).gte("endDate", now);
+      }
       const { data, error } = await query.order("date", { ascending: false });
       if (error) throw error;
       return NextResponse.json(data);
@@ -83,7 +89,10 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     if (isSupabaseConfigured()) {
-      const { data, error } = await authed.supabase.from("events").insert(body).select().single();
+      // Quick announcements from the event-uploader publish immediately; the
+      // budgeted approval workflow sets status explicitly via its own actions.
+      const insertBody = { status: "published", ...body };
+      const { data, error } = await authed.supabase.from("events").insert(insertBody).select().single();
       if (error) throw error;
       return NextResponse.json(data, { status: 201 });
     }
@@ -101,9 +110,10 @@ export async function POST(request: Request) {
     writeData("events.json", existing);
 
     return NextResponse.json(newEvent, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating event:", error);
-    return NextResponse.json({ error: error.message || "Failed to create event" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Failed to create event";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -132,8 +142,9 @@ export async function DELETE(request: Request) {
     writeData("events.json", existing);
     
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error deleting event:", error);
-    return NextResponse.json({ error: error.message || "Failed to delete event" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Failed to delete event";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

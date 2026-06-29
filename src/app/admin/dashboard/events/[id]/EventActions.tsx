@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button, Alert } from '@/components/ui'
 import { formatMoney } from '@/lib/eventsWorkflow'
-import { boardReview, treasurerReview, submitProposal } from '../actions'
+import { boardReview, treasurerReview, submitProposal, publishEvent } from '../actions'
 
 const CONTROL =
   'w-full rounded-md border border-line bg-white px-3 py-2 text-ink placeholder-muted outline-none focus:border-green focus:ring-2 focus:ring-gold/40'
@@ -14,6 +14,7 @@ type Props = {
   canBoard: boolean
   canTreasurer: boolean
   canSubmit: boolean
+  canPublish: boolean
   estTotal: number | null
   boardTotal: number | null
   estNet: number
@@ -25,6 +26,7 @@ export default function EventActions({
   canBoard,
   canTreasurer,
   canSubmit,
+  canPublish,
   estTotal,
   boardTotal,
   estNet,
@@ -45,7 +47,7 @@ export default function EventActions({
     }
   }
 
-  if (!canBoard && !canTreasurer && !canSubmit) {
+  if (!canBoard && !canTreasurer && !canSubmit && !canPublish) {
     return (
       <div className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
         No actions available to you at this stage.
@@ -56,6 +58,20 @@ export default function EventActions({
   return (
     <div className="space-y-6">
       {result && <Alert tone={result.success ? 'success' : 'error'}>{result.message}</Alert>}
+
+      {canPublish && (
+        <form action={run(publishEvent)} className="rounded-xl border border-slate-200 bg-white p-6">
+          <h3 className="font-serif text-lg font-bold text-green">Publish</h3>
+          <p className="mt-1 text-sm text-slate-600">
+            This event is approved. Publishing makes it visible on the homepage and Events page,
+            and lets you send RSVP invites.
+          </p>
+          <input type="hidden" name="eventId" value={eventId} />
+          <div className="mt-4">
+            <Button type="submit" variant="primary" loading={pending}>Publish event</Button>
+          </div>
+        </form>
+      )}
 
       {canSubmit && (
         <form action={run(submitProposal)} className="rounded-xl border border-slate-200 bg-white p-6">
