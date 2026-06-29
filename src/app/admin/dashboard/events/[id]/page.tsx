@@ -92,7 +92,11 @@ export default async function EventReviewPage({
   const canEdit =
     ['draft', 'changes_requested'].includes(status) &&
     (isSubmitter || isAdminRole(ctx.profile))
-  const canPublish = isBoard(ctx.profile) && status === 'approved'
+  const fundsApproved = fin?.approved_amount != null
+  // Publish from approved, or re-publish from on_hold if it was funded (i.e. unpublished).
+  const canPublish = isBoard(ctx.profile) && (status === 'approved' || (status === 'on_hold' && fundsApproved))
+  const canUnpublish = isBoard(ctx.profile) && status === 'published'
+  const canCancel = isBoard(ctx.profile) && ['approved', 'published', 'on_hold'].includes(status)
 
   // RSVP data (staff, published events). Service role: teachers/volunteers
   // lists are staff-only UI; reading via admin avoids per-table RLS gaps.
@@ -221,6 +225,8 @@ export default async function EventReviewPage({
             canSubmit={canSubmit}
             canEdit={canEdit}
             canPublish={canPublish}
+            canUnpublish={canUnpublish}
+            canCancel={canCancel}
             estTotal={fin?.est_expenses_total ?? null}
             boardTotal={fin?.board_expenses_total ?? null}
             estNet={net}

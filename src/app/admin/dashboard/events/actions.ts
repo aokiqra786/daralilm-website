@@ -423,8 +423,16 @@ export async function publishEvent(formData: FormData): Promise<Result> {
   const admin = createAdminClient()
   const { data: ev } = await admin.from('events').select('status, title, slug').eq('id', eventId).single()
   if (!ev) return { success: false, message: 'Event not found.' }
-  if (ev.status !== 'approved') {
+  // Publishable from 'approved', or re-publishable from 'on_hold' if funds were
+  // already approved (i.e. it was unpublished, not held pending the treasurer).
+  if (!['approved', 'on_hold'].includes(ev.status)) {
     return { success: false, message: 'Only approved events can be published.' }
+  }
+  if (ev.status === 'on_hold') {
+    const { data: fin } = await admin.from('event_financials').select('approved_amount').eq('event_id', eventId).single()
+    if (fin?.approved_amount == null) {
+      return { success: false, message: 'This event is on hold pending treasurer approval and cannot be published yet.' }
+    }
   }
   const slug = ev.slug || slugify(ev.title, eventId)
   await admin.from('events')
@@ -436,6 +444,61 @@ export async function publishEvent(formData: FormData): Promise<Result> {
   revalidatePath(`/admin/dashboard/events/${eventId}`)
   revalidatePath('/admin/dashboard/events')
   revalidatePath('/events')
+  revalidatePath(`/events/${slug}`)
   revalidatePath('/')
   return { success: true, message: 'Event published. It now appears on the website.' }
+}
+
+/** Unpublish a published event → On Hold. Removes it from the public site. */
+export async function unpublishEvent(formData: FormData): Promise<Result> {
+  let ctx
+  try {
+    ctx = await requireBoard()
+  } catch {
+    return { success: false, message: 'Only board members or admins can do this.' }
+  }
+  const eventId = formData.get('eventId') as string
+  const admin = createAdminClient()
+  const { data: ev } = await admin.from('events').select('status, slug').eq('id', eventId).single()
+  if (!ev) return { success: false, message: 'Event not found.' }
+  if (ev.status !== 'published') {
+    return { success: false, message: 'Only a published event can be unpublished.' }
+  }
+  await admin.from('events').update({ status: 'on_hold' }).eq('id', eventId)
+  await admin.from('event_approvals').insert({
+    event_id: eventId, stage: 'publish', action: 'unpublish', actor: ctx.user.id,
+  })
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  revalidatePath('/admin/dashboard/events')
+  revalidatePath('/events')
+  if (ev.slug) revalidatePath(`/events/${ev.slug}`)
+  revalidatePath('/')
+  return { success: true, message: 'Event unpublished (On Hold). It no longer appears on the website.' }
+}
+
+/** Cancel an approved/published/on-hold event (terminal). Removes it from the public site. */
+export async function cancelEvent(formData: FormData): Promise<Result> {
+  let ctx
+  try {
+    ctx = await requireBoard()
+  } catch {
+    return { success: false, message: 'Only board members or admins can cancel.' }
+  }
+  const eventId = formData.get('eventId') as string
+  const admin = createAdminClient()
+  const { data: ev } = await admin.from('events').select('status, slug').eq('id', eventId).single()
+  if (!ev) return { success: false, message: 'Event not found.' }
+  if (!['approved', 'published', 'on_hold'].includes(ev.status)) {
+    return { success: false, message: 'This event cannot be cancelled from its current state.' }
+  }
+  await admin.from('events').update({ status: 'cancelled' }).eq('id', eventId)
+  await admin.from('event_approvals').insert({
+    event_id: eventId, stage: 'publish', action: 'cancel', actor: ctx.user.id,
+  })
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  revalidatePath('/admin/dashboard/events')
+  revalidatePath('/events')
+  if (ev.slug) revalidatePath(`/events/${ev.slug}`)
+  revalidatePath('/')
+  return { success: true, message: 'Event cancelled. It has been removed from the website.' }
 }
