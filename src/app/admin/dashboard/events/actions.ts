@@ -6,6 +6,7 @@ import {
   requireEventStaff,
   requireBoard,
   requireTreasurer,
+  isAdminRole,
 } from '@/utils/supabase/auth'
 import type { EventStatus } from '@/lib/eventsWorkflow'
 import {
@@ -181,6 +182,99 @@ export async function submitProposal(formData: FormData): Promise<Result> {
   return { success: true, message: 'Submitted for board review.' }
 }
 
+/** Edit a draft / changes_requested proposal (submitter or admin). intent=submit resubmits. */
+export async function updateEventProposal(formData: FormData): Promise<Result> {
+  let ctx
+  try {
+    ctx = await requireEventStaff()
+  } catch {
+    return { success: false, message: 'Not authorized.' }
+  }
+
+  const eventId = formData.get('eventId') as string
+  if (!eventId) return { success: false, message: 'Missing event.' }
+
+  const admin = createAdminClient()
+  const { data: ev } = await admin.from('events').select('status, submitted_by').eq('id', eventId).single()
+  if (!ev) return { success: false, message: 'Event not found.' }
+  if (!['draft', 'changes_requested'].includes(ev.status)) {
+    return { success: false, message: 'Only drafts or change-requested proposals can be edited.' }
+  }
+  if (ev.submitted_by !== ctx.user.id && !isAdminRole(ctx.profile)) {
+    return { success: false, message: 'You can only edit your own proposals.' }
+  }
+
+  const title = (formData.get('title') as string)?.trim()
+  const event_type = (formData.get('event_type') as string)?.trim()
+  const event_date = (formData.get('event_date') as string) || null
+  const event_end = (formData.get('event_end') as string) || null
+  const location = (formData.get('location') as string)?.trim()
+  const summary = (formData.get('summary') as string)?.trim()
+  const description = (formData.get('description') as string)?.trim() || null
+  const capacityRaw = formData.get('capacity') as string
+  const feeRaw = formData.get('attendee_fee') as string
+  const expectedRaw = formData.get('expected_attendees') as string
+  const teacher_needs = (formData.get('teacher_needs') as string)?.trim() || ''
+  const volunteer_needs = (formData.get('volunteer_needs') as string)?.trim() || ''
+  const submit = formData.get('intent') === 'submit'
+
+  if (!title || !event_type || !event_date || !location || !summary) {
+    return { success: false, message: 'Title, type, date, location, and public summary are required.' }
+  }
+
+  const capacity = capacityRaw ? parseInt(capacityRaw, 10) : null
+  const attendee_fee = feeRaw ? parseFloat(feeRaw) : 0
+  const expected_attendees = expectedRaw ? parseInt(expectedRaw, 10) : null
+  const items = parseBudgetItems(formData)
+  const est_expenses_total = items.reduce((s, it) => s + it.amount, 0)
+
+  await admin.from('events').update({
+    title,
+    description,
+    summary,
+    event_type,
+    category: event_type,
+    event_date,
+    event_end,
+    date: (event_date || new Date().toISOString()).slice(0, 10),
+    location,
+    capacity,
+    attendee_fee: Number.isNaN(attendee_fee) ? 0 : attendee_fee,
+    staffing_needs: { teachers: teacher_needs, volunteers: volunteer_needs },
+    ...(submit ? { status: 'pending_board' as EventStatus } : {}),
+  }).eq('id', eventId)
+
+  await admin.from('event_financials')
+    .update({ expected_attendees, est_expenses_total, updated_at: new Date().toISOString() })
+    .eq('event_id', eventId)
+
+  // Replace the submitter's budget items (preserve any board_override rows).
+  await admin.from('event_budget_items').delete().eq('event_id', eventId).eq('source', 'submitter')
+  if (items.length) {
+    await admin.from('event_budget_items').insert(
+      items.map((it) => ({
+        event_id: eventId, category: it.category, amount: it.amount, note: it.note || null, source: 'submitter',
+      }))
+    )
+  }
+
+  await admin.from('event_approvals').insert({
+    event_id: eventId, stage: 'submit', action: submit ? 'resubmit' : 'edit', actor: ctx.user.id,
+  })
+
+  if (submit) {
+    await sendEventSubmittedEmail({ to: await boardEmails(admin), eventTitle: title, link: link(eventId) })
+  }
+
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  revalidatePath('/admin/dashboard/events')
+  return {
+    success: true,
+    message: submit ? 'Saved and submitted for board review.' : 'Changes saved.',
+    eventId,
+  }
+}
+
 /** Board: confirm/override the budget total → treasurer; or request changes / decline. */
 export async function boardReview(formData: FormData): Promise<Result> {
   let ctx
@@ -195,8 +289,11 @@ export async function boardReview(formData: FormData): Promise<Result> {
   const confirmedTotalRaw = formData.get('board_total') as string
 
   const admin = createAdminClient()
-  const { data: ev } = await admin.from('events').select('status').eq('id', eventId).single()
+  const { data: ev } = await admin.from('events').select('status, submitted_by').eq('id', eventId).single()
   if (!ev) return { success: false, message: 'Event not found.' }
+  if (ev.submitted_by === ctx.user.id) {
+    return { success: false, message: 'You cannot review your own proposal (separation of duties).' }
+  }
   if (!['pending_board', 'changes_requested'].includes(ev.status)) {
     return { success: false, message: 'This proposal is not awaiting board review.' }
   }
@@ -251,8 +348,11 @@ export async function treasurerReview(formData: FormData): Promise<Result> {
   const approvedRaw = formData.get('approved_amount') as string
 
   const admin = createAdminClient()
-  const { data: ev } = await admin.from('events').select('status').eq('id', eventId).single()
+  const { data: ev } = await admin.from('events').select('status, submitted_by').eq('id', eventId).single()
   if (!ev) return { success: false, message: 'Event not found.' }
+  if (ev.submitted_by === ctx.user.id) {
+    return { success: false, message: 'You cannot approve funds for your own proposal (separation of duties).' }
+  }
   if (!['pending_treasurer', 'on_hold'].includes(ev.status)) {
     return { success: false, message: 'This proposal is not awaiting treasurer approval.' }
   }

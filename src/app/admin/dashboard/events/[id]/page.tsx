@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import { requireEventStaff, isBoard, isTreasurer } from '@/utils/supabase/auth'
+import { requireEventStaff, isBoard, isTreasurer, isAdminRole } from '@/utils/supabase/auth'
 import { createAdminClient } from '@/utils/supabase/admin'
 import {
   STATUS_LABELS,
@@ -81,11 +81,17 @@ export default async function EventReviewPage({
     expensesTotal
   )
 
-  const canBoard = isBoard(ctx.profile) && ['pending_board', 'changes_requested'].includes(status)
-  const canTreasurer = isTreasurer(ctx.profile) && ['pending_treasurer', 'on_hold'].includes(status)
+  const isSubmitter = ev.submitted_by === ctx.user.id
+  // Separation of duties: you may never review/approve your own proposal,
+  // even if you're an admin/board/treasurer.
+  const canBoard = isBoard(ctx.profile) && !isSubmitter && ['pending_board', 'changes_requested'].includes(status)
+  const canTreasurer = isTreasurer(ctx.profile) && !isSubmitter && ['pending_treasurer', 'on_hold'].includes(status)
   const canSubmit =
     ['draft', 'changes_requested'].includes(status) &&
-    (isBoard(ctx.profile) || ev.submitted_by === ctx.user.id)
+    (isSubmitter || isAdminRole(ctx.profile))
+  const canEdit =
+    ['draft', 'changes_requested'].includes(status) &&
+    (isSubmitter || isAdminRole(ctx.profile))
   const canPublish = isBoard(ctx.profile) && status === 'approved'
 
   // RSVP data (staff, published events). Service role: teachers/volunteers
@@ -213,6 +219,7 @@ export default async function EventReviewPage({
             canBoard={canBoard}
             canTreasurer={canTreasurer}
             canSubmit={canSubmit}
+            canEdit={canEdit}
             canPublish={canPublish}
             estTotal={fin?.est_expenses_total ?? null}
             boardTotal={fin?.board_expenses_total ?? null}

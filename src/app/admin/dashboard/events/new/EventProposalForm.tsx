@@ -10,21 +10,48 @@ import {
   formatMoney,
   estimatedNet,
 } from '@/lib/eventsWorkflow'
-import { createEventProposal } from '../actions'
+import { createEventProposal, updateEventProposal } from '../actions'
 
 type BudgetRow = { key: number; category: string; amount: string; note: string }
+
+export type ProposalInitial = {
+  eventId: string
+  title: string
+  event_type: string
+  event_date: string // ISO
+  event_end: string // ISO or ''
+  location: string
+  summary: string
+  description: string
+  capacity: string
+  attendee_fee: string
+  expected_attendees: string
+  teacher_needs: string
+  volunteer_needs: string
+  budget: { category: string; amount: string; note: string }[]
+}
 
 const CONTROL =
   'w-full rounded-md border border-line bg-white px-3 py-2 text-ink placeholder-muted outline-none focus:border-green focus:ring-2 focus:ring-gold/40'
 
-export default function EventProposalForm() {
+// timestamptz ISO -> value for <input type="datetime-local"> ("YYYY-MM-DDTHH:MM")
+function toLocalInput(iso: string) {
+  return iso ? iso.slice(0, 16) : ''
+}
+
+export default function EventProposalForm({ initial }: { initial?: ProposalInitial }) {
   const router = useRouter()
+  const isEdit = !!initial
   const [pending, setPending] = useState(false)
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
 
-  const [rows, setRows] = useState<BudgetRow[]>([{ key: 1, category: '', amount: '', note: '' }])
-  const [fee, setFee] = useState('0')
-  const [expected, setExpected] = useState('')
+  const [rows, setRows] = useState<BudgetRow[]>(
+    initial && initial.budget.length
+      ? initial.budget.map((b, i) => ({ key: i + 1, ...b }))
+      : [{ key: 1, category: '', amount: '', note: '' }]
+  )
+  const [fee, setFee] = useState(initial?.attendee_fee ?? '0')
+  const [expected, setExpected] = useState(initial?.expected_attendees ?? '')
 
   const expensesTotal = useMemo(
     () => rows.reduce((s, r) => s + (parseFloat(r.amount) || 0), 0),
@@ -48,7 +75,7 @@ export default function EventProposalForm() {
   async function onSubmit(formData: FormData) {
     setPending(true)
     setResult(null)
-    const res = await createEventProposal(formData)
+    const res = isEdit ? await updateEventProposal(formData) : await createEventProposal(formData)
     setResult(res)
     setPending(false)
     if (res.success && res.eventId) {
@@ -58,12 +85,14 @@ export default function EventProposalForm() {
 
   return (
     <form action={onSubmit} className="max-w-3xl space-y-6">
+      {isEdit && <input type="hidden" name="eventId" value={initial!.eventId} />}
+
       {/* Section: Details */}
       <Card>
         <h2 className="font-serif text-lg font-bold text-green">Event details</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Input label="Title" name="title" required placeholder="Open House" />
-          <Select label="Event type" name="event_type" required defaultValue="">
+          <Input label="Title" name="title" required placeholder="Open House" defaultValue={initial?.title ?? ''} />
+          <Select label="Event type" name="event_type" required defaultValue={initial?.event_type ?? ''}>
             <option value="" disabled>
               Select a type…
             </option>
@@ -73,15 +102,15 @@ export default function EventProposalForm() {
               </option>
             ))}
           </Select>
-          <Input label="Date & start time" name="event_date" type="datetime-local" required />
-          <Input label="End time (optional)" name="event_end" type="datetime-local" />
-          <Input label="Location" name="location" required placeholder="Main Hall" />
+          <Input label="Date & start time" name="event_date" type="datetime-local" required defaultValue={toLocalInput(initial?.event_date ?? '')} />
+          <Input label="End time (optional)" name="event_end" type="datetime-local" defaultValue={toLocalInput(initial?.event_end ?? '')} />
+          <Input label="Location" name="location" required placeholder="Main Hall" defaultValue={initial?.location ?? ''} />
         </div>
         <div className="mt-4">
-          <Input label="Public summary (1–2 lines)" name="summary" required maxLength={180} placeholder="A morning to meet our teachers and tour the academy." />
+          <Input label="Public summary (1–2 lines)" name="summary" required maxLength={180} placeholder="A morning to meet our teachers and tour the academy." defaultValue={initial?.summary ?? ''} />
         </div>
         <div className="mt-4">
-          <Textarea label="Full description (optional)" name="description" rows={4} />
+          <Textarea label="Full description (optional)" name="description" rows={4} defaultValue={initial?.description ?? ''} />
         </div>
       </Card>
 
@@ -98,7 +127,7 @@ export default function EventProposalForm() {
             value={fee}
             onChange={(e) => setFee(e.target.value)}
           />
-          <Input label="Capacity (max attendees)" name="capacity" type="number" min="0" />
+          <Input label="Capacity (max attendees)" name="capacity" type="number" min="0" defaultValue={initial?.capacity ?? ''} />
           <Input
             label="Expected attendees"
             name="expected_attendees"
@@ -122,12 +151,14 @@ export default function EventProposalForm() {
             name="teacher_needs"
             rows={3}
             placeholder="2 Qur'an teachers, 9–11 AM"
+            defaultValue={initial?.teacher_needs ?? ''}
           />
           <Textarea
             label="Volunteers needed (roles + count)"
             name="volunteer_needs"
             rows={3}
             placeholder="4 setup volunteers; 2 registration desk"
+            defaultValue={initial?.volunteer_needs ?? ''}
           />
         </div>
       </Card>
@@ -218,10 +249,10 @@ export default function EventProposalForm() {
 
       <div className="flex flex-wrap gap-3">
         <Button type="submit" name="intent" value="submit" variant="primary" loading={pending}>
-          Submit for board review
+          {isEdit ? 'Save & submit for review' : 'Submit for board review'}
         </Button>
         <Button type="submit" name="intent" value="draft" variant="ghost" disabled={pending}>
-          Save draft
+          {isEdit ? 'Save changes' : 'Save draft'}
         </Button>
       </div>
     </form>

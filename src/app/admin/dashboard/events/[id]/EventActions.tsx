@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button, Alert } from '@/components/ui'
 import { formatMoney } from '@/lib/eventsWorkflow'
@@ -14,6 +15,7 @@ type Props = {
   canBoard: boolean
   canTreasurer: boolean
   canSubmit: boolean
+  canEdit: boolean
   canPublish: boolean
   estTotal: number | null
   boardTotal: number | null
@@ -26,6 +28,7 @@ export default function EventActions({
   canBoard,
   canTreasurer,
   canSubmit,
+  canEdit,
   canPublish,
   estTotal,
   boardTotal,
@@ -47,7 +50,7 @@ export default function EventActions({
     }
   }
 
-  if (!canBoard && !canTreasurer && !canSubmit && !canPublish) {
+  if (!canBoard && !canTreasurer && !canSubmit && !canEdit && !canPublish) {
     return (
       <div className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
         No actions available to you at this stage.
@@ -73,15 +76,27 @@ export default function EventActions({
         </form>
       )}
 
-      {canSubmit && (
-        <form action={run(submitProposal)} className="rounded-xl border border-slate-200 bg-white p-6">
-          <h3 className="font-serif text-lg font-bold text-green">Submit for review</h3>
-          <p className="mt-1 text-sm text-slate-600">Send this proposal to the board.</p>
-          <input type="hidden" name="eventId" value={eventId} />
-          <div className="mt-4">
-            <Button type="submit" variant="primary" loading={pending}>Submit for board review</Button>
-          </div>
-        </form>
+      {(canEdit || canSubmit) && (
+        <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <h3 className="font-serif text-lg font-bold text-green">Edit &amp; submit</h3>
+          <p className="mt-1 text-sm text-slate-600">
+            Make changes (details, fee, budget) before sending — or after the board requests changes.
+          </p>
+          {canEdit && (
+            <Link
+              href={`/admin/dashboard/events/${eventId}/edit`}
+              className="mt-4 inline-flex items-center justify-center rounded-md border border-green px-4 py-2 font-semibold text-green transition-colors hover:bg-green hover:text-white"
+            >
+              Edit proposal
+            </Link>
+          )}
+          {canSubmit && (
+            <form action={run(submitProposal)} className="mt-3">
+              <input type="hidden" name="eventId" value={eventId} />
+              <Button type="submit" variant="primary" loading={pending}>Submit for board review</Button>
+            </form>
+          )}
+        </div>
       )}
 
       {canBoard && (
