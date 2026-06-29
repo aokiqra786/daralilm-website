@@ -31,6 +31,12 @@ export default function Header() {
                   priority
                 />
               </div>
+              {/* Organization wordmark (brand: Playfair Display, Forest Green). Shown
+                  on mobile + lg+; hidden in the cramped md range to protect the nav. */}
+              <span className="flex md:hidden lg:flex flex-col justify-center leading-tight">
+                <span className="font-serif text-lg font-bold text-green lg:text-xl">SoCal Academy</span>
+                <span className="font-serif text-xs font-semibold tracking-wide text-green/80 lg:text-sm">of Knowledge</span>
+              </span>
             </Link>
           </div>
           
