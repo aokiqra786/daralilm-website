@@ -15,6 +15,7 @@ type PublicEvent = {
   imageUrl: string | null
   capacity: number | null
   attendee_fee: number | null
+  flyer_url: string | null
 }
 
 async function getEvent(slug: string): Promise<PublicEvent | null> {
@@ -79,6 +80,19 @@ export default async function PublicEventPage({
       {ev.summary && <p className="mt-6 text-lg text-ink">{ev.summary}</p>}
       {ev.description && ev.description !== ev.summary && (
         <p className="mt-4 whitespace-pre-wrap text-ink">{ev.description}</p>
+      )}
+
+      {ev.flyer_url && (
+        <p className="mt-6">
+          <a
+            href={ev.flyer_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-semibold text-gold-deep hover:text-green"
+          >
+            Download the flyer (PDF) <span aria-hidden="true">→</span>
+          </a>
+        </p>
       )}
 
       <div className="mt-8">

@@ -124,3 +124,20 @@ export async function sendRsvpReminders(formData: FormData) {
   revalidatePath(`/admin/dashboard/events/${eventId}`)
   return { success: true, message: sent ? `Sent ${sent} reminder(s).` : 'No non-responders to remind.' }
 }
+
+/** Remove an invitee from the event — even after they've RSVP'd (changed mind / emergency). */
+export async function removeRsvpInvite(formData: FormData) {
+  try {
+    await requireBoard()
+  } catch {
+    return { success: false, message: 'Not authorized.' }
+  }
+  const eventId = formData.get('eventId') as string
+  const rsvpId = formData.get('rsvpId') as string
+  if (!eventId || !rsvpId) return { success: false, message: 'Missing data.' }
+  const admin = createAdminClient()
+  const { error } = await admin.from('event_rsvps').delete().eq('id', rsvpId).eq('event_id', eventId)
+  if (error) return { success: false, message: error.message }
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  return { success: true, message: 'Removed. You can now invite someone else for that role.' }
+}

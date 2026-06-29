@@ -7,6 +7,7 @@ import {
   requireBoard,
   requireTreasurer,
   isAdminRole,
+  isBoard,
 } from '@/utils/supabase/auth'
 import type { EventStatus } from '@/lib/eventsWorkflow'
 import {
@@ -21,6 +22,31 @@ type Admin = ReturnType<typeof createAdminClient>
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 const link = (id: string) => `${SITE}/admin/dashboard/events/${id}`
+
+const MAX_FLYER_BYTES = 10 * 1024 * 1024 // 10 MB
+
+// Flyer is optional (highly recommended) but, when provided, must be a PDF.
+function flyerError(file: File | null): string | null {
+  if (!file || file.size === 0) return null
+  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+  if (!isPdf) return 'The flyer must be a PDF file.'
+  if (file.size > MAX_FLYER_BYTES) return 'The flyer must be 10 MB or smaller.'
+  return null
+}
+
+async function uploadFlyerFile(admin: Admin, eventId: string, file: File): Promise<{ url?: string; error?: string }> {
+  const err = flyerError(file)
+  if (err) return { error: err }
+  const buf = Buffer.from(await file.arrayBuffer())
+  const path = `${eventId}/flyer-${Date.now()}.pdf`
+  const { error: upErr } = await admin.storage.from('event-flyers').upload(path, buf, {
+    contentType: 'application/pdf',
+    upsert: true,
+  })
+  if (upErr) return { error: upErr.message }
+  const { data } = admin.storage.from('event-flyers').getPublicUrl(path)
+  return { url: data.publicUrl }
+}
 
 // ── recipient helpers (service role; bypasses RLS to read profile emails) ──
 async function eventTitle(admin: Admin, id: string) {
@@ -83,6 +109,10 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
     return { success: false, message: 'Title, type, date, location, and public summary are required.' }
   }
 
+  const flyer = formData.get('flyer') as File | null
+  const flyerErr = flyerError(flyer)
+  if (flyerErr) return { success: false, message: flyerErr }
+
   const capacity = capacityRaw ? parseInt(capacityRaw, 10) : null
   const attendee_fee = feeRaw ? parseFloat(feeRaw) : 0
   const expected_attendees = expectedRaw ? parseInt(expectedRaw, 10) : null
@@ -135,6 +165,11 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
         source: 'submitter',
       }))
     )
+  }
+
+  if (flyer && flyer.size > 0) {
+    const up = await uploadFlyerFile(admin, ev.id, flyer)
+    if (up.url) await admin.from('events').update({ flyer_url: up.url }).eq('id', ev.id)
   }
 
   await admin.from('event_approvals').insert({
@@ -222,6 +257,10 @@ export async function updateEventProposal(formData: FormData): Promise<Result> {
     return { success: false, message: 'Title, type, date, location, and public summary are required.' }
   }
 
+  const flyer = formData.get('flyer') as File | null
+  const flyerErr = flyerError(flyer)
+  if (flyerErr) return { success: false, message: flyerErr }
+
   const capacity = capacityRaw ? parseInt(capacityRaw, 10) : null
   const attendee_fee = feeRaw ? parseFloat(feeRaw) : 0
   const expected_attendees = expectedRaw ? parseInt(expectedRaw, 10) : null
@@ -256,6 +295,11 @@ export async function updateEventProposal(formData: FormData): Promise<Result> {
         event_id: eventId, category: it.category, amount: it.amount, note: it.note || null, source: 'submitter',
       }))
     )
+  }
+
+  if (flyer && flyer.size > 0) {
+    const up = await uploadFlyerFile(admin, eventId, flyer)
+    if (up.url) await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
   }
 
   await admin.from('event_approvals').insert({
@@ -501,4 +545,41 @@ export async function cancelEvent(formData: FormData): Promise<Result> {
   if (ev.slug) revalidatePath(`/events/${ev.slug}`)
   revalidatePath('/')
   return { success: true, message: 'Event cancelled. It has been removed from the website.' }
+}
+
+/** Upload/replace the PDF flyer at any stage. Board any time; submitter while editable. */
+export async function uploadEventFlyer(formData: FormData): Promise<Result> {
+  let ctx
+  try {
+    ctx = await requireEventStaff()
+  } catch {
+    return { success: false, message: 'Not authorized.' }
+  }
+  const eventId = formData.get('eventId') as string
+  const file = formData.get('flyer') as File | null
+  if (!eventId) return { success: false, message: 'Missing event.' }
+  if (!file || file.size === 0) return { success: false, message: 'Choose a PDF flyer to upload.' }
+  const fErr = flyerError(file)
+  if (fErr) return { success: false, message: fErr }
+
+  const admin = createAdminClient()
+  const { data: ev } = await admin.from('events').select('status, submitted_by, slug').eq('id', eventId).single()
+  if (!ev) return { success: false, message: 'Event not found.' }
+
+  const isSubmitter = ev.submitted_by === ctx.user.id
+  const editable = ['draft', 'changes_requested'].includes(ev.status)
+  if (!(isBoard(ctx.profile) || (isSubmitter && editable))) {
+    return { success: false, message: 'You cannot change the flyer at this stage.' }
+  }
+
+  const up = await uploadFlyerFile(admin, eventId, file)
+  if (up.error) return { success: false, message: up.error }
+  await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
+  await admin.from('event_approvals').insert({
+    event_id: eventId, stage: 'submit', action: 'flyer', actor: ctx.user.id,
+  })
+  revalidatePath(`/admin/dashboard/events/${eventId}`)
+  revalidatePath('/events')
+  if (ev.slug) revalidatePath(`/events/${ev.slug}`)
+  return { success: true, message: 'Flyer updated.' }
 }

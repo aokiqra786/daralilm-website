@@ -11,6 +11,7 @@ import {
 } from '@/lib/eventsWorkflow'
 import EventActions from './EventActions'
 import RsvpPanel from './RsvpPanel'
+import FlyerUpload from './FlyerUpload'
 
 export const metadata = { title: 'Event Review' }
 
@@ -97,6 +98,8 @@ export default async function EventReviewPage({
   const canPublish = isBoard(ctx.profile) && (status === 'approved' || (status === 'on_hold' && fundsApproved))
   const canUnpublish = isBoard(ctx.profile) && status === 'published'
   const canCancel = isBoard(ctx.profile) && ['approved', 'published', 'on_hold'].includes(status)
+  // Flyer: board/admins any stage; the submitter while the proposal is still editable.
+  const canManageFlyer = isBoard(ctx.profile) || (isSubmitter && ['draft', 'changes_requested'].includes(status))
 
   // RSVP data (staff, published events). Service role: teachers/volunteers
   // lists are staff-only UI; reading via admin avoids per-table RLS gaps.
@@ -144,6 +147,13 @@ export default async function EventReviewPage({
             </dl>
             {ev.summary && <p className="mt-4 text-sm text-slate-700"><span className="text-slate-500">Summary: </span>{ev.summary}</p>}
             {ev.description && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{ev.description}</p>}
+            {ev.flyer_url && (
+              <p className="mt-3 text-sm">
+                <a href={ev.flyer_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green underline">
+                  View flyer (PDF)
+                </a>
+              </p>
+            )}
           </section>
 
           <section className="rounded-xl border border-slate-200 bg-white p-6">
@@ -232,6 +242,7 @@ export default async function EventReviewPage({
             estNet={net}
             outstanding={outstanding}
           />
+          {canManageFlyer && <FlyerUpload eventId={id} currentUrl={ev.flyer_url ?? null} />}
         </div>
       </div>
     </div>

@@ -61,6 +61,7 @@ export default async function EditProposalPage({
       amount: String(b.amount),
       note: b.note ?? '',
     })),
+    flyer_url: ev.flyer_url ?? null,
   }
 
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { sendRsvpInvites, sendRsvpReminders } from './rsvp-actions'
+import { sendRsvpInvites, sendRsvpReminders, removeRsvpInvite } from './rsvp-actions'
 
 type Person = { id: string; full_name: string | null; email: string | null }
 type Rsvp = {
@@ -96,7 +96,24 @@ export default function RsvpPanel({
                   <span className="text-slate-400"> · {r.invitee_kind}</span>
                   {r.role_assignment && <span className="block text-xs text-slate-500">{r.role_assignment}</span>}
                 </span>
-                <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${STATUS_STYLE[r.status] ?? 'bg-slate-100 text-slate-600'}`}>{r.status}</span>
+                <span className="flex shrink-0 items-center gap-2">
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${STATUS_STYLE[r.status] ?? 'bg-slate-100 text-slate-600'}`}>{r.status}</span>
+                  <form action={run(removeRsvpInvite)}>
+                    <input type="hidden" name="eventId" value={eventId} />
+                    <input type="hidden" name="rsvpId" value={r.id} />
+                    <button
+                      type="submit"
+                      disabled={pending}
+                      aria-label={`Remove ${r.name || r.email}`}
+                      onClick={(e) => {
+                        if (!window.confirm(`Remove ${r.name || r.email} from this event?`)) e.preventDefault()
+                      }}
+                      className="text-xs font-semibold text-red-600 hover:underline disabled:opacity-50"
+                    >
+                      Remove
+                    </button>
+                  </form>
+                </span>
               </li>
             ))}
           </ul>
@@ -119,14 +136,13 @@ export default function RsvpPanel({
         <p className="mt-2 text-xs text-slate-500">Tick each person and give them a role (list several, separated by commas, for multiple roles).</p>
 
         <div className="mt-3 space-y-5">
-          {(availTeachers.length > 0) && (
-            <fieldset>
-              <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Teachers</legend>
-              <div className="mt-2 space-y-2">
-                {availTeachers.map((t) => <PersonRow key={t.id} kind="teacher" p={t} />)}
-              </div>
-            </fieldset>
-          )}
+          <fieldset>
+            <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Teachers</legend>
+            <div className="mt-2 space-y-2">
+              {availTeachers.length === 0 && <p className="text-sm text-slate-400">None available.</p>}
+              {availTeachers.map((t) => <PersonRow key={t.id} kind="teacher" p={t} />)}
+            </div>
+          </fieldset>
           <fieldset>
             <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Volunteers</legend>
             <div className="mt-2 space-y-2">
