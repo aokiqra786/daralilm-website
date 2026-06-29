@@ -8,7 +8,7 @@ import { createClient } from '@/utils/supabase/client'
 import {
   LayoutDashboard, Users, BookOpen, GraduationCap, 
   DollarSign, ClipboardCheck, Printer, Settings, 
-  LogOut, Menu, X, Mail, HeartHandshake, ScrollText, LayoutGrid, BookMarked, FileSignature, UserCog
+  LogOut, Menu, X, Mail, HeartHandshake, ScrollText, LayoutGrid, BookMarked, FileSignature, UserCog, CalendarDays
 } from 'lucide-react'
 
 type SidebarItem = {
@@ -24,6 +24,7 @@ const navItems: SidebarItem[] = [
   { name: 'Classes & Programs', href: '/admin/dashboard/classes', icon: BookOpen },
   { name: 'Teachers', href: '/admin/dashboard/teachers', icon: Users },
   { name: 'Volunteers', href: '/admin/dashboard/volunteers', icon: HeartHandshake },
+  { name: 'Events', href: '/admin/dashboard/events', icon: CalendarDays },
   { name: 'Staff Apps', href: '/admin/dashboard/staff-applications', icon: UserCog },
   { name: 'Fee Management', href: '/admin/dashboard/fees', icon: DollarSign },
   { name: 'Attendance Reports', href: '/admin/dashboard/attendance', icon: ClipboardCheck },
