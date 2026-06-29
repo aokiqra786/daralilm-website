@@ -24,22 +24,31 @@ export async function sendRsvpInvites(formData: FormData) {
     return { success: false, message: 'Not authorized.' }
   }
   const eventId = formData.get('eventId') as string
-  const teacherIds = formData.getAll('teacher_id') as string[]
-  const volunteerIds = formData.getAll('volunteer_id') as string[]
+  // Each invitee arrives as "teacher:<id>" / "volunteer:<id>"; the board-assigned
+  // role(s) for that person are in a parallel field role:<id> (comma-separated for
+  // multiple roles). This replaces the old behavior of dumping the whole staffing blob.
+  const invitees = formData.getAll('invitee') as string[]
   const admin = createAdminClient()
 
   const { data: ev } = await admin
-    .from('events').select('title, event_date, location, staffing_needs').eq('id', eventId).single()
+    .from('events').select('title, event_date, location').eq('id', eventId).single()
   if (!ev) return { success: false, message: 'Event not found.' }
-  const staffing = (ev.staffing_needs || {}) as { teachers?: string; volunteers?: string }
 
   const { data: existing } = await admin.from('event_rsvps').select('email').eq('event_id', eventId)
   const have = new Set(((existing as { email: string }[]) || []).map((r) => r.email.toLowerCase()))
 
-  const targets = [
-    ...teacherIds.map((id) => ({ kind: 'teacher' as const, id, table: 'teachers', role: staffing.teachers || 'Teacher' })),
-    ...volunteerIds.map((id) => ({ kind: 'volunteer' as const, id, table: 'volunteers', role: staffing.volunteers || 'Volunteer' })),
-  ]
+  const targets = invitees.map((tok) => {
+    const [kind, id] = tok.split(':')
+    const role =
+      ((formData.get(`role:${id}`) as string) || '').trim() ||
+      (kind === 'teacher' ? 'Teacher' : 'Volunteer')
+    return {
+      kind: kind as 'teacher' | 'volunteer',
+      id,
+      table: kind === 'teacher' ? 'teachers' : 'volunteers',
+      role,
+    }
+  })
 
   let invited = 0
   for (const t of targets) {

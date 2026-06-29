@@ -151,7 +151,7 @@ export default async function EventReviewPage({
           </section>
 
           {canSeeMoney && status === 'published' && (
-            <RsvpPanel eventId={id} teachers={teachers} volunteers={volunteers} rsvps={rsvps} />
+            <RsvpPanel eventId={id} teachers={teachers} volunteers={volunteers} rsvps={rsvps} staffing={staffing} />
           )}
 
           {/* Budget — board/treasurer/admin only */}

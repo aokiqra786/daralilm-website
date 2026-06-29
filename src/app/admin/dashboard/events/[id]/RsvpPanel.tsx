@@ -21,16 +21,21 @@ const STATUS_STYLE: Record<string, string> = {
   tentative: 'bg-amber-100 text-amber-700',
 }
 
+const ROLE_INPUT =
+  'w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 outline-none focus:border-green focus:ring-1 focus:ring-green/30'
+
 export default function RsvpPanel({
   eventId,
   teachers,
   volunteers,
   rsvps,
+  staffing,
 }: {
   eventId: string
   teachers: Person[]
   volunteers: Person[]
   rsvps: Rsvp[]
+  staffing: { teachers?: string; volunteers?: string }
 }) {
   const router = useRouter()
   const [pending, setPending] = useState(false)
@@ -51,10 +56,27 @@ export default function RsvpPanel({
     }
   }
 
+  function PersonRow({ kind, p }: { kind: 'teacher' | 'volunteer'; p: Person }) {
+    return (
+      <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+        <label className="flex items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" name="invitee" value={`${kind}:${p.id}`} className="rounded border-slate-300" />
+          <span className="min-w-[7rem] truncate">{p.full_name || p.email}</span>
+        </label>
+        <input
+          name={`role:${p.id}`}
+          placeholder="Role(s) — e.g. Setup, Security"
+          className={ROLE_INPUT}
+          aria-label={`Role for ${p.full_name || p.email}`}
+        />
+      </div>
+    )
+  }
+
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-6">
       <h2 className="font-serif text-lg font-bold text-green">RSVP &mdash; teachers &amp; volunteers</h2>
-      <p className="mt-1 text-xs text-slate-500">Invites are budget-free: they show only the event, date, location, and role.</p>
+      <p className="mt-1 text-xs text-slate-500">Invites are budget-free: they show only the event, date, location, and the role you assign.</p>
 
       {result && (
         <p className={`mt-3 rounded-md p-3 text-sm ${result.success ? 'bg-green/10 text-green' : 'bg-red-50 text-red-700'}`}>
@@ -62,15 +84,19 @@ export default function RsvpPanel({
         </p>
       )}
 
-      {/* Current responses */}
+      {/* Current responses (status + assigned role) */}
       {rsvps.length > 0 && (
         <div className="mt-4">
           <h3 className="text-sm font-semibold text-slate-700">Invited ({rsvps.length})</h3>
-          <ul className="mt-2 space-y-1 text-sm">
+          <ul className="mt-2 space-y-2 text-sm">
             {rsvps.map((r) => (
-              <li key={r.id} className="flex items-center justify-between gap-2">
-                <span className="text-slate-700">{r.name || r.email} <span className="text-slate-400">· {r.invitee_kind}</span></span>
-                <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${STATUS_STYLE[r.status] ?? 'bg-slate-100 text-slate-600'}`}>{r.status}</span>
+              <li key={r.id} className="flex items-start justify-between gap-2">
+                <span className="text-slate-700">
+                  {r.name || r.email}
+                  <span className="text-slate-400"> · {r.invitee_kind}</span>
+                  {r.role_assignment && <span className="block text-xs text-slate-500">{r.role_assignment}</span>}
+                </span>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${STATUS_STYLE[r.status] ?? 'bg-slate-100 text-slate-600'}`}>{r.status}</span>
               </li>
             ))}
           </ul>
@@ -83,34 +109,29 @@ export default function RsvpPanel({
         </div>
       )}
 
-      {/* Invite more */}
+      {/* Invite + assign roles */}
       <form action={run(sendRsvpInvites)} className="mt-5 border-t border-slate-100 pt-4">
         <input type="hidden" name="eventId" value={eventId} />
-        <h3 className="text-sm font-semibold text-slate-700">Invite people</h3>
+        <h3 className="text-sm font-semibold text-slate-700">Invite people &amp; assign roles</h3>
+        <p className="mt-1 rounded-md bg-slate-50 p-2 text-xs text-slate-500">
+          <span className="font-semibold text-slate-600">Needed —</span> Teachers: {staffing.teachers || '—'} · Volunteers: {staffing.volunteers || '—'}
+        </p>
+        <p className="mt-2 text-xs text-slate-500">Tick each person and give them a role (list several, separated by commas, for multiple roles).</p>
 
-        <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <fieldset>
-            <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Teachers</legend>
-            <div className="mt-2 max-h-44 space-y-1 overflow-y-auto">
-              {availTeachers.length === 0 && <p className="text-sm text-slate-400">None available.</p>}
-              {availTeachers.map((t) => (
-                <label key={t.id} className="flex items-center gap-2 text-sm text-slate-700">
-                  <input type="checkbox" name="teacher_id" value={t.id} className="rounded border-slate-300" />
-                  {t.full_name || t.email}
-                </label>
-              ))}
-            </div>
-          </fieldset>
+        <div className="mt-3 space-y-5">
+          {(availTeachers.length > 0) && (
+            <fieldset>
+              <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Teachers</legend>
+              <div className="mt-2 space-y-2">
+                {availTeachers.map((t) => <PersonRow key={t.id} kind="teacher" p={t} />)}
+              </div>
+            </fieldset>
+          )}
           <fieldset>
             <legend className="text-xs font-semibold uppercase tracking-wide text-slate-500">Volunteers</legend>
-            <div className="mt-2 max-h-44 space-y-1 overflow-y-auto">
+            <div className="mt-2 space-y-2">
               {availVolunteers.length === 0 && <p className="text-sm text-slate-400">None available.</p>}
-              {availVolunteers.map((v) => (
-                <label key={v.id} className="flex items-center gap-2 text-sm text-slate-700">
-                  <input type="checkbox" name="volunteer_id" value={v.id} className="rounded border-slate-300" />
-                  {v.full_name || v.email}
-                </label>
-              ))}
+              {availVolunteers.map((v) => <PersonRow key={v.id} kind="volunteer" p={v} />)}
             </div>
           </fieldset>
         </div>
