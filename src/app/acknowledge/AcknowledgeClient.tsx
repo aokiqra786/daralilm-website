@@ -3,6 +3,18 @@
 import { useState } from 'react'
 import { submitAcknowledgement } from './actions'
 
+// Tolerant name match: normalize smart/curly apostrophes and whitespace so smart
+// punctuation (e.g. iOS auto-replacing ' with ') or extra spaces don't block a
+// valid signer. Comparison stays case-insensitive.
+function normalizeName(s: string): string {
+  return s
+    .normalize('NFKC')
+    .replace(/[‘’ʼ′`´]/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+}
+
 export default function AcknowledgeClient({ ack, policy, disclaimer }: { ack: any, policy: any, disclaimer: any }) {
   const [agreed, setAgreed] = useState(false)
   const [fullName, setFullName] = useState('')
@@ -16,7 +28,7 @@ export default function AcknowledgeClient({ ack, policy, disclaimer }: { ack: an
       setError('You must agree to the terms to proceed.')
       return
     }
-    if (fullName.trim().toLowerCase() !== ack.recipient_name.trim().toLowerCase()) {
+    if (normalizeName(fullName) !== normalizeName(ack.recipient_name)) {
       setError(`Please type your name exactly as: ${ack.recipient_name}`)
       return
     }
