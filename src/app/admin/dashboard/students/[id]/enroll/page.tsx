@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { GraduationCap, ArrowLeft, Save, PlusCircle } from '@/components/Icons'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { programTypeLabel } from '@/lib/programs'
 
 export default async function StudentEnrollmentPage({
   params
@@ -81,7 +82,7 @@ export default async function StudentEnrollmentPage({
                       <div className="flex justify-between">
                         <span className="font-semibold text-slate-900 group-hover:text-blue-900">{cls.name}</span>
                         <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded capitalize">
-                          {cls.program_type.replace('_', ' ')}
+                          {programTypeLabel(cls.program_type)}
                         </span>
                       </div>
                       <div className="text-sm text-slate-500 mt-1">

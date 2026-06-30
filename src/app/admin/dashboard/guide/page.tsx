@@ -45,7 +45,7 @@ export default function AdminGuidePage() {
               <BookOpen className="w-5 h-5 text-indigo-600" /> Classes & Programs
             </h3>
             <p className="text-sm text-slate-600">
-              Create and manage the school's curriculum offerings. You can define new programs (like Sunday School or Hifz), create specific class sections, assign teachers to those classes, and set capacity limits.
+              Create and manage the school's curriculum offerings. You can define new programs (like Weekend School or Hifz), create specific class sections, assign teachers to those classes, and set capacity limits.
             </p>
           </section>
 

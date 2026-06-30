@@ -3,6 +3,7 @@ import { ArrowLeft, Clock, CheckCircle, GraduationCap, Phone, Mail } from '@/com
 import Link from 'next/link'
 import Image from 'next/image'
 import { enrollWaitingListStudent } from '../../students/actions'
+import { programInterestLabel } from '@/lib/programs'
 
 export default async function WaitingListReportPage() {
   const supabase = await createClient()
@@ -24,7 +25,7 @@ export default async function WaitingListReportPage() {
 
   const PROGRAM_COLORS: Record<string, string> = {
     "Evening Qur'an Classes": 'bg-blue-50 text-blue-700 border-blue-100',
-    'Sunday School':          'bg-purple-50 text-purple-700 border-purple-100',
+    'Weekend School':         'bg-purple-50 text-purple-700 border-purple-100',
     'Vocational Programs':    'bg-amber-50 text-amber-700 border-amber-100',
     'Youth Activities':       'bg-green-50 text-green-700 border-green-100',
   }
@@ -123,8 +124,8 @@ export default async function WaitingListReportPage() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 mt-1">
                       {program && (
-                        <span className={`px-2 py-0.5 text-[11px] font-semibold rounded-full border ${PROGRAM_COLORS[program] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-                          {program}
+                        <span className={`px-2 py-0.5 text-[11px] font-semibold rounded-full border ${PROGRAM_COLORS[programInterestLabel(program)] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                          {programInterestLabel(program)}
                         </span>
                       )}
                       <span className="flex items-center gap-1 text-[11px] text-slate-400">

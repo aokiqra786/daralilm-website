@@ -85,7 +85,7 @@ export default async function CreateFeeSchedulePage() {
               <select name="programType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="">Select...</option>
                 <option value="evening_quran">Evening Qur'an</option>
-                <option value="sunday_school">Sunday School</option>
+                <option value="weekend_school">Weekend School</option>
                 <option value="hifz">Full-time Hifz</option>
                 <option value="vocational">Vocational</option>
                 <option value="youth_activities">Youth Activities</option>

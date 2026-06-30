@@ -2,7 +2,7 @@ export interface Program {
   id: string;
   slug: string;
   name: string;
-  category: "quran" | "sunday_school" | "vocational" | "youth" | "other";
+  category: "quran" | "weekend_school" | "vocational" | "youth" | "other";
   shortDescription: string;
   longDescription: string;
   schedule: string;

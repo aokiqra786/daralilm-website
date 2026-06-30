@@ -7,10 +7,11 @@ import {
 import Link from 'next/link'
 import { approveApplication, rejectApplication, deferToNextSemester } from './actions'
 import WaitingListSuccessAlert from './WaitingListSuccessAlert'
+import { programInterestLabel } from '@/lib/programs'
 
 const PROGRAM_COLORS: Record<string, string> = {
   "Evening Qur'an Classes": 'bg-blue-50 text-blue-700 border-blue-100',
-  'Sunday School':          'bg-purple-50 text-purple-700 border-purple-100',
+  'Weekend School':         'bg-purple-50 text-purple-700 border-purple-100',
   'Vocational Programs':    'bg-amber-50 text-amber-700 border-amber-100',
   'Youth Activities':       'bg-green-50 text-green-700 border-green-100',
 }
@@ -145,8 +146,8 @@ export default async function StudentsPage({
 
                 {/* Program badge */}
                 {app.program_interest && (
-                  <span className={`px-2.5 py-1 text-[11px] font-semibold rounded-full border shrink-0 ${PROGRAM_COLORS[app.program_interest] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-                    {app.program_interest}
+                  <span className={`px-2.5 py-1 text-[11px] font-semibold rounded-full border shrink-0 ${PROGRAM_COLORS[programInterestLabel(app.program_interest)] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                    {programInterestLabel(app.program_interest)}
                   </span>
                 )}
 
@@ -225,7 +226,7 @@ export default async function StudentsPage({
         <select className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
           <option value="">All Programs</option>
           <option value="evening_quran">Evening Qur&apos;an</option>
-          <option value="sunday_school">Sunday School</option>
+          <option value="weekend_school">Weekend School</option>
           <option value="hifz">Full-time Hifz</option>
           <option value="vocational">Vocational</option>
         </select>

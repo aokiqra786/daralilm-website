@@ -24,7 +24,7 @@ const mockPrograms: Program[] = [
     id: "2",
     slug: "weekend-school",
     name: "Weekend School",
-    category: "sunday_school",
+    category: "weekend_school",
     shortDescription: "Comprehensive Islamic education.",
     longDescription: "A comprehensive program covering Islamic studies, Arabic language, and Qur'an for children.",
     schedule: "Saturday (Girls Only) : 9:30 AM - 1:00 PM, Sunday (Boys Only) : 9:30 AM - 1:00 PM",

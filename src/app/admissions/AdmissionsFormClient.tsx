@@ -42,8 +42,7 @@ export default function AdmissionsFormClient() {
           <Select label="Program of Interest" name="programInterest" required defaultValue="">
             <option value="">Select a program...</option>
             <option value="Evening Qur'an Classes">Evening Qur&apos;an Classes</option>
-            {/* value kept as "Sunday School" to match backend program key; label rebranded to "Weekend School" */}
-            <option value="Sunday School">Weekend School</option>
+            <option value="Weekend School">Weekend School</option>
             <option value="Hifz Program">Full-Time Hifz Program</option>
             <option value="K-12 Academic Support">K-12 Homeschool Academic Support</option>
             <option value="Vocational Programs">Vocational Programs</option>

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { isPermanentClass } from '@/lib/programs'
 
 export async function deleteClass(formData: FormData) {
   const supabase = await createClient()
@@ -19,17 +20,8 @@ export async function deleteClass(formData: FormData) {
   if (!classId) return
 
   // Verify the class is not one of the permanent classes before deleting
-  const PERMANENT_CLASSES = [
-    'Evening Quran Class',
-    'Hifz Full time School',
-    'Hiz Full time School',
-    'Sunday School',
-    'Saturday School',
-    'Satuarday School'
-  ]
-
   const { data: cls } = await supabase.from('classes').select('name').eq('id', classId).single()
-  if (cls && (PERMANENT_CLASSES.includes(cls.name) || PERMANENT_CLASSES.includes(cls.name.replace('Hiz', 'Hifz')))) {
+  if (cls && isPermanentClass(cls.name)) {
     throw new Error('Cannot delete a permanent class.')
   }
 

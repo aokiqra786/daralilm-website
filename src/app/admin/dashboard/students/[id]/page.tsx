@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { GraduationCap, ArrowLeft, Calendar, User, Phone, MapPin, HeartPulse, FileText, CheckCircle, XCircle, AlertCircle, Plus } from '@/components/Icons'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { programTypeLabel } from '@/lib/programs'
 
 export default async function StudentProfilePage({
   params
@@ -178,7 +179,7 @@ export default async function StudentProfilePage({
                       <div key={enr.id} className="flex justify-between items-center p-3 border border-slate-200 rounded-lg bg-white">
                         <div>
                           <h4 className="font-semibold text-slate-900">{classData.name}</h4>
-                          <p className="text-sm text-slate-500">{classData.program_type?.replace('_', ' ')} • {classData.schedule_days?.join(', ')}</p>
+                          <p className="text-sm text-slate-500">{programTypeLabel(classData.program_type)} • {classData.schedule_days?.join(', ')}</p>
                         </div>
                         <Link href={`/admin/dashboard/classes/${enr.class_id}`} className="text-sm text-blue-600 font-medium hover:underline">
                           View Class

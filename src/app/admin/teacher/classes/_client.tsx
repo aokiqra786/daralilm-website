@@ -5,7 +5,7 @@ import { BookOpen, Users, X, ChevronRight, Info, Calendar, Clock } from 'lucide-
 
 const programLabels: Record<string, string> = {
   evening_quran: "Evening Qur'an",
-  sunday_school: 'Sunday School',
+  weekend_school: 'Weekend School',
   vocational: 'Vocational',
   youth_activities: 'Youth Activities',
   hifz: 'Hifz',
@@ -13,7 +13,7 @@ const programLabels: Record<string, string> = {
 }
 const programColors: Record<string, string> = {
   evening_quran: 'bg-blue-100 text-blue-700 border-blue-200',
-  sunday_school: 'bg-orange-100 text-orange-700 border-orange-200',
+  weekend_school: 'bg-orange-100 text-orange-700 border-orange-200',
   vocational: 'bg-green-100 text-green-700 border-green-200',
   youth_activities: 'bg-purple-100 text-purple-700 border-purple-200',
   hifz: 'bg-teal-100 text-teal-700 border-teal-200',

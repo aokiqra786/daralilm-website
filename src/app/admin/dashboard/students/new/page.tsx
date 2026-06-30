@@ -1,6 +1,7 @@
 import { GraduationCap, ArrowLeft, Save } from '@/components/Icons'
 import Link from 'next/link'
 import { registerStudent } from '../actions'
+import { PROGRAM_INTEREST_OPTIONS } from '@/lib/programs'
 
 export default function RegisterStudentPage() {
   return (
@@ -107,7 +108,7 @@ export default function RegisterStudentPage() {
             </h2>
             <p className="text-sm text-slate-500 mb-4">Select the programs this student is interested in. (Official class assignment is done separately).</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {['Evening Qur\'an', 'Sunday School', 'Full-time Hifz', 'Vocational', 'Youth Activities', 'Adult Program'].map((prog) => (
+              {PROGRAM_INTEREST_OPTIONS.map((prog) => (
                 <label key={prog} className="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
                   <input type="checkbox" name="programs" value={prog} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" />
                   <span className="text-slate-700 font-medium">{prog}</span>

@@ -3,15 +3,7 @@ import { BookOpen, Users, Calendar, Plus, Trash2, Edit } from '@/components/Icon
 import Link from 'next/link'
 import { deleteClass } from './actions'
 import ClassCardActions from './ClassCardActions'
-
-const PERMANENT_CLASSES = [
-  'Evening Quran Class',
-  'Hifz Full time School',
-  'Hiz Full time School', // typo fallback
-  'Sunday School',
-  'Saturday School',
-  'Satuarday School' // typo fallback
-]
+import { programTypeLabel, isPermanentClass } from '@/lib/programs'
 
 export default async function ClassesPage() {
   const supabase = await createClient()
@@ -27,9 +19,9 @@ export default async function ClassesPage() {
 
   // Sort classes to put permanent ones on top
   const classes = rawClasses?.sort((a, b) => {
-    const aIsPerm = PERMANENT_CLASSES.includes(a.name) || PERMANENT_CLASSES.includes(a.name.replace('Hiz', 'Hifz'))
-    const bIsPerm = PERMANENT_CLASSES.includes(b.name) || PERMANENT_CLASSES.includes(b.name.replace('Hiz', 'Hifz'))
-    
+    const aIsPerm = isPermanentClass(a.name)
+    const bIsPerm = isPermanentClass(b.name)
+
     if (aIsPerm && !bIsPerm) return -1
     if (!aIsPerm && bIsPerm) return 1
     return 0
@@ -57,7 +49,7 @@ export default async function ClassesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {classes && classes.length > 0 ? (
           classes.map((cls) => {
-            const isPermanent = PERMANENT_CLASSES.includes(cls.name) || PERMANENT_CLASSES.includes(cls.name.replace('Hiz', 'Hifz'))
+            const isPermanent = isPermanentClass(cls.name)
 
             return (
               <div key={cls.id} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
@@ -67,8 +59,8 @@ export default async function ClassesPage() {
                       {cls.name}
                       {isPermanent && <span className="ml-2 text-[10px] uppercase tracking-wider bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold">Permanent</span>}
                     </h3>
-                    <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100 capitalize">
-                      {cls.program_type.replace('_', ' ')}
+                    <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100">
+                      {programTypeLabel(cls.program_type)}
                     </span>
                   </div>
                   

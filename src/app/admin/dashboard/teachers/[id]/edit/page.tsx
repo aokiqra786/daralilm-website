@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { PROGRAM_INTEREST_OPTIONS } from '@/lib/programs'
 
 export default async function EditTeacherPage({
   params
@@ -165,7 +166,7 @@ export default async function EditTeacherPage({
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-3">Programs Qualified to Teach *</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {['Evening Qur\'an', 'Sunday School', 'Full-time Hifz', 'Vocational', 'Youth Activities', 'Adult Program'].map((prog) => (
+                {PROGRAM_INTEREST_OPTIONS.map((prog) => (
                   <label key={prog} className="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
                     <input type="checkbox" name="programs" value={prog} defaultChecked={teacher.programs_qualified?.includes(prog)} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" />
                     <span className="text-slate-700 font-medium">{prog}</span>

@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { Plus, ArrowLeft, DollarSign } from '@/components/Icons'
 import Link from 'next/link'
+import { programTypeLabel } from '@/lib/programs'
 
 export default async function FeeSchedulesPage() {
   const supabase = await createClient()
@@ -47,7 +48,7 @@ export default async function FeeSchedulesPage() {
               schedules.map(schedule => (
                 <tr key={schedule.id} className="border-b border-slate-100 hover:bg-slate-50">
                   <td className="py-4 px-6 font-medium text-slate-900">{schedule.label}</td>
-                  <td className="py-4 px-6 text-slate-600 capitalize">{schedule.program_type.replace('_', ' ')}</td>
+                  <td className="py-4 px-6 text-slate-600">{programTypeLabel(schedule.program_type)}</td>
                   <td className="py-4 px-6 font-semibold text-slate-900">${schedule.amount}</td>
                   <td className="py-4 px-6 text-slate-600 capitalize">{schedule.frequency}</td>
                   <td className="py-4 px-6 text-slate-600">

@@ -7,6 +7,7 @@ import {
   FileText, StickyNote, CheckCircle, XCircle, CalendarCheck2, AlertCircle, Clock,
 } from '@/components/Icons'
 import { approveApplication, rejectApplication, deferToNextSemester } from '../../students/actions'
+import { programInterestLabel } from '@/lib/programs'
 
 const STATUS_BADGE: Record<string, string> = {
   pending:       'bg-amber-100 text-amber-800 border-amber-200',
@@ -18,7 +19,7 @@ const STATUS_BADGE: Record<string, string> = {
 
 const PROGRAM_COLORS: Record<string, string> = {
   "Evening Qur'an Classes": 'bg-blue-50 text-blue-700 border-blue-100',
-  'Sunday School':          'bg-purple-50 text-purple-700 border-purple-100',
+  'Weekend School':         'bg-purple-50 text-purple-700 border-purple-100',
   'Vocational Programs':    'bg-amber-50 text-amber-700 border-amber-100',
   'Youth Activities':       'bg-green-50 text-green-700 border-green-100',
 }
@@ -108,8 +109,8 @@ export default async function ApplicationDetailPage({
                 {String(app.status).replace(/_/g, ' ')}
               </span>
               {app.program_interest && (
-                <span className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-full border ${PROGRAM_COLORS[app.program_interest] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-                  {app.program_interest}
+                <span className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-full border ${PROGRAM_COLORS[programInterestLabel(app.program_interest)] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                  {programInterestLabel(app.program_interest)}
                 </span>
               )}
             </div>
@@ -119,7 +120,7 @@ export default async function ApplicationDetailPage({
         {/* Details grid */}
         <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
           <Field icon={<Cake className="w-4 h-4" />}     label="Date of Birth"    value={app.date_of_birth} />
-          <Field icon={<BookOpen className="w-4 h-4" />} label="Program Interest" value={app.program_interest} />
+          <Field icon={<BookOpen className="w-4 h-4" />} label="Program Interest" value={programInterestLabel(app.program_interest)} />
           <Field icon={<UserCircle className="w-4 h-4" />} label="Parent / Guardian" value={app.parent_name} />
           <Field icon={<Mail className="w-4 h-4" />}     label="Parent Email"     value={app.parent_email} />
           <Field icon={<Phone className="w-4 h-4" />}    label="Parent Phone"     value={app.parent_phone} />

@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { BookOpen, ClipboardCheck, GraduationCap, Users, CalendarDays, ArrowRight, Info, Mail } from 'lucide-react'
 
 const programLabels: Record<string, string> = {
-  evening_quran: "Evening Qur'an", sunday_school: 'Sunday School',
+  evening_quran: "Evening Qur'an", weekend_school: 'Weekend School',
   vocational: 'Vocational', youth_activities: 'Youth Activities',
   hifz: 'Hifz', academic: 'Academic',
 }
 const programColors: Record<string, string> = {
-  evening_quran: 'bg-blue-100 text-blue-800', sunday_school: 'bg-orange-100 text-orange-800',
+  evening_quran: 'bg-blue-100 text-blue-800', weekend_school: 'bg-orange-100 text-orange-800',
   vocational: 'bg-green-100 text-green-800', youth_activities: 'bg-purple-100 text-purple-800',
   hifz: 'bg-teal-100 text-teal-800', academic: 'bg-slate-100 text-slate-800',
 }

@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { BookOpen, ArrowLeft, Users, Calendar, MapPin, UserX, UserPlus } from '@/components/Icons'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { programTypeLabel } from '@/lib/programs'
 
 export default async function ClassDetailsPage({
   params
@@ -56,8 +57,8 @@ export default async function ClassDetailsPage({
             <div>
               <h1 className="text-3xl font-playfair font-bold text-slate-900">{cls.name}</h1>
               <div className="flex items-center text-slate-500 mt-1 space-x-3 text-sm">
-                <span className="font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-700">
-                  {cls.program_type.replace('_', ' ').toUpperCase()}
+                <span className="font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-700 uppercase">
+                  {programTypeLabel(cls.program_type)}
                 </span>
                 <span>•</span>
                 <span className="font-medium bg-blue-50 px-2 py-0.5 rounded text-blue-700 capitalize">
