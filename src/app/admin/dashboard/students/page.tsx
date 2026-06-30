@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { createAdminClient } from '@/utils/supabase/admin'
 import {
   GraduationCap, Search, Plus, UserCircle, Phone,
-  Clock, CheckCircle, XCircle, CalendarCheck2, FileText,
+  Clock, CheckCircle, XCircle, CalendarCheck2, FileText, AlertCircle,
 } from '@/components/Icons'
 import Link from 'next/link'
 import { approveApplication, rejectApplication, deferToNextSemester } from './actions'
@@ -18,9 +18,9 @@ const PROGRAM_COLORS: Record<string, string> = {
 export default async function StudentsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ wl_success?: string; wl_student?: string; wl_parent?: string; wl_phone?: string; wl_email?: string }>
+  searchParams: Promise<{ wl_success?: string; wl_student?: string; wl_parent?: string; wl_phone?: string; wl_email?: string; notice?: string; error?: string }>
 }) {
-  const { wl_success, wl_student, wl_parent, wl_phone, wl_email } = await searchParams
+  const { wl_success, wl_student, wl_parent, wl_phone, wl_email, notice, error } = await searchParams
   const showWLAlert = wl_success === '1' && !!wl_student
   const supabase = await createClient()
 
@@ -64,6 +64,29 @@ export default async function StudentsPage({
           parentEmail={wl_email ?? ''}
         />
       )}
+
+      {/* ─── Action Feedback Banners ─── */}
+      {error && (
+        <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4">
+          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <p className="text-sm">{decodeURIComponent(error)}</p>
+        </div>
+      )}
+      {notice && (
+        <div className="flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-4">
+          <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <p className="text-sm capitalize">
+            {notice === 'approved'
+              ? 'Application approved — student registered and signature email sent.'
+              : notice === 'already_approved'
+              ? 'This application was already approved.'
+              : notice === 'rejected'
+              ? 'Application rejected.'
+              : notice.replace(/_/g, ' ')}
+          </p>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -99,13 +122,18 @@ export default async function StudentsPage({
                 key={app.id}
                 className="p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-amber-100/50 transition-colors"
               >
-                {/* Info */}
-                <div className="flex items-center gap-3 flex-1 min-w-0">
+                {/* Info — click to review the full application */}
+                <Link
+                  href={`/admin/dashboard/applications/${app.id}`}
+                  className="flex items-center gap-3 flex-1 min-w-0 group"
+                >
                   <div className="w-10 h-10 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center font-bold text-sm shrink-0">
                     {app.student_name?.charAt(0) ?? '?'}
                   </div>
                   <div className="min-w-0">
-                    <p className="font-semibold text-slate-900 truncate">{app.student_name}</p>
+                    <p className="font-semibold text-slate-900 truncate group-hover:text-blue-700 transition-colors">
+                      {app.student_name}
+                    </p>
                     <p className="text-xs text-slate-500 truncate">
                       Parent: {app.parent_name} · {app.parent_email}
                     </p>
@@ -113,7 +141,7 @@ export default async function StudentsPage({
                       {new Date(app.created_at).toLocaleDateString('en-US', { dateStyle: 'medium' })}
                     </p>
                   </div>
-                </div>
+                </Link>
 
                 {/* Program badge */}
                 {app.program_interest && (

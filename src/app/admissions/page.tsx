@@ -14,8 +14,9 @@ export default async function AdmissionsPage({
   searchParams: Promise<{ success?: string; error?: string }>
 }) {
   const { success, error } = await searchParams
-  const submitted = success === 'submitted'
-  const failed    = error   === 'failed'
+  const submitted      = success === 'submitted'
+  const failed         = error   === 'failed'
+  const alreadyApplied = error   === 'already_applied'
 
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-slate-50">
@@ -162,6 +163,17 @@ export default async function AdmissionsPage({
                     <p className="text-sm">
                       Something went wrong submitting your application. Please try again or contact
                       us directly.
+                    </p>
+                  </div>
+                )}
+                {/* Duplicate Application Notice */}
+                {alreadyApplied && (
+                  <div className="mb-4 flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-4">
+                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                    <p className="text-sm">
+                      It looks like this student already has an application in progress for this
+                      program. There&apos;s no need to apply again — our admissions team will be in
+                      touch. If you need to make a change, please contact us directly.
                     </p>
                   </div>
                 )}

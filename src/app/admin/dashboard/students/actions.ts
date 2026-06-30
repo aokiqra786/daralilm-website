@@ -108,152 +108,206 @@ export async function registerStudent(formData: FormData) {
 
 // ─── Admission Application Review Actions ─────────────────────────────────
 
+const STUDENTS_PATH = '/admin/dashboard/students'
+
 export async function approveApplication(formData: FormData) {
   const { supabase } = await requireAdmin()
   const appId = formData.get('appId') as string
+  // Where to send the admin if something fails (keeps them on the page they
+  // submitted from — list or detail). Success always returns to the list.
+  const from = (formData.get('from') as string) || STUDENTS_PATH
 
-  // 1. Fetch the application
-  const { data: app, error: fetchError } = await supabase
-    .from('admission_applications')
-    .select('*')
-    .eq('id', appId)
-    .single()
+  let outcome = 'approved'
+  try {
+    // 1. Fetch the application
+    const { data: app, error: fetchError } = await supabase
+      .from('admission_applications')
+      .select('*')
+      .eq('id', appId)
+      .single()
 
-  if (fetchError || !app) throw new Error('Application not found')
+    if (fetchError || !app) throw new Error('Application not found')
 
-  // 2. Generate Registration Number (YYYY-NNNN)
-  const year = new Date().getFullYear()
-  const { data: existing } = await supabase
-    .from('students')
-    .select('registration_number')
-    .like('registration_number', `${year}-%`)
-    .order('registration_number', { ascending: false })
-    .limit(1)
+    // Idempotency: already processed — don't create a duplicate student.
+    if (app.status === 'approved') {
+      outcome = 'already_approved'
+    } else {
+      // Idempotency: a student matching this application may already exist
+      // (e.g. a mid-flow failure on a previous attempt left the app pending).
+      const { data: existingStudent } = await supabase
+        .from('students')
+        .select('id')
+        .eq('parent_email', app.parent_email)
+        .ilike('full_name', app.student_name)
+        .limit(1)
 
-  const lastNum = existing?.[0]?.registration_number?.split('-')[1] ?? '0000'
-  const nextNum = String(parseInt(lastNum) + 1).padStart(4, '0')
-  const regNumber = `${year}-${nextNum}`
+      if (!existingStudent || existingStudent.length === 0) {
+        // 2. Generate Registration Number (YYYY-NNNN)
+        const year = new Date().getFullYear()
+        const { data: existing } = await supabase
+          .from('students')
+          .select('registration_number')
+          .like('registration_number', `${year}-%`)
+          .order('registration_number', { ascending: false })
+          .limit(1)
 
-  // 3. Create student record
-  const { error: insertError } = await supabase.from('students').insert({
-    full_name:          app.student_name,
-    registration_number: regNumber,
-    parent_name:        app.parent_name,
-    parent_email:       app.parent_email,
-    parent_phone:       app.parent_phone,
-    date_of_birth:      app.date_of_birth,
-    medical_notes:      app.notes,
-    admin_notes:        app.program_interest ? `Program Interest: ${app.program_interest}` : null,
-    enrollment_date:    new Date().toISOString().split('T')[0],
-    status:             'pending_acknowledgement'
-  })
+        const lastNum = existing?.[0]?.registration_number?.split('-')[1] ?? '0000'
+        const nextNum = String(parseInt(lastNum) + 1).padStart(4, '0')
+        const regNumber = `${year}-${nextNum}`
 
-  if (insertError) throw new Error(insertError.message)
+        // 3. Create student record
+        const { error: insertError } = await supabase.from('students').insert({
+          full_name:          app.student_name,
+          registration_number: regNumber,
+          parent_name:        app.parent_name,
+          parent_email:       app.parent_email,
+          parent_phone:       app.parent_phone,
+          date_of_birth:      app.date_of_birth,
+          medical_notes:      app.notes,
+          admin_notes:        app.program_interest ? `Program Interest: ${app.program_interest}` : null,
+          enrollment_date:    new Date().toISOString().split('T')[0],
+          status:             'pending_acknowledgement'
+        })
 
-  // 4. Generate Acknowledgement Token
-  let ackToken = ''
-  if (app.parent_email) {
-    ackToken = randomBytes(32).toString('hex')
-    await supabase.from('policy_acknowledgements').insert({
-      token: ackToken,
-      role: 'parent',
-      recipient_name: app.parent_name,
-      recipient_email: app.parent_email,
-      reference_id: regNumber
-    })
+        if (insertError) throw new Error(insertError.message)
+
+        // 4. Generate Acknowledgement Token + send signature email (best-effort:
+        //    the student already exists, so an email failure must not abort the
+        //    approval and leave the app stuck pending).
+        if (app.parent_email) {
+          const ackToken = randomBytes(32).toString('hex')
+          await supabase.from('policy_acknowledgements').insert({
+            token: ackToken,
+            role: 'parent',
+            recipient_name: app.parent_name,
+            recipient_email: app.parent_email,
+            reference_id: regNumber
+          })
+
+          const { sendSignatureRequestEmail } = await import('@/lib/email')
+          const res = await sendSignatureRequestEmail({
+            email: app.parent_email,
+            name: app.parent_name,
+            role: 'parent',
+            token: ackToken
+          })
+          if (!res?.success) console.error('Approve: signature email failed:', res?.error)
+        }
+      }
+
+      // 5. Mark application as approved — only AFTER the student exists, so a
+      //    failure above can be safely retried without duplicating the student.
+      const { error: updErr } = await supabase
+        .from('admission_applications')
+        .update({ status: 'approved' })
+        .eq('id', appId)
+
+      if (updErr) throw new Error(updErr.message)
+    }
+  } catch (err) {
+    console.error('approveApplication failed:', err)
+    const msg = err instanceof Error ? err.message : 'Approval failed'
+    revalidatePath(STUDENTS_PATH)
+    redirect(`${from}?error=${encodeURIComponent(msg)}`)
   }
 
-  // 5. Send Approval/Registration Email
-  if (app.parent_email) {
-    const { sendSignatureRequestEmail } = await import('@/lib/email')
-    await sendSignatureRequestEmail({
-      email: app.parent_email,
-      name: app.parent_name,
-      role: 'parent',
-      token: ackToken
-    })
-  }
-
-  // 6. Mark application as approved
-  await supabase
-    .from('admission_applications')
-    .update({ status: 'approved' })
-    .eq('id', appId)
-
-  revalidatePath('/admin/dashboard/students')
+  revalidatePath(STUDENTS_PATH)
+  redirect(`${STUDENTS_PATH}?notice=${outcome}`)
 }
 
 export async function rejectApplication(formData: FormData) {
   const { supabase } = await requireAdmin()
   const appId = formData.get('appId') as string
+  const from = (formData.get('from') as string) || STUDENTS_PATH
 
-  await supabase
-    .from('admission_applications')
-    .update({ status: 'rejected' })
-    .eq('id', appId)
+  try {
+    const { error } = await supabase
+      .from('admission_applications')
+      .update({ status: 'rejected' })
+      .eq('id', appId)
 
-  revalidatePath('/admin/dashboard/students')
+    if (error) throw new Error(error.message)
+  } catch (err) {
+    console.error('rejectApplication failed:', err)
+    const msg = err instanceof Error ? err.message : 'Reject failed'
+    revalidatePath(STUDENTS_PATH)
+    redirect(`${from}?error=${encodeURIComponent(msg)}`)
+  }
+
+  revalidatePath(STUDENTS_PATH)
+  redirect(`${STUDENTS_PATH}?notice=rejected`)
 }
 
 export async function deferToNextSemester(formData: FormData) {
   const { supabase } = await requireAdmin()
   const appId = formData.get('appId') as string
+  const from = (formData.get('from') as string) || STUDENTS_PATH
 
-  // 1. Fetch the application
-  const { data: app, error: fetchError } = await supabase
-    .from('admission_applications')
-    .select('*')
-    .eq('id', appId)
-    .single()
-
-  if (fetchError || !app) throw new Error('Application not found')
-
-  // 2. Insert into students as waiting_list (no registration number assigned yet)
-  const { error: insertError } = await supabase.from('students').insert({
-    full_name:        app.student_name,
-    parent_name:      app.parent_name,
-    parent_email:     app.parent_email,
-    parent_phone:     app.parent_phone || null,
-    date_of_birth:    app.date_of_birth || null,
-    medical_notes:    app.notes || null,
-    admin_notes:      app.program_interest ? `Program Interest: ${app.program_interest}` : null,
-    status:           'waiting_list',
-    enrollment_date:  new Date().toISOString().split('T')[0],
-  })
-
-  if (insertError) throw new Error(insertError.message)
-
-  // 3. Mark application as next_semester (removes from pending queue)
-  await supabase
-    .from('admission_applications')
-    .update({ status: 'next_semester' })
-    .eq('id', appId)
-
-  // 4. Send waiting list email to parent (best-effort, don't block on failure)
+  let params: URLSearchParams
   try {
-    const { sendWaitingListEmail } = await import('@/lib/email')
-    await sendWaitingListEmail({
-      email:           app.parent_email,
-      parentName:      app.parent_name,
-      studentName:     app.student_name,
-      programInterest: app.program_interest || null,
+    // 1. Fetch the application
+    const { data: app, error: fetchError } = await supabase
+      .from('admission_applications')
+      .select('*')
+      .eq('id', appId)
+      .single()
+
+    if (fetchError || !app) throw new Error('Application not found')
+
+    // 2. Insert into students as waiting_list (no registration number assigned yet)
+    const { error: insertError } = await supabase.from('students').insert({
+      full_name:        app.student_name,
+      parent_name:      app.parent_name,
+      parent_email:     app.parent_email,
+      parent_phone:     app.parent_phone || null,
+      date_of_birth:    app.date_of_birth || null,
+      medical_notes:    app.notes || null,
+      admin_notes:      app.program_interest ? `Program Interest: ${app.program_interest}` : null,
+      status:           'waiting_list',
+      enrollment_date:  new Date().toISOString().split('T')[0],
     })
-  } catch (emailErr) {
-    console.error('Waiting list email failed (non-blocking):', emailErr)
+
+    if (insertError) throw new Error(insertError.message)
+
+    // 3. Mark application as next_semester (removes from pending queue)
+    const { error: updErr } = await supabase
+      .from('admission_applications')
+      .update({ status: 'next_semester' })
+      .eq('id', appId)
+
+    if (updErr) throw new Error(updErr.message)
+
+    // 4. Send waiting list email to parent (best-effort, don't block on failure)
+    try {
+      const { sendWaitingListEmail } = await import('@/lib/email')
+      await sendWaitingListEmail({
+        email:           app.parent_email,
+        parentName:      app.parent_name,
+        studentName:     app.student_name,
+        programInterest: app.program_interest || null,
+      })
+    } catch (emailErr) {
+      console.error('Waiting list email failed (non-blocking):', emailErr)
+    }
+
+    // 5. Build success notification params
+    params = new URLSearchParams({
+      wl_success:  '1',
+      wl_student:  app.student_name,
+      wl_parent:   app.parent_name,
+      wl_phone:    app.parent_phone || '',
+      wl_email:    app.parent_email,
+    })
+  } catch (err) {
+    console.error('deferToNextSemester failed:', err)
+    const msg = err instanceof Error ? err.message : 'Could not move to waiting list'
+    revalidatePath(STUDENTS_PATH)
+    redirect(`${from}?error=${encodeURIComponent(msg)}`)
   }
 
-  revalidatePath('/admin/dashboard/students')
+  revalidatePath(STUDENTS_PATH)
   revalidatePath('/admin/dashboard/reports/waiting-list')
-
-  // 5. Redirect back with success notification params
-  const params = new URLSearchParams({
-    wl_success:  '1',
-    wl_student:  app.student_name,
-    wl_parent:   app.parent_name,
-    wl_phone:    app.parent_phone || '',
-    wl_email:    app.parent_email,
-  })
-  redirect(`/admin/dashboard/students?${params.toString()}`)
+  redirect(`${STUDENTS_PATH}?${params.toString()}`)
 }
 
 // ─── Enroll a Waiting List Student ────────────────────────────────────────────

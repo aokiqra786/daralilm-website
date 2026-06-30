@@ -94,6 +94,25 @@ export async function submitAdmissionApplication(formData: FormData) {
     }
   }
 
+  // Block duplicate applications: same child + same program already has an open
+  // (pending/approved) application. admission_applications is admin-read-only
+  // under RLS, so this lookup must use the service-role client — the anon client
+  // would see 0 rows and never detect the duplicate.
+  if (programInterest) {
+    const admin = createAdminClient()
+    const { data: dupe } = await admin
+      .from('admission_applications')
+      .select('id')
+      .eq('parent_email', parentEmail)
+      .ilike('student_name', studentName)
+      .eq('program_interest', programInterest)
+      .in('status', ['pending', 'approved'])
+      .limit(1)
+    if (dupe && dupe.length) {
+      redirect('/admissions?error=already_applied')
+    }
+  }
+
   const { error } = await supabase
     .from('admission_applications')
     .insert({
@@ -111,6 +130,10 @@ export async function submitAdmissionApplication(formData: FormData) {
     })
 
   if (error) {
+    // 23505 = unique-violation from the DB safety-net index (race-proof dedup).
+    if ((error as { code?: string }).code === '23505') {
+      redirect('/admissions?error=already_applied')
+    }
     console.error('Admission application error:', error.message)
     redirect('/admissions?error=failed')
   }
