@@ -6,10 +6,10 @@ import ReminderButton from './ReminderButton'
 export default async function AcknowledgementsPage(props: { searchParams: Promise<{ role?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/admin')
+  if (!user) redirect('/portal/admin')
   
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (!profile || !['admin', 'super_admin'].includes(profile.role)) redirect('/admin')
+  if (!profile || !['admin', 'super_admin'].includes(profile.role)) redirect('/portal/admin')
 
   const searchParams = await props.searchParams
   const roleFilter = searchParams?.role || 'all'

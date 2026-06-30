@@ -43,7 +43,7 @@ export default function AdminSidebar({ role }: { role: string }) {
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    window.location.href = '/admin'
+    window.location.href = '/portal/admin'
   }
 
   const filteredNavItems = navItems.filter(item => 
@@ -93,7 +93,7 @@ export default function AdminSidebar({ role }: { role: string }) {
       {/* Switch Portal + Logout */}
       <div className="p-4 border-t border-blue-900/50 space-y-1">
         <Link
-          href="/admin"
+          href="/"
           className="flex items-center w-full px-3 py-2 text-sm font-medium text-blue-300 rounded-lg hover:bg-blue-900 hover:text-white transition-colors"
         >
           <LayoutGrid className="w-4 h-4 mr-3" />

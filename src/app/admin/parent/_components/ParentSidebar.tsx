@@ -24,7 +24,7 @@ export default function ParentSidebar() {
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    window.location.href = '/admin'
+    window.location.href = '/login/parent'
   }
 
   const isActive = (href: string, exact?: boolean) =>
@@ -61,7 +61,7 @@ export default function ParentSidebar() {
       {/* Switch Portal + Logout */}
       <div className="px-3 pb-4 border-t border-slate-100 pt-3 space-y-1">
         <Link
-          href="/admin"
+          href="/"
           className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-slate-500 hover:bg-emerald-50 hover:text-emerald-700 transition-all"
         >
           <LayoutGrid className="w-5 h-5" />

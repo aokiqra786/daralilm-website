@@ -92,6 +92,7 @@ export default function Footer() {
               <li><Link href="/volunteers" className="hover:text-gold">Volunteer</Link></li>
               <li><Link href="/donate" className="hover:text-gold">Donate</Link></li>
               <li><a href="https://parent.socalaok.org" className="hover:text-gold">Parent Login</a></li>
+              <li><a href="https://teacher.socalaok.org" className="hover:text-gold">Teacher Login</a></li>
             </ul>
           </nav>
           <h2 className="mt-8 font-display text-lg text-gold">Contact</h2>

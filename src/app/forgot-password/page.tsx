@@ -9,8 +9,9 @@ export default async function ForgotPasswordPage({
 }) {
   const { role, error, success } = await searchParams
   
-  // Determine back link based on role
-  let backLink = '/admin'
+  // Determine back link based on role (default to the admin login, since the
+  // public /admin chooser was retired)
+  let backLink = '/portal/admin'
   if (role === 'teacher') backLink = '/portal/teacher'
   if (role === 'event_uploader') backLink = '/portal/events'
   if (role === 'parent') backLink = '/login/parent'
