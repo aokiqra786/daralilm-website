@@ -33,19 +33,19 @@ export default function SiteSettingsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 mb-1">Academy Name</label>
-              <input type="text" defaultValue="SoCal Academy of Knowledge" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="text" defaultValue="SoCal Academy of Knowledge" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Contact Email</label>
-              <input type="email" defaultValue="admin@socalaok.org" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="email" defaultValue="admin@socalaok.org" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Contact Phone</label>
-              <input type="tel" placeholder="(555) 000-0000" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="tel" placeholder="(555) 000-0000" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 mb-1">Academy Address</label>
-              <input type="text" placeholder="123 Main St, City, State ZIP" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="text" placeholder="123 Main St, City, State ZIP" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
           </div>
         </div>
@@ -74,11 +74,11 @@ export default function SiteSettingsPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Year Start</label>
-              <input type="date" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="date" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Year End</label>
-              <input type="date" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="date" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
           </div>
         </div>

@@ -115,14 +115,14 @@ export default function DonatePage() {
                 <div className="space-y-4 pt-4 border-t">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="First Name" />
+                      <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-ink" placeholder="First Name" />
                     </div>
                     <div>
-                      <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Last Name" />
+                      <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-ink" placeholder="Last Name" />
                     </div>
                   </div>
                   <div>
-                    <input type="email" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Email Address" />
+                    <input type="email" className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-ink" placeholder="Email Address" />
                   </div>
                 </div>
 

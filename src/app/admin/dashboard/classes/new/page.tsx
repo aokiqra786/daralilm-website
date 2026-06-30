@@ -65,12 +65,12 @@ export default async function CreateClassPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Class Name *</label>
-              <input type="text" name="name" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Beginners Tajweed (Section A)" />
+              <input type="text" name="name" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="e.g. Beginners Tajweed (Section A)" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Program Type *</label>
-              <select name="programType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+              <select name="programType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                 <option value="">Select...</option>
                 <option value="evening_quran">Evening Qur'an</option>
                 <option value="sunday_school">Sunday School</option>
@@ -83,7 +83,7 @@ export default async function CreateClassPage() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Assign Teacher</label>
-              <select name="teacherId" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+              <select name="teacherId" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                 <option value="">Unassigned</option>
                 {teachers?.map(t => (
                   <option key={t.id} value={t.id}>{t.full_name}</option>
@@ -93,7 +93,7 @@ export default async function CreateClassPage() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Gender Requirement *</label>
-              <select name="genderRequirement" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+              <select name="genderRequirement" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                 <option value="both">Both (Co-ed)</option>
                 <option value="male">Male Only</option>
                 <option value="female">Female Only</option>
@@ -115,7 +115,7 @@ export default async function CreateClassPage() {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Schedule Time</label>
-            <input type="text" name="time" className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. 5:00 PM - 7:00 PM" />
+            <input type="text" name="time" className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="e.g. 5:00 PM - 7:00 PM" />
           </div>
 
         </div>

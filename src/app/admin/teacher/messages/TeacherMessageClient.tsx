@@ -86,7 +86,7 @@ export default function TeacherMessageClient({
           required
           value={selectedClassId}
           onChange={e => { setSelectedClassId(e.target.value) }}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+          className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all text-ink"
         >
           <option value="">— Choose a class —</option>
           {classes.map(cls => (
@@ -129,7 +129,7 @@ export default function TeacherMessageClient({
           value={subject}
           onChange={e => setSubject(e.target.value)}
           placeholder="e.g. Upcoming Quiz on Friday"
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+          className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all text-ink"
         />
       </div>
 
@@ -142,7 +142,7 @@ export default function TeacherMessageClient({
           value={message}
           onChange={e => setMessage(e.target.value)}
           placeholder="Type your message here…"
-          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none text-ink"
         />
         <p className="text-xs text-slate-400 mt-1.5 flex items-center gap-1">
           <Mail className="w-3 h-3" />

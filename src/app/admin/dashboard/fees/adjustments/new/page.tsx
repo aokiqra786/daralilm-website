@@ -68,7 +68,7 @@ export default async function CreateAdjustmentPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Student *</label>
-              <select name="studentId" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="studentId" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="">Select Student...</option>
                 {students?.map(s => (
                   <option key={s.id} value={s.id}>{s.full_name} ({s.registration_number})</option>
@@ -78,7 +78,7 @@ export default async function CreateAdjustmentPage() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Adjustment Type *</label>
-              <select name="adjustmentType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="adjustmentType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="sibling_discount">Sibling Discount</option>
                 <option value="merit_waiver">Merit / Scholarship</option>
                 <option value="hardship_waiver">Financial Hardship</option>
@@ -89,19 +89,19 @@ export default async function CreateAdjustmentPage() {
             <div className="col-span-full grid grid-cols-2 gap-6 p-4 bg-slate-50 border border-slate-200 rounded-lg">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Percentage Off (%)</label>
-                <input type="number" name="discountPct" max="100" min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. 50" />
+                <input type="number" name="discountPct" max="100" min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. 50" />
                 <p className="text-xs text-slate-500 mt-1">Leave blank if flat amount</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Flat Amount Off ($)</label>
-                <input type="number" step="0.01" name="discountFlat" min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. 100.00" />
+                <input type="number" step="0.01" name="discountFlat" min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. 100.00" />
                 <p className="text-xs text-slate-500 mt-1">Leave blank if percentage</p>
               </div>
             </div>
 
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Reason / Notes</label>
-              <input type="text" name="reason" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Explanation for this adjustment..." />
+              <input type="text" name="reason" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="Explanation for this adjustment..." />
             </div>
           </div>
 

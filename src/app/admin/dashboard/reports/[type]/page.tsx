@@ -239,7 +239,7 @@ export default function ReportViewPage() {
                   value={dateFrom}
                   max={todayISO()}
                   onChange={e => setDateFrom(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                  className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-ink"
                 />
               )}
               {mode === 'monthly' && (
@@ -248,7 +248,7 @@ export default function ReportViewPage() {
                   value={monthPicker}
                   max={new Date().toISOString().slice(0, 7)}
                   onChange={e => setMonthPicker(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                  className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-ink"
                 />
               )}
               {mode === 'custom' && (
@@ -258,7 +258,7 @@ export default function ReportViewPage() {
                     value={dateFrom}
                     max={dateTo}
                     onChange={e => setDateFrom(e.target.value)}
-                    className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-ink"
                   />
                   <span className="text-slate-400 text-sm">to</span>
                   <input
@@ -267,7 +267,7 @@ export default function ReportViewPage() {
                     min={dateFrom}
                     max={todayISO()}
                     onChange={e => setDateTo(e.target.value)}
-                    className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    className="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-ink"
                   />
                 </div>
               )}

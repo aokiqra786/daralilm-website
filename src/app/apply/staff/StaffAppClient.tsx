@@ -54,39 +54,39 @@ export default function StaffAppClient() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">First Name *</label>
-          <input required type="text" name="firstName" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+          <input required type="text" name="firstName" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">Last Name *</label>
-          <input required type="text" name="lastName" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+          <input required type="text" name="lastName" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
-          <input required type="email" name="email" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+          <input required type="email" name="email" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
-          <input required type="tel" name="phone" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+          <input required type="tel" name="phone" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
         </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-2">Position Applying For *</label>
-        <input required type="text" name="position" placeholder="e.g. Administrative Assistant, Event Coordinator" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+        <input required type="text" name="position" placeholder="e.g. Administrative Assistant, Event Coordinator" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-2">Relevant Experience Summary *</label>
         <p className="text-xs text-slate-500 mb-3">Please briefly describe your past experience, skills, and why you are a good fit for this role.</p>
-        <textarea required name="experienceSummary" rows={6} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition"></textarea>
+        <textarea required name="experienceSummary" rows={6} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink"></textarea>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-2">Availability *</label>
-        <input required type="text" name="availability" placeholder="e.g. Monday - Friday, 9am - 5pm" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition" />
+        <input required type="text" name="availability" placeholder="e.g. Monday - Friday, 9am - 5pm" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-ink" />
       </div>
 
       <div className="pt-4">

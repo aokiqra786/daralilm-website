@@ -37,16 +37,16 @@ export default function RegisterVolunteerPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                <input type="text" name="fullName" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Bilal Hassan" />
+                <input type="text" name="fullName" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="e.g. Bilal Hassan" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Date of Birth *</label>
-                  <input type="date" name="dob" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                  <input type="date" name="dob" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Gender *</label>
-                  <select name="gender" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                  <select name="gender" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                     <option value="">Select...</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -62,15 +62,15 @@ export default function RegisterVolunteerPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                <input type="email" name="email" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="volunteer@email.com" />
+                <input type="email" name="email" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="volunteer@email.com" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
-                <input type="tel" name="phone" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="(555) 123-4567" />
+                <input type="tel" name="phone" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="(555) 123-4567" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Home Address</label>
-                <input type="text" name="address" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional" />
+                <input type="text" name="address" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="Optional" />
               </div>
             </div>
           </section>
@@ -92,7 +92,7 @@ export default function RegisterVolunteerPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Preferred Time *</label>
-                <select name="preferredTime" required className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                <select name="preferredTime" required className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                   <option value="">Select...</option>
                   <option value="Morning">Morning</option>
                   <option value="Afternoon">Afternoon</option>
@@ -121,7 +121,7 @@ export default function RegisterVolunteerPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Special Skills / Languages *</label>
-                <input type="text" name="skills" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Arabic, First Aid, Carpentry" />
+                <input type="text" name="skills" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="e.g. Arabic, First Aid, Carpentry" />
               </div>
               <div className="flex items-end pb-2">
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -131,7 +131,7 @@ export default function RegisterVolunteerPage() {
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Previous Volunteer Experience *</label>
-                <textarea name="previousExperience" required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Briefly describe previous volunteering experience. Enter 'None' if first time."></textarea>
+                <textarea name="previousExperience" required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="Briefly describe previous volunteering experience. Enter 'None' if first time."></textarea>
               </div>
             </div>
           </section>
@@ -142,11 +142,11 @@ export default function RegisterVolunteerPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Emergency Contact *</label>
-                <input type="text" name="emergencyContact" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Name & Phone Number" />
+                <input type="text" name="emergencyContact" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="Name & Phone Number" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Admin Notes (Internal)</label>
-                <input type="text" name="adminNotes" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional" />
+                <input type="text" name="adminNotes" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="Optional" />
               </div>
             </div>
           </section>

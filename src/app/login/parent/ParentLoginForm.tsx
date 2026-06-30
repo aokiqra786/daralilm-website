@@ -23,7 +23,7 @@ export default function ParentLoginForm({ message }: { message?: string }) {
               required
               autoComplete="off"
               spellCheck="false"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all text-ink"
             />
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function ParentLoginForm({ message }: { message?: string }) {
               placeholder="••••••••"
               required
               autoComplete="new-password"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none transition-all text-ink"
             />
           </div>
         </div>

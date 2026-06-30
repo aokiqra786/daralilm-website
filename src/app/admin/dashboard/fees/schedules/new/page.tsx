@@ -65,13 +65,13 @@ export default async function CreateFeeSchedulePage() {
             {/* Label */}
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Schedule Label *</label>
-              <input type="text" name="label" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. Evening Qur'an Base Monthly" />
+              <input type="text" name="label" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. Evening Qur'an Base Monthly" />
             </div>
 
             {/* Fee Type */}
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Fee Type *</label>
-              <select name="feeType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="feeType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 {FEE_TYPES.map(ft => (
                   <option key={ft.value} value={ft.value}>{ft.label}</option>
                 ))}
@@ -82,7 +82,7 @@ export default async function CreateFeeSchedulePage() {
             {/* Program */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Target Program *</label>
-              <select name="programType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="programType" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="">Select...</option>
                 <option value="evening_quran">Evening Qur'an</option>
                 <option value="sunday_school">Sunday School</option>
@@ -96,7 +96,7 @@ export default async function CreateFeeSchedulePage() {
             {/* Frequency */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Billing Frequency *</label>
-              <select name="frequency" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="frequency" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="monthly">Monthly</option>
                 <option value="semester">Per Semester</option>
                 <option value="program">One-Time (Per Program)</option>
@@ -106,7 +106,7 @@ export default async function CreateFeeSchedulePage() {
             {/* Amount */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Base Amount ($) *</label>
-              <input type="number" step="0.01" name="amount" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="80.00" />
+              <input type="number" step="0.01" name="amount" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="80.00" />
             </div>
           </div>
 
@@ -116,7 +116,7 @@ export default async function CreateFeeSchedulePage() {
             <textarea
               name="remarks"
               rows={3}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none text-ink"
               placeholder="Optional — explain what this charge covers, e.g. 'Covers Arabic workbook and printed Qur'an supplement for the academic year.'"
             />
             <p className="text-xs text-slate-500 mt-1.5">Remarks will appear on student invoices and parent notifications to clarify the charge.</p>
@@ -128,11 +128,11 @@ export default async function CreateFeeSchedulePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">2nd Sibling Discount (%)</label>
-                <input type="number" name="sibling2" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. 10" defaultValue="10" />
+                <input type="number" name="sibling2" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. 10" defaultValue="10" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">3rd+ Sibling Discount (%)</label>
-                <input type="number" name="sibling3" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. 15" defaultValue="15" />
+                <input type="number" name="sibling3" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. 15" defaultValue="15" />
               </div>
             </div>
             <p className="text-sm text-slate-500 mt-3">Discounts are automatically applied during billing generation if multiple siblings are enrolled under the same parent email.</p>

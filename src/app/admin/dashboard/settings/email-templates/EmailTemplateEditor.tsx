@@ -268,7 +268,7 @@ export default function EmailTemplateEditor({ templates: initial }: EmailTemplat
           <label className="block text-sm font-medium text-slate-700 mb-1">Email Subject *</label>
           {preview
             ? <div className="px-4 py-2 border border-slate-200 rounded-lg bg-slate-50 text-sm" dangerouslySetInnerHTML={{ __html: renderPreview(current.subject) }} />
-            : <input type="text" value={current.subject} onChange={e => updateField('subject', e.target.value)} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+            : <input type="text" value={current.subject} onChange={e => updateField('subject', e.target.value)} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm text-ink" />
           }
         </div>
 
@@ -277,7 +277,7 @@ export default function EmailTemplateEditor({ templates: initial }: EmailTemplat
           <label className="block text-sm font-medium text-slate-700 mb-1">Email Body *</label>
           {preview
             ? <div className="p-4 border border-slate-200 rounded-lg bg-slate-50 text-sm whitespace-pre-line leading-relaxed min-h-48" dangerouslySetInnerHTML={{ __html: renderPreview(current.body) }} />
-            : <textarea value={current.body} onChange={e => updateField('body', e.target.value)} rows={16} className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm resize-y" />
+            : <textarea value={current.body} onChange={e => updateField('body', e.target.value)} rows={16} className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm resize-y text-ink" />
           }
         </div>
       </div>
@@ -297,13 +297,13 @@ export default function EmailTemplateEditor({ templates: initial }: EmailTemplat
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Template Name *</label>
                   <input type="text" value={newForm.label} onChange={e => setNewForm(f => ({ ...f, label: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink"
                     placeholder="e.g. Attendance Absence Alert" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Key (auto-generated) *</label>
                   <input type="text" value={newForm.key} onChange={e => setNewForm(f => ({ ...f, key: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink"
                     placeholder="e.g. attendance_absence" />
                   <p className="text-xs text-slate-400 mt-0.5">Lowercase letters, numbers, underscores only.</p>
                 </div>
@@ -311,20 +311,20 @@ export default function EmailTemplateEditor({ templates: initial }: EmailTemplat
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
                 <input type="text" value={newForm.description} onChange={e => setNewForm(f => ({ ...f, description: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 text-ink"
                   placeholder="When is this email sent?" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Subject *</label>
                 <input type="text" value={newForm.subject} onChange={e => setNewForm(f => ({ ...f, subject: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 text-ink"
                   placeholder="Email subject line…" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Body *</label>
                 <textarea value={newForm.body} onChange={e => setNewForm(f => ({ ...f, body: e.target.value }))}
                   rows={8}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 resize-y"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 resize-y text-ink"
                   placeholder={'Dear {{parent_name}},\n\n...\n\nJazakAllahu Khairan,\n{{academy_name}} Administration'} />
               </div>
               {newError && <p className="text-red-600 text-sm">{newError}</p>}

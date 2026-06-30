@@ -28,11 +28,11 @@ export function ResetPasswordForm({ error }: { error?: string }) {
                 type="password"
                 required
                 minLength={6}
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all text-ink"
                 placeholder="••••••••"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="confirmPassword">
                 Confirm New Password
@@ -43,7 +43,7 @@ export function ResetPasswordForm({ error }: { error?: string }) {
                 type="password"
                 required
                 minLength={6}
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all text-ink"
                 placeholder="••••••••"
               />
             </div>

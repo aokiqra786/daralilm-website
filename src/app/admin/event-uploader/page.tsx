@@ -343,10 +343,10 @@ export default function EventUploader() {
                 <label className="block text-sm font-medium text-slate-700 mb-1">Publish Date</label>
                 <p className="text-xs text-slate-500 mb-2">When should this post appear on the site?</p>
                 <input 
-                  type="date" 
+                  type="date"
                   value={publishDate}
                   onChange={e => setPublishDate(e.target.value)}
-                  className="border border-slate-300 rounded px-3 py-2 w-full"
+                  className="border border-slate-300 rounded px-3 py-2 w-full text-ink"
                   required
                 />
               </div>
@@ -355,10 +355,10 @@ export default function EventUploader() {
                 <label className="block text-sm font-medium text-slate-700 mb-1">Expiration Date</label>
                 <p className="text-xs text-slate-500 mb-2">When should this post be removed?</p>
                 <input 
-                  type="date" 
+                  type="date"
                   value={endDate}
                   onChange={e => setEndDate(e.target.value)}
-                  className="border border-slate-300 rounded px-3 py-2 w-full"
+                  className="border border-slate-300 rounded px-3 py-2 w-full text-ink"
                   required
                 />
               </div>
@@ -388,11 +388,11 @@ export default function EventUploader() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Post Title</label>
                   <input 
-                    type="text" 
+                    type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     placeholder="e.g., Community Iftar Dinner"
-                    className="border border-slate-300 rounded px-3 py-2 w-full"
+                    className="border border-slate-300 rounded px-3 py-2 w-full text-ink"
                     required={uploadType === "image"}
                   />
                 </div>
@@ -402,7 +402,7 @@ export default function EventUploader() {
                     value={caption}
                     onChange={e => setCaption(e.target.value)}
                     placeholder="Write a caption to boost engagement on Facebook/Instagram..."
-                    className="border border-slate-300 rounded px-3 py-2 w-full h-24 resize-none"
+                    className="border border-slate-300 rounded px-3 py-2 w-full h-24 resize-none text-ink"
                   />
                 </div>
               </div>

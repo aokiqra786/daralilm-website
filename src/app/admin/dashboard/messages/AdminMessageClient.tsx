@@ -85,7 +85,7 @@ export default function AdminMessageClient({
         <select
           value={recipientOption}
           onChange={(e) => setRecipientOption(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-ink"
         >
           <option value="all">All Parents ({allParentEmails.length} recipients)</option>
           <optgroup label="Specific Classes">
@@ -111,7 +111,7 @@ export default function AdminMessageClient({
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="e.g. Important School Update"
-          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-ink"
         />
       </div>
 
@@ -123,7 +123,7 @@ export default function AdminMessageClient({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your official message here..."
-          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none text-ink"
         />
         <p className="text-xs text-slate-500 mt-2">
           This email will be sent from admin@socalaok.org. Replies will come to this address.

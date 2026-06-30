@@ -20,7 +20,7 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
             required
             autoComplete="off"
             spellCheck="false"
-            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all text-ink"
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function PortalLoginForm({ message, role }: { message?: string, r
             type="password"
             required
             autoComplete="new-password"
-            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all text-ink"
           />
           <div className="flex justify-end mt-2">
             <Link 

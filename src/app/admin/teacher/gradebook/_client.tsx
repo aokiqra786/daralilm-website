@@ -161,7 +161,7 @@ export default function GradebookClient({ classes, teacherId }: { classes: Class
                 value={newAssessment.name}
                 onChange={e => setNewAssessment(p => ({ ...p, name: e.target.value }))}
                 placeholder="e.g. Surah Al-Fatiha"
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-amber-500 text-ink"
               />
             </div>
             <div>
@@ -169,7 +169,7 @@ export default function GradebookClient({ classes, teacherId }: { classes: Class
               <select
                 value={newAssessment.assessment_type}
                 onChange={e => setNewAssessment(p => ({ ...p, assessment_type: e.target.value }))}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white outline-none focus:ring-2 focus:ring-amber-500 text-ink"
               >
                 <option value="recitation">Recitation</option>
                 <option value="quiz">Quiz</option>
@@ -183,7 +183,7 @@ export default function GradebookClient({ classes, teacherId }: { classes: Class
                 type="date"
                 value={newAssessment.assessment_date}
                 onChange={e => setNewAssessment(p => ({ ...p, assessment_date: e.target.value }))}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-amber-500 text-ink"
               />
             </div>
           </div>

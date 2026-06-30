@@ -47,16 +47,16 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                <input type="text" name="fullName" defaultValue={volunteer.full_name} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="fullName" defaultValue={volunteer.full_name} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Date of Birth *</label>
-                  <input type="date" name="dob" defaultValue={volunteer.date_of_birth} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                  <input type="date" name="dob" defaultValue={volunteer.date_of_birth} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Gender *</label>
-                  <select name="gender" defaultValue={volunteer.gender} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                  <select name="gender" defaultValue={volunteer.gender} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -71,15 +71,15 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                <input type="email" name="email" defaultValue={volunteer.email} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="email" name="email" defaultValue={volunteer.email} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
-                <input type="tel" name="phone" defaultValue={volunteer.phone} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="tel" name="phone" defaultValue={volunteer.phone} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Home Address</label>
-                <input type="text" name="address" defaultValue={volunteer.address || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="address" defaultValue={volunteer.address || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
             </div>
           </section>
@@ -101,7 +101,7 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Preferred Time *</label>
-                <select name="preferredTime" defaultValue={volunteer.preferred_time} required className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                <select name="preferredTime" defaultValue={volunteer.preferred_time} required className="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                   <option value="Morning">Morning</option>
                   <option value="Afternoon">Afternoon</option>
                   <option value="Evening">Evening</option>
@@ -129,7 +129,7 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Special Skills / Languages *</label>
-                <input type="text" name="skills" defaultValue={volunteer.skills || ''} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="skills" defaultValue={volunteer.skills || ''} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="flex items-end pb-2">
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -139,7 +139,7 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Previous Volunteer Experience *</label>
-                <textarea name="previousExperience" defaultValue={volunteer.previous_experience || ''} required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                <textarea name="previousExperience" defaultValue={volunteer.previous_experience || ''} required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink"></textarea>
               </div>
             </div>
           </section>
@@ -150,11 +150,11 @@ export default async function EditVolunteerPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Emergency Contact *</label>
-                <input type="text" name="emergencyContact" defaultValue={volunteer.emergency_contact} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="emergencyContact" defaultValue={volunteer.emergency_contact} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Admin Notes (Internal)</label>
-                <input type="text" name="adminNotes" defaultValue={volunteer.admin_notes || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="adminNotes" defaultValue={volunteer.admin_notes || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
             </div>
           </section>

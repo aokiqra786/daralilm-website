@@ -191,10 +191,10 @@ export default async function StudentsPage({
           <input
             type="text"
             placeholder="Search by name, ID, or parent email..."
-            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink"
           />
         </div>
-        <select className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+        <select className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
           <option value="">All Programs</option>
           <option value="evening_quran">Evening Qur&apos;an</option>
           <option value="sunday_school">Sunday School</option>

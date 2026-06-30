@@ -108,16 +108,16 @@ export default async function EditTeacherPage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                <input type="text" name="fullName" defaultValue={teacher.full_name} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="fullName" defaultValue={teacher.full_name} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Date of Birth *</label>
-                  <input type="date" name="dob" defaultValue={teacher.date_of_birth} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                  <input type="date" name="dob" defaultValue={teacher.date_of_birth} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Gender *</label>
-                  <select name="gender" defaultValue={teacher.gender} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                  <select name="gender" defaultValue={teacher.gender} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -134,15 +134,15 @@ export default async function EditTeacherPage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                <input type="email" name="email" defaultValue={teacher.email} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="email" name="email" defaultValue={teacher.email} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
-                <input type="tel" name="phone" defaultValue={teacher.phone} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="tel" name="phone" defaultValue={teacher.phone} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Home Address *</label>
-                <input type="text" name="address" defaultValue={teacher.address} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="address" defaultValue={teacher.address} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
             </div>
           </section>
@@ -155,11 +155,11 @@ export default async function EditTeacherPage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Highest Degree / Certifications *</label>
-                <input type="text" name="qualifications" defaultValue={teacher.qualifications} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="qualifications" defaultValue={teacher.qualifications} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Years of Experience *</label>
-                <input type="number" name="experience" defaultValue={teacher.experience_years} required min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="number" name="experience" defaultValue={teacher.experience_years} required min="0" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
             </div>
             <div>
@@ -183,7 +183,7 @@ export default async function EditTeacherPage({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Employment Type *</label>
-                <select name="employmentType" defaultValue={teacher.employment_type} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                <select name="employmentType" defaultValue={teacher.employment_type} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
                   <option value="full_time">Full-time</option>
                   <option value="part_time">Part-time</option>
                   <option value="volunteer">Volunteer</option>
@@ -191,7 +191,7 @@ export default async function EditTeacherPage({
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Hire / Start Date *</label>
-                <input type="date" name="hireDate" defaultValue={teacher.hire_date} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="date" name="hireDate" defaultValue={teacher.hire_date} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div className="flex items-end pb-2">
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -203,11 +203,11 @@ export default async function EditTeacherPage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Emergency Contact Info *</label>
-                <input type="text" name="emergencyContact" defaultValue={teacher.emergency_contact} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="emergencyContact" defaultValue={teacher.emergency_contact} required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Admin Notes</label>
-                <input type="text" name="adminNotes" defaultValue={teacher.admin_notes || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" name="adminNotes" defaultValue={teacher.admin_notes || ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" />
               </div>
             </div>
           </section>

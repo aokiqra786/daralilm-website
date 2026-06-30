@@ -39,7 +39,7 @@ export default function VolunteerForm() {
 
         <form action={submitVolunteerApplication} className="space-y-8">
           {/* Honeypot — hidden from users; bot submissions are dropped server-side */}
-          <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
+          <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0 text-ink" />
 
           {/* 1. Personal Info */}
           <section>
@@ -47,15 +47,15 @@ export default function VolunteerForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                <input type="text" name="fullName" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. Bilal Hassan" />
+                <input type="text" name="fullName" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-ink" placeholder="e.g. Bilal Hassan" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Date of Birth *</label>
-                <input type="date" name="dob" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" />
+                <input type="date" name="dob" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-ink" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Gender *</label>
-                <select name="gender" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white">
+                <select name="gender" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white text-ink">
                   <option value="">Select...</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -70,15 +70,15 @@ export default function VolunteerForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                <input type="email" name="email" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="you@example.com" />
+                <input type="email" name="email" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-ink" placeholder="you@example.com" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
-                <input type="tel" name="phone" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="(555) 123-4567" />
+                <input type="tel" name="phone" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-ink" placeholder="(555) 123-4567" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">Home Address</label>
-                <input type="text" name="address" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Optional" />
+                <input type="text" name="address" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-ink" placeholder="Optional" />
               </div>
             </div>
           </section>
@@ -100,7 +100,7 @@ export default function VolunteerForm() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Preferred Time *</label>
-                <select name="preferredTime" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 bg-white">
+                <select name="preferredTime" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 bg-white text-ink">
                   <option value="">Select...</option>
                   <option value="Morning">Morning</option>
                   <option value="Afternoon">Afternoon</option>
@@ -129,11 +129,11 @@ export default function VolunteerForm() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Special Skills / Languages *</label>
-                <input type="text" name="skills" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="e.g. Arabic, First Aid, Photography" />
+                <input type="text" name="skills" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-ink" placeholder="e.g. Arabic, First Aid, Photography" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Previous Volunteer Experience *</label>
-                <textarea name="previousExperience" required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="Briefly describe your previous experience. Enter 'None' if this is your first time." />
+                <textarea name="previousExperience" required rows={3} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-ink" placeholder="Briefly describe your previous experience. Enter 'None' if this is your first time." />
               </div>
             </div>
           </section>
@@ -143,7 +143,7 @@ export default function VolunteerForm() {
             <h3 className="font-bold text-slate-800 border-b border-slate-200 pb-2 mb-4">Emergency Contact</h3>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Emergency Contact Name & Phone *</label>
-              <input type="text" name="emergencyContact" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="Name & Phone Number" />
+              <input type="text" name="emergencyContact" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-ink" placeholder="Name & Phone Number" />
             </div>
           </section>
 

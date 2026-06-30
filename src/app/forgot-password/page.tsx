@@ -54,7 +54,7 @@ export default async function ForgotPasswordPage({
                     name="email"
                     type="email"
                     required
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all text-ink"
                     placeholder="name@example.com"
                   />
                 </div>

@@ -123,7 +123,7 @@ export default async function FeesPage() {
             <input 
               type="text" 
               placeholder="Search student..." 
-              className="w-full pl-9 pr-4 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              className="w-full pl-9 pr-4 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink"
             />
           </div>
         </div>

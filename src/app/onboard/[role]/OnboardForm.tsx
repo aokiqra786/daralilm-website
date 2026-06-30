@@ -38,7 +38,7 @@ export default function OnboardForm({ token, rolePath, email, fullName, message 
           placeholder="••••••••"
           required
           minLength={6}
-          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-ink"
         />
       </div>
 

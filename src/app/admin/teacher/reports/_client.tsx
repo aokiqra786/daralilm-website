@@ -48,10 +48,10 @@ function DateFilterBar({ period, setPeriod, startDate, setStartDate, endDate, se
       {period === 'Custom' && (
         <div className="flex items-center gap-2">
           <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
-            className="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-400" />
+            className="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 text-ink" />
           <span className="text-slate-400 text-xs">to</span>
           <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
-            className="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-400" />
+            className="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-400 text-ink" />
         </div>
       )}
       {period !== 'Custom' && (
@@ -361,7 +361,7 @@ export default function TeacherReportsClient({ classes, attendance, grades, fees
           <select
             value={classFilter}
             onChange={e => setClassFilter(e.target.value)}
-            className="text-sm px-3 py-2 border border-slate-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-amber-400"
+            className="text-sm px-3 py-2 border border-slate-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-amber-400 text-ink"
           >
             <option value="">All Classes</option>
             {classes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}

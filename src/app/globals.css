@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  /* The site is designed light-only. Force the light scheme so the browser never
+     applies dark UA styling to form controls (which made typed text white-on-white
+     under device dark mode / Night Shift). */
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
 
@@ -58,13 +62,6 @@
   --color-warning: #b47800;
   --color-danger: #b03a2e;
   --color-info: #15263f;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

@@ -148,9 +148,9 @@ export default function ApplicationList({ applications }: { applications: any[] 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-orange-900 mb-2">Assign System Role upon Approval:</label>
                   <select 
-                    value={roleSelection} 
+                    value={roleSelection}
                     onChange={e => setRoleSelection(e.target.value)}
-                    className="w-full p-3 border border-orange-300 rounded-lg bg-white outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full p-3 border border-orange-300 rounded-lg bg-white outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-ink"
                   >
                     <option value="admin">Staff Admin (Full Dashboard Access)</option>
                     <option value="event_uploader">Event Uploader (Only Announcements & Events)</option>

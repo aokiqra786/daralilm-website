@@ -93,7 +93,7 @@ export default function RecordPaymentPage() {
             {/* Student */}
             <div className="col-span-full">
               <label className="block text-sm font-medium text-slate-700 mb-1">Student *</label>
-              <select name="studentId" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="studentId" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="">Select Student...</option>
                 {students.map(s => (
                   <option key={s.id} value={s.id}>{s.full_name} ({s.registration_number})</option>
@@ -109,7 +109,7 @@ export default function RecordPaymentPage() {
                 required
                 value={feeType}
                 onChange={e => setFeeType(e.target.value)}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink"
               >
                 {FEE_TYPES.map(ft => (
                   <option key={ft.value} value={ft.value}>{ft.label}</option>
@@ -120,19 +120,19 @@ export default function RecordPaymentPage() {
             {/* Billing Month */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Billing Month *</label>
-              <input type="month" name="billingPeriod" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              <input type="month" name="billingPeriod" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" />
             </div>
 
             {/* Amount */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Amount Paid ($) *</label>
-              <input type="number" step="0.01" name="amount" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="0.00" />
+              <input type="number" step="0.01" name="amount" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="0.00" />
             </div>
 
             {/* Payment Method */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Payment Method *</label>
-              <select name="paymentMethod" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white">
+              <select name="paymentMethod" required className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-ink">
                 <option value="cash">Cash</option>
                 <option value="check">Check</option>
                 <option value="online">Online / Card</option>
@@ -143,7 +143,7 @@ export default function RecordPaymentPage() {
             {/* Payment Notes */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Payment Notes</label>
-              <input type="text" name="notes" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g. Check #1234 or parent name" />
+              <input type="text" name="notes" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-ink" placeholder="e.g. Check #1234 or parent name" />
             </div>
 
             {/* Remarks — always visible, required for Misc. */}
@@ -155,7 +155,7 @@ export default function RecordPaymentPage() {
                 name="remarks"
                 rows={3}
                 required={feeType === 'Misc.'}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none text-ink"
                 placeholder={
                   feeType === 'Registration Fees'        ? 'e.g. One-time registration for Fall 2025 enrollment' :
                   feeType === 'Books/Material Cost'       ? 'e.g. Quran workbook + Arabic reader — Grade 3' :

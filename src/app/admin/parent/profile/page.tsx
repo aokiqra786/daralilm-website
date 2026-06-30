@@ -148,7 +148,7 @@ export default function ParentProfilePage() {
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-ink"
           />
         </div>
         <div>
@@ -158,7 +158,7 @@ export default function ParentProfilePage() {
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-ink"
           />
         </div>
 
