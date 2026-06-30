@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { UserCircle, Save, CheckCircle, AlertCircle, Lock } from 'lucide-react'
+import { saveTeacherName } from './actions'
+import { programInterestLabel } from '@/lib/programs'
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
+  const [teacher, setTeacher] = useState<any>(null)
   const [fullName, setFullName] = useState('')
   const [saving, setSaving] = useState(false)
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
@@ -26,6 +29,10 @@ export default function ProfilePage() {
           setProfile(data)
           setFullName(data?.full_name || '')
         })
+        // The rich HR record the admin entered (RLS lets a teacher read own row).
+        supabase.from('teachers').select('*').eq('profile_id', user.id).maybeSingle().then(({ data }) => {
+          setTeacher(data)
+        })
       }
     })
   }, [])
@@ -34,12 +41,9 @@ export default function ProfilePage() {
     if (!user) return
     setSaving(true)
     setResult(null)
-    const supabase = createClient()
-    const { error } = await supabase.from('profiles').update({ full_name: fullName }).eq('id', user.id)
-    setResult(error
-      ? { success: false, message: 'Failed to save changes.' }
-      : { success: true, message: 'Profile updated successfully!' }
-    )
+    // Server action syncs the name to BOTH profiles and teachers.
+    const res = await saveTeacherName(fullName)
+    setResult(res)
     setSaving(false)
   }
 
@@ -134,6 +138,49 @@ export default function ProfilePage() {
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
+
+      {/* Staff Record (read-only — admin maintains these) */}
+      {teacher && (
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+          <div>
+            <h2 className="font-bold text-slate-800">Staff Record</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Maintained by the administration. Contact the office to update any of these.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            {[
+              ['Phone', teacher.phone],
+              ['Email', teacher.email],
+              ['Date of Birth', teacher.date_of_birth],
+              ['Gender', teacher.gender ? teacher.gender.charAt(0).toUpperCase() + teacher.gender.slice(1) : ''],
+              ['Employment Type', teacher.employment_type],
+              ['Hire Date', teacher.hire_date],
+              ['Qualifications', teacher.qualifications],
+              ['Experience', teacher.experience_years != null ? `${teacher.experience_years} years` : ''],
+              ['Address', teacher.address],
+              ['Emergency Contact', teacher.emergency_contact],
+            ].map(([label, value]) => (
+              <div key={label as string}>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{label}</p>
+                <p className="text-slate-700 mt-0.5 break-words">{(value as string) || <span className="text-slate-300">—</span>}</p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-1.5">Qualified Programs</p>
+            {Array.isArray(teacher.programs_qualified) && teacher.programs_qualified.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {teacher.programs_qualified.map((p: string) => (
+                  <span key={p} className="px-2.5 py-1 text-[11px] font-semibold rounded-full border bg-slate-50 text-slate-600 border-slate-200">
+                    {programInterestLabel(p)}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <span className="text-xs text-slate-300 italic">None specified</span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Change Password */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">

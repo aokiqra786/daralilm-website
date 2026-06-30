@@ -19,18 +19,18 @@ export default async function TeacherReportsPage() {
   const { data: attendanceRaw } = await supabase
     .from('attendance_records')
     .select(`
-      id, class_id, student_id, date, status,
+      id, class_id, student_id, session_date, status,
       students(full_name, registration_number),
       classes(name)
     `)
     .in('class_id', classIds.length ? classIds : ['00000000-0000-0000-0000-000000000000'])
-    .order('date', { ascending: false })
+    .order('session_date', { ascending: false })
 
   // ── Grades ───────────────────────────────────────────────────────────────────
   const { data: gradesRaw } = await supabase
     .from('grades')
     .select(`
-      id, student_id, assessment_id, score, max_score, feedback,
+      id, student_id, assessment_id, grade, notes,
       students(full_name, registration_number),
       assessments(name, assessment_type, assessment_date, class_id,
         classes(name)
@@ -50,9 +50,9 @@ export default async function TeacherReportsPage() {
 
   const { data: feesRaw } = await supabase
     .from('fee_records')
-    .select('id, student_id, amount, fee_type, payment_date, payment_method, remarks, students(full_name, registration_number)')
+    .select('id, student_id, amount_paid, fee_type, paid_date, payment_method, remarks, students(full_name, registration_number)')
     .in('student_id', studentIds.length ? studentIds : ['00000000-0000-0000-0000-000000000000'])
-    .order('payment_date', { ascending: false })
+    .order('paid_date', { ascending: false })
 
   // ── Transform data for client ────────────────────────────────────────────────
   const attendance = (attendanceRaw || []).map((r: any) => ({

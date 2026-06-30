@@ -3,6 +3,14 @@ import { Users, Plus, Edit, Trash2, CheckCircle, Clock } from '@/components/Icon
 import Link from 'next/link'
 import TeacherCardActions from './TeacherCardActions'
 
+// Onboarding stage derived from status + profile_id (the two identity spaces):
+// Invited (awaiting signature) -> Signed (awaiting account) -> Portal Active.
+function onboardingStage(t: { profile_id?: string | null; status?: string | null }) {
+  if (t.profile_id) return { label: 'Portal Active', cls: 'bg-emerald-100 text-emerald-700 border-emerald-200' }
+  if (t.status === 'active') return { label: 'Signed · awaiting account', cls: 'bg-blue-100 text-blue-700 border-blue-200' }
+  return { label: 'Invited · awaiting signature', cls: 'bg-amber-100 text-amber-700 border-amber-200' }
+}
+
 export default async function TeachersPage() {
   const supabase = await createClient()
 
@@ -14,7 +22,8 @@ export default async function TeachersPage() {
       full_name,
       email,
       programs_qualified,
-      profile_id
+      profile_id,
+      status
     `)
     .order('full_name', { ascending: true })
   
@@ -54,15 +63,15 @@ export default async function TeachersPage() {
                       <p className="text-xs text-slate-500">{teacher.email}</p>
                     </div>
                   </div>
-                  {teacher.profile_id ? (
-                    <span title="Portal Active" className="flex items-center justify-center w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full">
-                      <CheckCircle className="w-4 h-4" />
-                    </span>
-                  ) : (
-                    <span title="Pending Invite Acceptance" className="flex items-center justify-center w-6 h-6 bg-amber-100 text-amber-600 rounded-full">
-                      <Clock className="w-4 h-4" />
-                    </span>
-                  )}
+                  {(() => {
+                    const stage = onboardingStage(teacher)
+                    return (
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold rounded-full border shrink-0 ${stage.cls}`}>
+                        {teacher.profile_id ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                        {stage.label}
+                      </span>
+                    )
+                  })()}
                 </div>
                 
                 <div className="mt-4">

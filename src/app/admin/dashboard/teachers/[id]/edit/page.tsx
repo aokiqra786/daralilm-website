@@ -1,6 +1,7 @@
 import { Users, ArrowLeft, Save } from '@/components/Icons'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { notFound, redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { PROGRAM_INTEREST_OPTIONS } from '@/lib/programs'
@@ -76,8 +77,27 @@ export default async function EditTeacherPage({
       throw new Error(updateError.message)
     }
 
+    // If the email changed BEFORE the teacher onboarded (no profile_id yet),
+    // re-point the still-pending signature + invite rows at the new email, so
+    // the existing /acknowledge and /onboard links keep resolving. (Once
+    // onboarded, the auth email is fixed and this is a no-op.)
+    if (email !== teacher.email && !teacher.profile_id) {
+      const adminDb = createAdminClient()
+      await adminDb
+        .from('policy_acknowledgements')
+        .update({ recipient_email: email })
+        .eq('reference_id', id)
+        .eq('role', 'teacher')
+        .is('acknowledged_at', null)
+      await adminDb
+        .from('invite_tokens')
+        .update({ email })
+        .eq('email', teacher.email)
+        .is('used_at', null)
+    }
+
     revalidatePath('/admin/dashboard/teachers')
-    redirect('/admin/dashboard/teachers')
+    redirect(`/admin/dashboard/teachers/${id}`)
   }
 
   return (

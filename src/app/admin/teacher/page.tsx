@@ -5,11 +5,12 @@ export default async function TeacherHomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Get teacher's full name
+  // Get teacher's full name (join by profile_id — the FK set at onboarding —
+  // which is robust against email casing/changes; falls back to nothing).
   const { data: teacherProfile } = await supabase
     .from('teachers')
     .select('full_name')
-    .eq('email', user?.email)
+    .eq('profile_id', user!.id)
     .maybeSingle()
 
   const displayName = teacherProfile?.full_name

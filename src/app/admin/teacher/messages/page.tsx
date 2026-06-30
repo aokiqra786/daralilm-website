@@ -7,12 +7,12 @@ export default async function TeacherMessagesPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return <div>Unauthorized</div>
 
-  // ── Get teacher's name from teachers table (matched by email) ──────────────
+  // ── Get teacher's name from teachers table (matched by profile_id FK) ──────
   // classes.teacher_id = auth user id (user.id), same pattern as other teacher pages
   const { data: teacherProfile } = await supabase
     .from('teachers')
     .select('full_name, email')
-    .eq('email', user.email)
+    .eq('profile_id', user.id)
     .maybeSingle()
 
   const teacherName  = teacherProfile?.full_name  || user.email || 'Teacher'

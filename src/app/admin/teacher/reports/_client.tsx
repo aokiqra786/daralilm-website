@@ -5,9 +5,9 @@ import { Printer, ClipboardCheck, GraduationCap, DollarSign, Calendar, ChevronDo
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type Cls  = { id: string; name: string; program_type: string }
-type AttR = { id: string; class_id: string; student_id: string; date: string; status: string; students: any; classes: any }
-type Grade= { id: string; student_id: string; assessment_id: string; score: number; max_score: number; feedback: string; students: any; assessments: any }
-type Fee  = { id: string; student_id: string; amount: number; fee_type: string; payment_date: string; payment_method: string; remarks: string; students: any }
+type AttR = { id: string; class_id: string; student_id: string; session_date: string; status: string; students: any; classes: any }
+type Grade= { id: string; student_id: string; assessment_id: string; grade: string; notes: string; students: any; assessments: any }
+type Fee  = { id: string; student_id: string; amount_paid: number; fee_type: string; paid_date: string; payment_method: string; remarks: string; students: any }
 
 const PERIOD_OPTIONS = ['Daily', 'Monthly', 'Custom'] as const
 type Period = typeof PERIOD_OPTIONS[number]
@@ -78,7 +78,7 @@ function AttendanceReport({ attendance, classes, classFilter }: { attendance: At
   const { start, end } = getRange()
 
   const filtered = useMemo(() => attendance.filter(r => {
-    const inDate  = r.date >= start && r.date <= end
+    const inDate  = r.session_date >= start && r.session_date <= end
     const inClass = !classFilter || r.class_id === classFilter
     return inDate && inClass
   }), [attendance, start, end, classFilter])
@@ -123,7 +123,7 @@ function AttendanceReport({ attendance, classes, classFilter }: { attendance: At
             <tbody className="divide-y divide-slate-100">
               {filtered.map(r => (
                 <tr key={r.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-4 py-2.5 text-slate-600 whitespace-nowrap">{fmtDate(r.date)}</td>
+                  <td className="px-4 py-2.5 text-slate-600 whitespace-nowrap">{fmtDate(r.session_date)}</td>
                   <td className="px-4 py-2.5 font-medium text-slate-800">{r.students?.full_name || '—'}</td>
                   <td className="px-4 py-2.5 text-slate-500">{r.classes?.name || '—'}</td>
                   <td className="px-4 py-2.5">
@@ -162,25 +162,22 @@ function GradebookReport({ grades, classes, classFilter }: { grades: Grade[]; cl
     return inDate && inClass
   }), [grades, start, end, classFilter])
 
-  const avg = filtered.length
-    ? Math.round(filtered.reduce((s, g) => s + (g.score / (g.max_score || 1)) * 100, 0) / filtered.length)
-    : null
-
-  const letterGrade = (pct: number) =>
-    pct >= 90 ? 'A' : pct >= 80 ? 'B' : pct >= 70 ? 'C' : pct >= 60 ? 'D' : 'F'
+  // Grades are stored as letters (A–F). Color by band.
+  const gradeColor = (g: string) => {
+    const u = (g || '').trim().toUpperCase()
+    if (u.startsWith('A') || u.startsWith('B')) return 'text-emerald-700'
+    if (u.startsWith('C') || u.startsWith('D')) return 'text-amber-700'
+    if (u.startsWith('F')) return 'text-red-700'
+    return 'text-slate-700'
+  }
 
   return (
     <div className="space-y-4">
       <DateFilterBar {...{ period, setPeriod, startDate, setStartDate, endDate, setEndDate }} />
 
       {/* Summary */}
-      {avg !== null && (
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-            <p className="text-xs text-blue-600 font-semibold uppercase tracking-wide">Class Average</p>
-            <p className="text-3xl font-bold text-blue-800 mt-1">{avg}%</p>
-            <p className="text-sm text-blue-600 font-medium">Grade: {letterGrade(avg)}</p>
-          </div>
+      {filtered.length > 0 && (
+        <div className="grid grid-cols-2 gap-3">
           <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
             <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">Assessments</p>
             <p className="text-3xl font-bold text-slate-800 mt-1">
@@ -205,29 +202,25 @@ function GradebookReport({ grades, classes, classFilter }: { grades: Grade[]; cl
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Student</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Assessment</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Type</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Score</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Grade</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Notes</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filtered.map(g => {
-                const pct = g.max_score ? Math.round((g.score / g.max_score) * 100) : 0
-                const color = pct >= 80 ? 'text-emerald-700' : pct >= 60 ? 'text-amber-700' : 'text-red-700'
-                return (
-                  <tr key={g.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-4 py-2.5 text-slate-500 whitespace-nowrap">{fmtDate(g.assessments?.assessment_date)}</td>
-                    <td className="px-4 py-2.5 font-medium text-slate-800">{g.students?.full_name || '—'}</td>
-                    <td className="px-4 py-2.5 text-slate-600">{g.assessments?.name || '—'}</td>
-                    <td className="px-4 py-2.5">
-                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs capitalize">
-                        {g.assessments?.assessment_type || '—'}
-                      </span>
-                    </td>
-                    <td className={`px-4 py-2.5 font-bold ${color}`}>{g.score}/{g.max_score}</td>
-                    <td className={`px-4 py-2.5 font-bold ${color}`}>{pct}% ({letterGrade(pct)})</td>
-                  </tr>
-                )
-              })}
+              {filtered.map(g => (
+                <tr key={g.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-4 py-2.5 text-slate-500 whitespace-nowrap">{fmtDate(g.assessments?.assessment_date)}</td>
+                  <td className="px-4 py-2.5 font-medium text-slate-800">{g.students?.full_name || '—'}</td>
+                  <td className="px-4 py-2.5 text-slate-600">{g.assessments?.name || '—'}</td>
+                  <td className="px-4 py-2.5">
+                    <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full text-xs capitalize">
+                      {g.assessments?.assessment_type || '—'}
+                    </span>
+                  </td>
+                  <td className={`px-4 py-2.5 font-bold ${gradeColor(g.grade)}`}>{g.grade || '—'}</td>
+                  <td className="px-4 py-2.5 text-slate-400 text-xs max-w-xs truncate">{g.notes || '—'}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -250,15 +243,15 @@ function FeesReport({ fees }: { fees: Fee[] }) {
   const { start, end } = getRange()
 
   const filtered = useMemo(() =>
-    fees.filter(f => f.payment_date >= start && f.payment_date <= end),
+    fees.filter(f => f.paid_date >= start && f.paid_date <= end),
     [fees, start, end]
   )
 
-  const total = filtered.reduce((s, f) => s + (f.amount || 0), 0)
+  const total = filtered.reduce((s, f) => s + (f.amount_paid || 0), 0)
 
   const byType = filtered.reduce((acc, f) => {
     const t = f.fee_type || 'Other'
-    acc[t] = (acc[t] || 0) + f.amount
+    acc[t] = (acc[t] || 0) + (f.amount_paid || 0)
     return acc
   }, {} as Record<string, number>)
 
@@ -303,7 +296,7 @@ function FeesReport({ fees }: { fees: Fee[] }) {
             <tbody className="divide-y divide-slate-100">
               {filtered.map(f => (
                 <tr key={f.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-2.5 text-slate-500 whitespace-nowrap">{fmtDate(f.payment_date)}</td>
+                  <td className="px-4 py-2.5 text-slate-500 whitespace-nowrap">{fmtDate(f.paid_date)}</td>
                   <td className="px-4 py-2.5 font-medium text-slate-800">{f.students?.full_name || '—'}</td>
                   <td className="px-4 py-2.5 capitalize">
                     <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-xs">
@@ -311,7 +304,7 @@ function FeesReport({ fees }: { fees: Fee[] }) {
                     </span>
                   </td>
                   <td className="px-4 py-2.5 text-slate-500 capitalize">{f.payment_method || '—'}</td>
-                  <td className="px-4 py-2.5 font-bold text-emerald-700">${(f.amount || 0).toLocaleString()}</td>
+                  <td className="px-4 py-2.5 font-bold text-emerald-700">${(f.amount_paid || 0).toLocaleString()}</td>
                   <td className="px-4 py-2.5 text-slate-400 text-xs max-w-xs truncate">{f.remarks || '—'}</td>
                 </tr>
               ))}
