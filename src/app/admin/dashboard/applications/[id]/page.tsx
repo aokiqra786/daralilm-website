@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft, UserCircle, Mail, Phone, Calendar, Cake, BookOpen,
-  FileText, StickyNote, CheckCircle, XCircle, CalendarCheck2, AlertCircle, Clock,
+  FileText, StickyNote, CheckCircle, XCircle, CalendarCheck2, AlertCircle, Clock, Users,
 } from '@/components/Icons'
 import { approveApplication, rejectApplication, deferToNextSemester } from '../../students/actions'
 import { programInterestLabel } from '@/lib/programs'
@@ -22,6 +22,23 @@ const PROGRAM_COLORS: Record<string, string> = {
   'Weekend School':         'bg-purple-50 text-purple-700 border-purple-100',
   'Vocational Programs':    'bg-amber-50 text-amber-700 border-amber-100',
   'Youth Activities':       'bg-green-50 text-green-700 border-green-100',
+}
+
+function cap(s?: string | null): string {
+  if (!s) return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+// Whole-years age from a date string; '' when absent/invalid.
+function ageFrom(dob?: string | null): string {
+  if (!dob) return ''
+  const d = new Date(dob)
+  if (isNaN(d.getTime())) return ''
+  const now = new Date()
+  let age = now.getFullYear() - d.getFullYear()
+  const m = now.getMonth() - d.getMonth()
+  if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--
+  return age >= 0 && age < 130 ? `${age} years` : ''
 }
 
 function Field({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string | null }) {
@@ -119,8 +136,10 @@ export default async function ApplicationDetailPage({
 
         {/* Details grid */}
         <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <Field icon={<Cake className="w-4 h-4" />}     label="Date of Birth"    value={app.date_of_birth} />
+          <Field icon={<Users className="w-4 h-4" />}    label="Gender"           value={app.gender ? cap(app.gender) : null} />
           <Field icon={<BookOpen className="w-4 h-4" />} label="Program Interest" value={programInterestLabel(app.program_interest)} />
+          <Field icon={<Cake className="w-4 h-4" />}     label="Date of Birth"    value={app.date_of_birth} />
+          <Field icon={<Clock className="w-4 h-4" />}    label="Age"              value={ageFrom(app.date_of_birth)} />
           <Field icon={<UserCircle className="w-4 h-4" />} label="Parent / Guardian" value={app.parent_name} />
           <Field icon={<Mail className="w-4 h-4" />}     label="Parent Email"     value={app.parent_email} />
           <Field icon={<Phone className="w-4 h-4" />}    label="Parent Phone"     value={app.parent_phone} />

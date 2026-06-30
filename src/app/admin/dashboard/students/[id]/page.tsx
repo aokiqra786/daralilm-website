@@ -88,6 +88,10 @@ export default async function StudentProfilePage({
             </div>
             <div className="p-4 space-y-4 text-sm">
               <div>
+                <span className="block text-slate-500 mb-1">Gender</span>
+                <span className="font-medium text-slate-900 capitalize">{student.gender || 'Not provided'}</span>
+              </div>
+              <div className="pt-3 border-t border-slate-100">
                 <span className="block text-slate-500 mb-1">Date of Birth</span>
                 <span className="font-medium text-slate-900">{student.date_of_birth || 'Not provided'}</span>
               </div>

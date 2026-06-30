@@ -26,6 +26,7 @@ const AdmissionSchema = z.object({
   parentName: z.string().trim().max(200).optional(),
   parentPhone: z.string().trim().max(50).optional(),
   dateOfBirth: z.string().trim().max(40).optional(),
+  gender: z.enum(['male', 'female']),
   programInterest: z.string().trim().max(200).optional(),
   notes: z.string().trim().max(5000).optional(),
 })
@@ -54,13 +55,14 @@ export async function submitAdmissionApplication(formData: FormData) {
   const parentPhone     = (formData.get('parentPhone')     as string)?.trim()
   const studentName     = (formData.get('studentName')     as string)?.trim()
   const dateOfBirth     = (formData.get('dateOfBirth')     as string)?.trim()
+  const gender          = (formData.get('gender')          as string)?.trim()
   const programInterest = (formData.get('programInterest') as string)?.trim()
   const notes           = (formData.get('notes')           as string)?.trim()
 
   const parentFullName = [parentFirstName, parentLastName].filter(Boolean).join(' ')
 
   const valid = AdmissionSchema.safeParse({
-    studentName, parentEmail, parentName: parentFullName, parentPhone, dateOfBirth, programInterest, notes,
+    studentName, parentEmail, parentName: parentFullName, parentPhone, dateOfBirth, gender, programInterest, notes,
   })
   if (!valid.success) {
     redirect('/admissions?error=failed')
@@ -118,6 +120,7 @@ export async function submitAdmissionApplication(formData: FormData) {
     .insert({
       student_name:     studentName,
       date_of_birth:    dateOfBirth || null,
+      gender:           gender || null,
       parent_name:      parentFullName,
       parent_email:     parentEmail,
       parent_phone:     parentPhone || null,

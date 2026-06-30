@@ -39,6 +39,14 @@ export default function AdmissionsFormClient() {
             <Input label="Date of Birth" name="dateOfBirth" type="date" />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Select label="Gender" name="gender" required defaultValue="">
+              <option value="">Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </Select>
+          </div>
+
           <Select label="Program of Interest" name="programInterest" required defaultValue="">
             <option value="">Select a program...</option>
             <option value="Evening Qur'an Classes">Evening Qur&apos;an Classes</option>
