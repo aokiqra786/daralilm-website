@@ -195,7 +195,10 @@ export async function createEventProposal(formData: FormData): Promise<Result> {
 
   if (flyer && flyer.size > 0) {
     const up = await uploadFlyerFile(admin, ev.id, flyer)
-    if (up.url) await admin.from('events').update({ flyer_url: up.url }).eq('id', ev.id)
+    if (up.url) {
+      const { error: saveErr } = await admin.from('events').update({ flyer_url: up.url }).eq('id', ev.id)
+      if (saveErr) console.error('createEvent: flyer_url update failed (run event_flyer_migration.sql?):', saveErr.message)
+    }
   }
 
   await admin.from('event_approvals').insert({
@@ -325,7 +328,10 @@ export async function updateEventProposal(formData: FormData): Promise<Result> {
 
   if (flyer && flyer.size > 0) {
     const up = await uploadFlyerFile(admin, eventId, flyer)
-    if (up.url) await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
+    if (up.url) {
+      const { error: saveErr } = await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
+      if (saveErr) console.error('editEvent: flyer_url update failed (run event_flyer_migration.sql?):', saveErr.message)
+    }
   }
 
   await admin.from('event_approvals').insert({
@@ -600,7 +606,14 @@ export async function uploadEventFlyer(formData: FormData): Promise<Result> {
 
   const up = await uploadFlyerFile(admin, eventId, file)
   if (up.error) return { success: false, message: up.error }
-  await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
+  const { error: saveErr } = await admin.from('events').update({ flyer_url: up.url }).eq('id', eventId)
+  if (saveErr) {
+    console.error('uploadEventFlyer: flyer_url update failed:', saveErr.message)
+    return {
+      success: false,
+      message: 'Flyer uploaded but could not be saved. The database may be missing the flyer_url column — run event_flyer_migration.sql.',
+    }
+  }
   await admin.from('event_approvals').insert({
     event_id: eventId, stage: 'submit', action: 'flyer', actor: ctx.user.id,
   })

@@ -15,7 +15,13 @@ insert into storage.buckets (id, name, public)
   on conflict (id) do nothing;
 
 -- 3. Expose flyer_url through the budget-free public view ---------------------
-create or replace view public.public_events as
+-- NOTE: use DROP + CREATE, not CREATE OR REPLACE. The live view (from 2b) does
+-- not have flyer_url, and CREATE OR REPLACE cannot insert a column in the middle
+-- of the column list (Postgres treats it as renaming an existing column and
+-- errors: "cannot change name of view column"). Dropping first lets the column
+-- set change freely. Column order is irrelevant — consumers read columns by name.
+drop view if exists public.public_events;
+create view public.public_events as
   select
     id,
     title,

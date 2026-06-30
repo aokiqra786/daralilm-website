@@ -32,11 +32,20 @@ export default async function StudentsPage({
     .eq('status', 'pending')
     .order('created_at', { ascending: false })
 
-  // Fetch all registered students
+  // Fetch registered students for the roster. Waiting-list entries are excluded
+  // here — they live in the dedicated Reports → Waiting List queue (otherwise
+  // they'd show in the active roster as "Pending ID" cards).
   const { data: students } = await supabase
     .from('students')
     .select('*')
+    .neq('status', 'waiting_list')
     .order('created_at', { ascending: false })
+
+  // Count of people currently on the waiting list (for the header link badge).
+  const { count: waitingCount } = await supabase
+    .from('students')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'waiting_list')
 
   const pendingCount = pending?.length ?? 0
 
@@ -97,13 +106,27 @@ export default async function StudentsPage({
           </h1>
           <p className="text-slate-500 mt-1">Manage all registered students and review new applications.</p>
         </div>
-        <Link
-          href="/admin/dashboard/students/new"
-          className="inline-flex items-center justify-center px-4 py-2 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Register Student
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/dashboard/reports/waiting-list"
+            className="inline-flex items-center justify-center px-4 py-2 bg-white text-orange-700 border border-orange-300 font-medium rounded-lg hover:bg-orange-50 transition-colors shadow-sm"
+          >
+            <CalendarCheck2 className="w-5 h-5 mr-2" />
+            Waiting List
+            {!!waitingCount && waitingCount > 0 && (
+              <span className="ml-2 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-xs font-bold rounded-full bg-orange-100 text-orange-700">
+                {waitingCount}
+              </span>
+            )}
+          </Link>
+          <Link
+            href="/admin/dashboard/students/new"
+            className="inline-flex items-center justify-center px-4 py-2 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Register Student
+          </Link>
+        </div>
       </div>
 
       {/* ─── Pending Applications ─── */}

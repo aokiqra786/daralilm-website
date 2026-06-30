@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckCircle, Phone, X, Mail } from '@/components/Icons'
+import Link from 'next/link'
+import { CheckCircle, Phone, X, Mail, CalendarCheck2 } from '@/components/Icons'
 
 interface Props {
   studentName: string
@@ -80,6 +81,15 @@ export default function WaitingListSuccessAlert({
             </p>
           </div>
         </div>
+
+        {/* Where to find them later */}
+        <Link
+          href="/admin/dashboard/reports/waiting-list"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+        >
+          <CalendarCheck2 className="w-4 h-4" />
+          View Waiting List
+        </Link>
       </div>
     </div>
   )
