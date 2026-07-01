@@ -50,7 +50,7 @@ export default async function AcknowledgePage(props: { searchParams: Promise<{ t
     <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-center mb-8">
-          <Image src="/new_logo.png" alt="Logo" width={200} height={80} className="object-contain" />
+          <Image src="/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" width={200} height={80} className="object-contain" />
         </div>
         
         {ack.acknowledged_at ? (

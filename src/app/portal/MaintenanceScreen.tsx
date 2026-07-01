@@ -20,7 +20,7 @@ export default function MaintenanceScreen({ portalName, color, textColor }: Main
         <div className={`bg-gradient-to-r ${color} p-8 text-center`}>
           <div className="relative h-16 w-64 mx-auto mb-4">
             <Image
-              src="/new_logo.png"
+              src="/brand/logo/AoK_Logo_Color_white.png"
               alt="SoCal Academy of Knowledge"
               fill
               sizes="256px"

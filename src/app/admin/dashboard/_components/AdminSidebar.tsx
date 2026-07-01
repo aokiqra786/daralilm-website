@@ -74,7 +74,7 @@ export default function AdminSidebar({
       <div className="p-6 border-b border-blue-900/50 flex flex-col items-center justify-center">
         <div className="relative w-40 h-12 mb-3">
           <Image
-            src="/new_logo.png"
+            src="/brand/logo/AoK_Logo_Color_white.png"
             alt="SoCal Academy of Knowledge"
             fill
             className="object-contain contrast-105 saturate-110 drop-shadow-lg"
@@ -141,7 +141,7 @@ export default function AdminSidebar({
       {/* Mobile Menu Button */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-blue-950 text-white flex items-center px-4 justify-between z-50 border-b border-blue-900">
         <div className="relative w-32 h-8">
-          <Image src="/new_logo.png" alt="Logo" fill className="object-contain contrast-105 saturate-110" unoptimized />
+          <Image src="/brand/logo/AoK_Logo_Color_white.png" alt="Logo" fill className="object-contain contrast-105 saturate-110" unoptimized />
         </div>
         <button onClick={() => setMobileOpen(true)} className="p-2 -mr-2">
           <Menu className="w-6 h-6" />

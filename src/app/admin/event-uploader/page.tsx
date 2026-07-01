@@ -124,7 +124,7 @@ export default function EventUploader() {
           resolve(canvas.toDataURL("image/png"));
         };
         img.onerror = () => reject("Failed to load logo");
-        img.src = "/new_logo.png";
+        img.src = "/brand/logo/AoK_Logo_Color_transparent.png";
       };
       reader.onerror = () => reject("Failed to read file");
       reader.readAsText(file);

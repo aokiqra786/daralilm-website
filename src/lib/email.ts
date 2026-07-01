@@ -110,7 +110,7 @@ export async function sendInviteEmail({
   let html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <img src="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+        <img src="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
       </div>
       <h2 style="color: #1e3a8a;">Welcome to SoCal Academy of Knowledge!</h2>
       <p>You have been invited to join the <strong>${portalName}</strong>.</p>
@@ -180,7 +180,7 @@ export async function sendParentRegistrationEmail({
   let html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <img src="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+        <img src="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
       </div>
       <h2 style="color: #1e3a8a;">Welcome to SoCal Academy of Knowledge!</h2>
       <p>Dear <strong>${parentName}</strong>,</p>
@@ -259,7 +259,7 @@ export async function sendWaitingListEmail({
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
           <div style="text-align: center; margin-bottom: 24px;">
-            <img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+            <img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
           </div>
 
           <h2 style="color: #1e3a8a; font-size: 22px; margin-bottom: 4px;">JazakAllahu Khairan for Applying</h2>
@@ -356,7 +356,7 @@ export async function sendDirectMessage({
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
           <div style="margin-bottom: 24px;">
-            <img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 50px; object-fit: contain;" />
+            <img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 50px; object-fit: contain;" />
           </div>
           <p style="white-space: pre-wrap; font-size: 15px; line-height: 1.6; color: #334155;">${message}</p>
           <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 32px 0;" />
@@ -394,7 +394,7 @@ export async function sendVolunteerApprovalEmail({
   let html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+        <img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
       </div>
       
       <h2 style="color: #1e3a8a; font-size: 24px; margin-bottom: 20px;">Welcome to the Team, ${fullName}!</h2>
@@ -467,7 +467,7 @@ export async function sendAcknowledgementReminderEmail({
   let html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+        <img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
       </div>
       <h2 style="color: #ea580c;">Registration Pending: Signature Required</h2>
       <p>As-salamu alaykum <strong>${name}</strong>,</p>
@@ -536,7 +536,7 @@ export async function sendSignatureRequestEmail({
   let html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
       <div style="text-align: center; margin-bottom: 24px;">
-        <img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+        <img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
       </div>
       <h2 style="color: #ea580c; text-align: center;">Action Required: Signature Needed</h2>
       <p>As-salamu alaykum <strong>${name}</strong>,</p>
@@ -598,7 +598,7 @@ const EVENT_FROM = 'SoCal Academy of Knowledge Admin <admin@send.socalaok.org>'
 function wrapEmail(bodyHtml: string) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   return `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
-    <div style="text-align:center;margin-bottom:24px;"><img src="${siteUrl}/new_logo.png" alt="SoCal Academy of Knowledge" style="height:56px;object-fit:contain;" /></div>
+    <div style="text-align:center;margin-bottom:24px;"><img src="${siteUrl}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height:56px;object-fit:contain;" /></div>
     ${bodyHtml}
     <p style="margin-top:32px;color:#64748b;font-size:12px;">SoCal Academy of Knowledge</p>
   </div>`

@@ -41,7 +41,7 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div className="inline-block rounded-xl bg-white p-4">
-            <Image src="/brand/logo-color.png" alt="SoCal Academy of Knowledge"
+            <Image src="/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge"
                    width={120} height={238} className="h-28 w-auto" />
           </div>
           <p className="mt-4 font-display italic text-cream/90">Nurturing Faith &amp; Knowledge</p>

@@ -287,7 +287,7 @@ export default function ReportViewPage() {
         {/* Header */}
         <div className="flex flex-col items-center border-b-2 border-blue-900 pb-8 mb-8 text-center">
           <div className="relative w-56 h-16 mb-4">
-            <Image src="/new_logo.png" alt="SoCal Academy of Knowledge" fill className="object-contain contrast-105 saturate-110" sizes="224px" unoptimized />
+            <Image src="/brand/logo/AoK_Logo_Color.png" alt="SoCal Academy of Knowledge" fill className="object-contain" sizes="224px" unoptimized />
           </div>
           <h1 className="text-2xl font-playfair font-bold text-blue-950 uppercase tracking-wide">{meta.title}</h1>
           <p className="text-slate-500 text-sm mt-1">{meta.subtitle}</p>

@@ -61,10 +61,10 @@ export default async function WaitingListReportPage() {
         <div className="flex flex-col items-center border-b-2 border-orange-600 pb-8 mb-8 text-center">
           <div className="relative w-56 h-16 mb-4">
             <Image
-              src="/new_logo.png"
+              src="/brand/logo/AoK_Logo_Color.png"
               alt="SoCal Academy of Knowledge"
               fill
-              className="object-contain contrast-105 saturate-110"
+              className="object-contain"
               sizes="224px"
               unoptimized
             />

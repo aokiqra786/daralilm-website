@@ -37,7 +37,7 @@ VALUES (
     'Action Required: Please Sign Academy Policies',
     '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
   <div style="text-align: center; margin-bottom: 24px;">
-    <img src="{{site_url}}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+    <img src="{{site_url}}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
   </div>
   <h2 style="color: #ea580c; text-align: center;">Action Required: Signature Needed</h2>
   <p>As-salamu alaykum <strong>{{name}}</strong>,</p>
@@ -68,7 +68,7 @@ VALUES (
     'Welcome to SoCal Academy of Knowledge!',
     '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
   <div style="text-align: center; margin-bottom: 24px;">
-    <img src="{{site_url}}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+    <img src="{{site_url}}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
   </div>
   <h2 style="color: #1e3a8a;">Welcome to SoCal Academy of Knowledge!</h2>
   <p>Dear <strong>{{parent_name}}</strong>,</p>
@@ -94,7 +94,7 @@ VALUES (
     'Setup Your {{portal_name}} Account',
     '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
   <div style="text-align: center; margin-bottom: 24px;">
-    <img src="{{site_url}}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+    <img src="{{site_url}}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
   </div>
   <h2 style="color: #1e3a8a;">Welcome to SoCal Academy of Knowledge!</h2>
   <p>You have been invited to join the <strong>{{portal_name}}</strong>.</p>
@@ -119,7 +119,7 @@ VALUES (
     'Your Volunteer Application is Approved! Welcome to SoCal Academy of Knowledge',
     '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6;">
   <div style="text-align: center; margin-bottom: 24px;">
-    <img src="{{site_url}}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+    <img src="{{site_url}}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
   </div>
   
   <h2 style="color: #1e3a8a; font-size: 24px; margin-bottom: 20px;">Welcome to the Team, {{full_name}}!</h2>
@@ -147,7 +147,7 @@ VALUES (
     'Reminder: Action Required to Finalize Your Registration',
     '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
   <div style="text-align: center; margin-bottom: 24px;">
-    <img src="{{site_url}}/new_logo.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
+    <img src="{{site_url}}/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" style="height: 60px; object-fit: contain;" />
   </div>
   <h2 style="color: #ea580c;">Registration Pending: Signature Required</h2>
   <p>As-salamu alaykum <strong>{{name}}</strong>,</p>

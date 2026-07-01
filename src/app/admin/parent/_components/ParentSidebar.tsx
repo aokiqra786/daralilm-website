@@ -35,7 +35,7 @@ export default function ParentSidebar() {
       <div className="px-4 pt-5 pb-4 border-b border-slate-100">
         <Link href="/" className="block">
           <div className="relative h-14 w-44">
-            <Image src="/new_logo.png" alt="SoCal Academy of Knowledge" fill quality={100} sizes="176px" className="object-contain object-left contrast-105 saturate-110" />
+            <Image src="/brand/logo/AoK_Logo_Color_transparent.png" alt="SoCal Academy of Knowledge" fill quality={100} sizes="176px" className="object-contain object-left" />
           </div>
         </Link>
         <span className="mt-2 inline-block text-[10px] font-bold text-emerald-700 uppercase tracking-widest bg-emerald-100 px-2.5 py-1 rounded-full">

@@ -34,7 +34,7 @@ export default async function ParentLoginPage({
         <div className="bg-gradient-to-r from-emerald-800 to-teal-900 p-8 text-center relative overflow-hidden">
           <div className="relative h-20 w-72 mx-auto mb-4">
             <Image
-              src="/new_logo.png"
+              src="/brand/logo/AoK_Logo_Color_white.png"
               alt="SoCal Academy of Knowledge"
               fill
               quality={100}

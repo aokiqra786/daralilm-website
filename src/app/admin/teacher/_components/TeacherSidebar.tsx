@@ -65,7 +65,7 @@ export default function TeacherSidebar() {
         <Link href="/" className="block">
           <div className="relative h-14 w-44">
             <Image
-              src="/new_logo.png"
+              src="/brand/logo/AoK_Logo_Color_transparent.png"
               alt="SoCal Academy of Knowledge"
               fill
               quality={100}
