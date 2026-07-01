@@ -114,12 +114,12 @@ export default function EventProposalForm({ initial }: { initial?: ProposalIniti
           <Textarea label="Full description (optional)" name="description" rows={4} defaultValue={initial?.description ?? ''} />
         </div>
         <div className="mt-4">
-          <label htmlFor="flyer" className="mb-1 block text-sm font-medium text-ink">Flyer (PDF, optional)</label>
+          <label htmlFor="flyer" className="mb-1 block text-sm font-medium text-ink">Flyer (image, optional)</label>
           <input
             id="flyer"
             type="file"
             name="flyer"
-            accept="application/pdf,.pdf"
+            accept="image/png,image/jpeg,image/webp"
             className="block w-full text-sm text-ink file:mr-3 file:rounded-md file:border-0 file:bg-green file:px-3 file:py-1.5 file:font-semibold file:text-white hover:file:bg-green-700"
           />
           {initial?.flyer_url && (
@@ -131,7 +131,7 @@ export default function EventProposalForm({ initial }: { initial?: ProposalIniti
               . Choosing a new file replaces it.
             </p>
           )}
-          <p className="mt-1 text-xs text-muted">Highly recommended. PDF only, up to 10&nbsp;MB.</p>
+          <p className="mt-1 text-xs text-muted">Highly recommended — it shows on the homepage and event page. PNG, JPG, or WebP, up to 10&nbsp;MB.</p>
         </div>
       </Card>
 

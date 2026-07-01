@@ -18,6 +18,7 @@ type Ev = {
   date: string | null;
   location: string | null;
   imageUrl: string | null;
+  flyer_url: string | null;
   slug: string | null;
 };
 
@@ -25,9 +26,18 @@ async function getEvents(): Promise<Ev[]> {
   if (!isSupabaseConfigured()) return [];
   const { data } = await supabase
     .from("public_events")
-    .select("id, title, summary, description, date, location, imageUrl, slug")
+    .select("id, title, summary, description, date, location, imageUrl, flyer_url, slug")
     .order("date", { ascending: true });
   return (data as Ev[]) || [];
+}
+
+// The flyer is an image; use it for the card preview when there's no dedicated
+// event image. Legacy PDF flyers can't be previewed, so they're skipped.
+const isPdf = (url: string) => url.split("?")[0].toLowerCase().endsWith(".pdf");
+function cardPreview(ev: Ev): string | null {
+  if (ev.imageUrl) return ev.imageUrl;
+  if (ev.flyer_url && !isPdf(ev.flyer_url)) return ev.flyer_url;
+  return null;
 }
 
 function dateBadge(d: string | null) {
@@ -44,11 +54,12 @@ function dateBadge(d: string | null) {
 function EventCard({ ev }: { ev: Ev }) {
   const badge = dateBadge(ev.date);
   const blurb = ev.summary || ev.description || "";
+  const preview = cardPreview(ev);
   const inner = (
     <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-[16/9] w-full bg-parchment">
-        {ev.imageUrl ? (
-          <Image src={ev.imageUrl} alt={ev.title} fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover" />
+        {preview ? (
+          <Image src={preview} alt={ev.title} fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover" />
         ) : (
           <div className="flex h-full items-center justify-center">
             <Image src="/brand/logo/AoK_Logo_Color_transparent.png" alt="" width={120} height={90} className="opacity-40" />
@@ -81,9 +92,9 @@ function EventCard({ ev }: { ev: Ev }) {
       </Link>
     );
   }
-  if (ev.imageUrl) {
+  if (preview) {
     return (
-      <a href={ev.imageUrl} target="_blank" rel="noopener noreferrer" className="block">
+      <a href={preview} target="_blank" rel="noopener noreferrer" className="block">
         {inner}
       </a>
     );

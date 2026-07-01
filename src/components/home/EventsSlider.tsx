@@ -17,8 +17,18 @@ type ApiEvent = {
   date?: string;
   location?: string;
   imageUrl?: string;
+  flyer_url?: string | null;
   slug?: string | null;
 };
+
+// The flyer is an image; use it for the tile preview when there's no dedicated
+// event image. Legacy PDF flyers can't be previewed, so they're skipped.
+const isPdf = (url: string) => url.split("?")[0].toLowerCase().endsWith(".pdf");
+function tilePreview(ev: ApiEvent): string | null {
+  if (ev.imageUrl) return ev.imageUrl;
+  if (ev.flyer_url && !isPdf(ev.flyer_url)) return ev.flyer_url;
+  return null;
+}
 
 function prefersReducedMotion(): boolean {
   return (
@@ -176,6 +186,7 @@ export default function EventsSlider() {
             >
               {events.map((ev) => {
                 const dateLabel = formatDate(ev.date);
+                const preview = tilePreview(ev);
                 return (
                   <li
                     key={ev.id}
@@ -188,9 +199,9 @@ export default function EventsSlider() {
                       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[16/9] w-full bg-parchment">
-                        {ev.imageUrl ? (
+                        {preview ? (
                           <Image
-                            src={ev.imageUrl}
+                            src={preview}
                             alt={ev.title}
                             fill
                             sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 85vw"

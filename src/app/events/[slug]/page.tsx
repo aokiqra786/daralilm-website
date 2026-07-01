@@ -38,6 +38,8 @@ export async function generateMetadata({
   }
 }
 
+const isPdf = (url: string) => url.split('?')[0].toLowerCase().endsWith('.pdf')
+
 function fmt(d: string | null) {
   if (!d) return 'TBA'
   const dt = new Date(d)
@@ -78,12 +80,26 @@ export default async function PublicEventPage({
         </div>
       )}
 
+      {/* The flyer (an image) is shown in full — object-contain keeps portrait
+          and landscape flyers uncropped. Legacy PDF flyers fall back to a link. */}
+      {ev.flyer_url && !isPdf(ev.flyer_url) && (
+        <div className="relative mt-6 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-parchment">
+          <Image
+            src={ev.flyer_url}
+            alt={`${ev.title} flyer`}
+            fill
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="object-contain"
+          />
+        </div>
+      )}
+
       {ev.summary && <p className="mt-6 text-lg text-ink">{ev.summary}</p>}
       {ev.description && ev.description !== ev.summary && (
         <p className="mt-4 whitespace-pre-wrap text-ink">{ev.description}</p>
       )}
 
-      {ev.flyer_url && (
+      {ev.flyer_url && isPdf(ev.flyer_url) && (
         <p className="mt-6">
           <a
             href={ev.flyer_url}

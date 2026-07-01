@@ -149,11 +149,16 @@ export default async function EventReviewPage({
             {ev.summary && <p className="mt-4 text-sm text-slate-700"><span className="text-slate-500">Summary: </span>{ev.summary}</p>}
             {ev.description && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{ev.description}</p>}
             {ev.flyer_url && (
-              <p className="mt-3 text-sm">
-                <a href={ev.flyer_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green underline">
-                  View flyer (PDF)
-                </a>
-              </p>
+              ev.flyer_url.split('?')[0].toLowerCase().endsWith('.pdf') ? (
+                <p className="mt-3 text-sm">
+                  <a href={ev.flyer_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-green underline">
+                    View flyer (PDF)
+                  </a>
+                </p>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={ev.flyer_url} alt="Event flyer" className="mt-3 max-h-72 w-auto rounded-md border border-slate-200" />
+              )
             )}
           </section>
 

@@ -25,11 +25,30 @@ const link = (id: string) => `${SITE}/admin/dashboard/events/${id}`
 
 const MAX_FLYER_BYTES = 10 * 1024 * 1024 // 10 MB
 
-// Flyer is optional (highly recommended) but, when provided, must be a PDF.
+// Accepted flyer image MIME types → the file extension used in storage.
+const FLYER_MIME_EXT: Record<string, string> = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/webp': 'webp',
+}
+
+// Resolve the storage extension for a flyer image, or null if it isn't a
+// supported image (by MIME first, falling back to the filename).
+function flyerExt(file: File): string | null {
+  if (FLYER_MIME_EXT[file.type]) return FLYER_MIME_EXT[file.type]
+  const name = file.name.toLowerCase()
+  if (name.endsWith('.png')) return 'png'
+  if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'jpg'
+  if (name.endsWith('.webp')) return 'webp'
+  return null
+}
+
+// Flyer is optional (highly recommended) but, when provided, must be an image
+// (PNG/JPG/WebP) so it can render inline on the homepage tiles and the public
+// event page — a PDF can't be previewed or displayed in full.
 function flyerError(file: File | null): string | null {
   if (!file || file.size === 0) return null
-  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
-  if (!isPdf) return 'The flyer must be a PDF file.'
+  if (!flyerExt(file)) return 'The flyer must be a PNG, JPG, or WebP image.'
   if (file.size > MAX_FLYER_BYTES) return 'The flyer must be 10 MB or smaller.'
   return null
 }
@@ -37,6 +56,8 @@ function flyerError(file: File | null): string | null {
 async function uploadFlyerFile(admin: Admin, eventId: string, file: File): Promise<{ url?: string; error?: string }> {
   const err = flyerError(file)
   if (err) return { error: err }
+  const ext = flyerExt(file) || 'png'
+  const contentType = file.type || `image/${ext === 'jpg' ? 'jpeg' : ext}`
   // The SQL `insert into storage.buckets` doesn't always register with the
   // Storage service, so ensure the bucket exists (idempotent) before uploading.
   const { data: bucket } = await admin.storage.getBucket('event-flyers')
@@ -44,9 +65,9 @@ async function uploadFlyerFile(admin: Admin, eventId: string, file: File): Promi
     await admin.storage.createBucket('event-flyers', { public: true })
   }
   const buf = Buffer.from(await file.arrayBuffer())
-  const path = `${eventId}/flyer-${Date.now()}.pdf`
+  const path = `${eventId}/flyer-${Date.now()}.${ext}`
   const { error: upErr } = await admin.storage.from('event-flyers').upload(path, buf, {
-    contentType: 'application/pdf',
+    contentType,
     upsert: true,
   })
   if (upErr) return { error: upErr.message }
@@ -579,7 +600,7 @@ export async function cancelEvent(formData: FormData): Promise<Result> {
   return { success: true, message: 'Event cancelled. It has been removed from the website.' }
 }
 
-/** Upload/replace the PDF flyer at any stage. Board any time; submitter while editable. */
+/** Upload/replace the flyer image at any stage. Board any time; submitter while editable. */
 export async function uploadEventFlyer(formData: FormData): Promise<Result> {
   let ctx
   try {
@@ -590,7 +611,7 @@ export async function uploadEventFlyer(formData: FormData): Promise<Result> {
   const eventId = formData.get('eventId') as string
   const file = formData.get('flyer') as File | null
   if (!eventId) return { success: false, message: 'Missing event.' }
-  if (!file || file.size === 0) return { success: false, message: 'Choose a PDF flyer to upload.' }
+  if (!file || file.size === 0) return { success: false, message: 'Choose a flyer image to upload.' }
   const fErr = flyerError(file)
   if (fErr) return { success: false, message: fErr }
 

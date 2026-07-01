@@ -37,6 +37,7 @@ export interface Event {
   location: string;
   category: "community" | "parent" | "youth" | "school" | "other";
   imageUrl?: string;
+  flyer_url?: string | null;
   endDate?: string;
   createdAt: string;
   updatedAt: string;
