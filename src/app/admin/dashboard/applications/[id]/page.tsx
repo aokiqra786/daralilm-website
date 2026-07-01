@@ -8,6 +8,7 @@ import {
 } from '@/components/Icons'
 import { approveApplication, rejectApplication, deferToNextSemester } from '../../students/actions'
 import { programInterestLabel } from '@/lib/programs'
+import ConfirmButton from '@/components/ConfirmButton'
 
 const STATUS_BADGE: Record<string, string> = {
   pending:       'bg-amber-100 text-amber-800 border-amber-200',
@@ -180,6 +181,9 @@ export default async function ApplicationDetailPage({
           <h2 className="font-bold text-slate-900 mb-1">Review Decision</h2>
           <p className="text-sm text-slate-500 mb-4">
             Approving creates a student record and emails the parent to sign the Academy policies.
+            <span className="block mt-1">
+              <span className="font-medium text-orange-600">Waiting List</span> emails the parent that no seat is available and defers the child to next semester.
+            </span>
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <form action={approveApplication}>
@@ -196,12 +200,12 @@ export default async function ApplicationDetailPage({
             <form action={deferToNextSemester}>
               <input type="hidden" name="appId" value={app.id} />
               <input type="hidden" name="from" value={fromPath} />
-              <button
-                type="submit"
+              <ConfirmButton
+                message={`This moves ${app.student_name} to the Waiting List and emails ${app.parent_name || 'the parent'} that no seat is available. Continue?`}
                 className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-orange-300 text-orange-600 bg-white rounded-lg hover:bg-orange-50 transition-colors"
               >
                 <CalendarCheck2 className="w-4 h-4" /> Waiting List
-              </button>
+              </ConfirmButton>
             </form>
 
             <form action={rejectApplication}>

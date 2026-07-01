@@ -5,11 +5,14 @@ import { notFound } from 'next/navigation'
 import { programTypeLabel } from '@/lib/programs'
 
 export default async function StudentProfilePage({
-  params
+  params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ enroll?: string }>
 }) {
   const { id } = await params
+  const { enroll } = await searchParams
   const supabase = await createClient()
 
   // 1. Fetch Student Details
@@ -29,6 +32,7 @@ export default async function StudentProfilePage({
     .select(`
       id,
       class_id,
+      status,
       classes (
         name,
         program_type,
@@ -45,6 +49,18 @@ export default async function StudentProfilePage({
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
+      {enroll === 'waitlisted' && (
+        <div className="flex items-start gap-3 bg-orange-50 border border-orange-200 text-orange-800 rounded-xl p-4">
+          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <p className="text-sm">That class is full, so {student.full_name} was added to its <span className="font-medium">waiting list</span>. They&apos;ll take a seat automatically when one frees up.</p>
+        </div>
+      )}
+      {enroll === 'enrolled' && (
+        <div className="flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-4">
+          <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <p className="text-sm">{student.full_name} was enrolled in the class.</p>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <div>
           <Link href="/admin/dashboard/students" className="inline-flex items-center text-blue-600 hover:text-blue-700 text-sm font-medium mb-4 transition-colors">
@@ -182,7 +198,12 @@ export default async function StudentProfilePage({
                     return (
                       <div key={enr.id} className="flex justify-between items-center p-3 border border-slate-200 rounded-lg bg-white">
                         <div>
-                          <h4 className="font-semibold text-slate-900">{classData.name}</h4>
+                          <h4 className="font-semibold text-slate-900 flex items-center gap-2">
+                            {classData.name}
+                            {enr.status === 'waitlisted' && (
+                              <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-semibold rounded">Waiting List</span>
+                            )}
+                          </h4>
                           <p className="text-sm text-slate-500">{programTypeLabel(classData.program_type)} • {classData.schedule_days?.join(', ')}</p>
                         </div>
                         <Link href={`/admin/dashboard/classes/${enr.class_id}`} className="text-sm text-blue-600 font-medium hover:underline">

@@ -34,6 +34,7 @@ export default async function ClassDetailsPage({
     .select(`
       id,
       student_id,
+      status,
       students (
         full_name,
         registration_number,
@@ -41,6 +42,9 @@ export default async function ClassDetailsPage({
       )
     `)
     .eq('class_id', id)
+
+  const enrolled = (enrollments || []).filter(e => e.status !== 'waitlisted')
+  const waitlisted = (enrollments || []).filter(e => e.status === 'waitlisted')
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
@@ -73,9 +77,9 @@ export default async function ClassDetailsPage({
           </div>
         </div>
         <div className="flex space-x-3">
-          <button className="px-4 py-2 bg-white border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
+          <Link href={`/admin/dashboard/classes/${id}/edit`} className="px-4 py-2 bg-white border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
             Edit Class
-          </button>
+          </Link>
           <button className="px-4 py-2 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm flex items-center">
             <UserPlus className="w-4 h-4 mr-2" />
             Enroll Student
@@ -101,7 +105,12 @@ export default async function ClassDetailsPage({
               </div>
               <div className="pt-3 border-t border-slate-100">
                 <span className="block text-slate-500 mb-1">Capacity / Enrollment</span>
-                <span className="font-medium text-slate-900">{enrollments?.length || 0} students currently enrolled</span>
+                <span className="font-medium text-slate-900">
+                  {enrolled.length} / {cls.capacity ?? '∞'} enrolled
+                </span>
+                {waitlisted.length > 0 && (
+                  <span className="block text-orange-600 font-medium mt-1">{waitlisted.length} on waiting list</span>
+                )}
               </div>
             </div>
           </div>
@@ -112,9 +121,9 @@ export default async function ClassDetailsPage({
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
               <h3 className="font-bold text-slate-800">Class Roster</h3>
-              <span className="text-sm text-slate-500">{enrollments?.length || 0} Total</span>
+              <span className="text-sm text-slate-500">{enrolled.length} Enrolled</span>
             </div>
-            
+
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 text-sm">
@@ -125,8 +134,8 @@ export default async function ClassDetailsPage({
                 </tr>
               </thead>
               <tbody>
-                {enrollments && enrollments.length > 0 ? (
-                  enrollments.map((enr: any) => (
+                {enrolled.length > 0 ? (
+                  enrolled.map((enr: any) => (
                     <tr key={enr.id} className="border-b border-slate-100 hover:bg-slate-50 group">
                       <td className="py-3 px-4">
                         <Link href={`/admin/dashboard/students/${enr.student_id}`} className="font-medium text-blue-700 hover:underline">
@@ -153,6 +162,43 @@ export default async function ClassDetailsPage({
               </tbody>
             </table>
           </div>
+
+          {waitlisted.length > 0 && (
+            <div className="bg-white rounded-xl shadow-sm border border-orange-200 overflow-hidden">
+              <div className="p-4 border-b border-orange-100 bg-orange-50 flex items-center justify-between">
+                <h3 className="font-bold text-orange-800">Waiting List</h3>
+                <span className="text-sm text-orange-600">{waitlisted.length} Waiting</span>
+              </div>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-200 text-sm">
+                    <th className="py-3 px-4 font-semibold text-slate-500">Student Name</th>
+                    <th className="py-3 px-4 font-semibold text-slate-500">Reg No.</th>
+                    <th className="py-3 px-4 font-semibold text-slate-500">Parent</th>
+                    <th className="py-3 px-4 font-semibold text-slate-500 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {waitlisted.map((enr: any) => (
+                    <tr key={enr.id} className="border-b border-slate-100 hover:bg-slate-50 group">
+                      <td className="py-3 px-4">
+                        <Link href={`/admin/dashboard/students/${enr.student_id}`} className="font-medium text-blue-700 hover:underline">
+                          {enr.students?.full_name}
+                        </Link>
+                      </td>
+                      <td className="py-3 px-4 text-slate-600 font-mono text-xs">{enr.students?.registration_number}</td>
+                      <td className="py-3 px-4 text-slate-600 text-sm">{enr.students?.parent_name}</td>
+                      <td className="py-3 px-4 text-right">
+                        <button className="text-slate-400 hover:text-rose-600 transition-colors p-1" title="Remove from class">
+                          <UserX className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
       </div>

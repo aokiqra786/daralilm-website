@@ -37,7 +37,9 @@ export default async function EditClassPage({
     const teacherId = formData.get('teacherId') as string
     const time = formData.get('time') as string
     const genderRequirement = formData.get('genderRequirement') as string
-    
+    const capacityRaw = formData.get('capacity') as string
+    const capacity = capacityRaw ? parseInt(capacityRaw, 10) : null
+
     // Checkboxes for days
     const days = formData.getAll('days') as string[]
 
@@ -47,7 +49,8 @@ export default async function EditClassPage({
       teacher_id: teacherId || null,
       schedule_time: time,
       schedule_days: days,
-      gender_requirement: genderRequirement
+      gender_requirement: genderRequirement,
+      capacity
     }).eq('id', id)
 
     if (error) {
@@ -114,6 +117,12 @@ export default async function EditClassPage({
                 <option value="male">Male Only</option>
                 <option value="female">Female Only</option>
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Capacity</label>
+              <input type="number" name="capacity" min="0" defaultValue={cls.capacity ?? ''} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink" placeholder="Leave blank for unlimited" />
+              <p className="text-xs text-slate-400 mt-1">When full, new students are added to the class waiting list automatically.</p>
             </div>
           </div>
 

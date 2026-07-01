@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { approveApplication, rejectApplication, deferToNextSemester } from './actions'
 import WaitingListSuccessAlert from './WaitingListSuccessAlert'
 import { programInterestLabel } from '@/lib/programs'
+import ConfirmButton from '@/components/ConfirmButton'
 
 const PROGRAM_COLORS: Record<string, string> = {
   "Evening Qur'an Classes": 'bg-blue-50 text-blue-700 border-blue-100',
@@ -46,6 +47,14 @@ export default async function StudentsPage({
     .from('students')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'waiting_list')
+
+  // Which students are in at least one class? Anyone missing here is approved
+  // but not yet enrolled — surfaced as a "Not enrolled" nudge on their card so
+  // staff don't forget the separate enroll step after approving an application.
+  const { data: enrolledRows } = await supabase
+    .from('class_enrollments')
+    .select('student_id')
+  const enrolledStudentIds = new Set((enrolledRows ?? []).map((r) => r.student_id))
 
   const pendingCount = pending?.length ?? 0
 
@@ -211,12 +220,12 @@ export default async function StudentsPage({
                   {/* Waiting List */}
                   <form action={deferToNextSemester}>
                     <input type="hidden" name="appId" value={app.id} />
-                    <button
-                      type="submit"
+                    <ConfirmButton
+                      message={`This moves ${app.student_name} to the Waiting List and emails ${app.parent_name || 'the parent'} that no seat is available. Continue?`}
                       className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium border border-orange-300 text-orange-600 bg-white rounded-lg hover:bg-orange-50 transition-colors"
                     >
                       <CalendarCheck2 className="w-3.5 h-3.5" /> Waiting List
-                    </button>
+                    </ConfirmButton>
                   </form>
 
                   {/* Approve */}
@@ -279,6 +288,11 @@ export default async function StudentsPage({
                       </p>
                     </div>
                   </div>
+                  {!enrolledStudentIds.has(student.id) && (
+                    <span className="inline-flex items-center gap-1 shrink-0 px-2 py-0.5 text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title="Approved but not enrolled in any class yet">
+                      <AlertCircle className="w-3 h-3" /> Not enrolled
+                    </span>
+                  )}
                 </div>
 
                 <div className="space-y-2 mt-4 pt-4 border-t border-slate-100 text-sm">

@@ -19,10 +19,10 @@ export default async function StudentEnrollmentPage({
     .eq('id', id)
     .single()
 
-  // Fetch Available Classes
+  // Fetch Available Classes (capacity drives the auto-waitlist decision)
   const { data: classes } = await supabase
     .from('classes')
-    .select('id, name, program_type, schedule_days, schedule_time')
+    .select('id, name, program_type, schedule_days, schedule_time, capacity')
     .order('name')
 
   // Fetch current enrollments to prevent duplicate enrollment
@@ -30,23 +30,56 @@ export default async function StudentEnrollmentPage({
     .from('class_enrollments')
     .select('class_id')
     .eq('student_id', id)
-  
+
+  // Count active ('enrolled') seats taken per class so we can flag full classes.
+  const { data: activeSeats } = await supabase
+    .from('class_enrollments')
+    .select('class_id')
+    .eq('status', 'enrolled')
+
+  const enrolledCounts = new Map<string, number>()
+  for (const row of activeSeats || []) {
+    enrolledCounts.set(row.class_id, (enrolledCounts.get(row.class_id) || 0) + 1)
+  }
+
   const enrolledClassIds = enrollments?.map(e => e.class_id) || []
-  const availableClasses = classes?.filter(c => !enrolledClassIds.includes(c.id))
+  const availableClasses = classes
+    ?.filter(c => !enrolledClassIds.includes(c.id))
+    .map(c => ({
+      ...c,
+      isFull: !!c.capacity && (enrolledCounts.get(c.id) || 0) >= c.capacity,
+    }))
 
   async function enrollStudent(formData: FormData) {
     'use server'
     const db = await createClient()
     const classId = formData.get('classId') as string
-    
+
     if (!classId) return
-    
+
+    // Decide enrolled vs waitlisted from live capacity at submit time.
+    const { data: cls } = await db
+      .from('classes')
+      .select('capacity')
+      .eq('id', classId)
+      .single()
+
+    const { count } = await db
+      .from('class_enrollments')
+      .select('id', { count: 'exact', head: true })
+      .eq('class_id', classId)
+      .eq('status', 'enrolled')
+
+    const isFull = !!cls?.capacity && (count ?? 0) >= cls.capacity
+    const status = isFull ? 'waitlisted' : 'enrolled'
+
     await db.from('class_enrollments').insert({
       student_id: id,
-      class_id: classId
+      class_id: classId,
+      status,
     })
 
-    redirect(`/admin/dashboard/students/${id}`)
+    redirect(`/admin/dashboard/students/${id}?enroll=${status}`)
   }
 
   return (
@@ -80,7 +113,14 @@ export default async function StudentEnrollmentPage({
                     </div>
                     <div className="ml-3 flex-1">
                       <div className="flex justify-between">
-                        <span className="font-semibold text-slate-900 group-hover:text-blue-900">{cls.name}</span>
+                        <span className="font-semibold text-slate-900 group-hover:text-blue-900">
+                          {cls.name}
+                          {cls.isFull && (
+                            <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-semibold rounded align-middle">
+                              FULL — will be waitlisted
+                            </span>
+                          )}
+                        </span>
                         <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs font-medium rounded capitalize">
                           {programTypeLabel(cls.program_type)}
                         </span>
