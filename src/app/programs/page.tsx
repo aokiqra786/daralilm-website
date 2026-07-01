@@ -33,7 +33,7 @@ export default function ProgramsPage() {
             <div className="absolute inset-0 bg-blue-900/10" />
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">
-            <span className="text-amber-600 font-bold tracking-wider uppercase text-sm mb-2 block">Ages 5 - High School</span>
+            <span className="text-amber-600 font-bold tracking-wider uppercase text-sm mb-2 block">Ages 6 - High School</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Evening Qur'an Classes</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
               Our flagship Evening Maktab program focuses on teaching students how to read, recite, and memorize the Holy Qur'an with proper Tajweed. Alongside Qur'anic studies, students are taught essential Islamic studies (Aqeedah, Fiqh, Seerah, and Islamic Character).
@@ -59,7 +59,7 @@ export default function ProgramsPage() {
             <span className="text-orange-600 font-bold tracking-wider uppercase text-sm mb-2 block">Weekend Learning</span>
             <h2 className="text-3xl font-playfair font-bold text-blue-900 mb-6">Weekend School</h2>
             <p className="text-slate-700 leading-relaxed mb-6">
-              Designed for busy families, our Weekend School provides a comprehensive weekend learning experience. It combines Islamic history, foundational beliefs, and basic Arabic reading in a fun, engaging, and loving environment.
+              Designed for busy families, our Weekend School provides a comprehensive weekend learning experience. It combines Islamic history, foundational beliefs, and Qur'an studies in a fun, engaging, and loving environment.
             </p>
             <ul className="space-y-3 mb-8">
               <li className="flex items-start text-slate-700"><CheckCircle2 className="w-5 h-5 text-orange-500 mr-3 shrink-0 mt-0.5" /> Engaging activities and projects</li>

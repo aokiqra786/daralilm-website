@@ -18,7 +18,7 @@ const PROGRAMS: Program[] = [
   },
   {
     title: "Weekend School",
-    desc: "Islamic history, beliefs & Arabic in a fun, loving setting. Sat & Sun, 9:30 AM–1:00 PM (boys and girls on separate days).",
+    desc: "Islamic history, beliefs & Qur'an studies in a fun, loving setting. Sat & Sun, 9:30 AM–1:00 PM (boys and girls on separate days).",
     cta: "Enroll",
     href: "/admissions",
   },

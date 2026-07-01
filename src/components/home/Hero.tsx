@@ -7,7 +7,7 @@ export function Hero() {
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-20 lg:px-8">
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-gold-deep">
-            Islamic education in Northridge · Ages 5&ndash;High School
+            Islamic education in Northridge · Ages 6&ndash;High School
           </p>
           <h1 className="mt-3 font-serif text-4xl font-bold leading-tight text-green sm:text-5xl">
             Qur&apos;an, character, and real academics &mdash; under one roof.
