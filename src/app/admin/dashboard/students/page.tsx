@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { createAdminClient } from '@/utils/supabase/admin'
 import {
-  GraduationCap, Search, Plus, UserCircle, Phone,
+  GraduationCap, Plus, UserCircle, Phone,
   Clock, CheckCircle, XCircle, CalendarCheck2, FileText, AlertCircle,
 } from '@/components/Icons'
 import Link from 'next/link'
@@ -9,6 +9,16 @@ import { approveApplication, rejectApplication, deferToNextSemester } from './ac
 import WaitingListSuccessAlert from './WaitingListSuccessAlert'
 import { programInterestLabel } from '@/lib/programs'
 import ConfirmButton from '@/components/ConfirmButton'
+import StudentStatusFilter from './StudentStatusFilter'
+import StudentSearch from './StudentSearch'
+
+// Registered-student status → badge label + colors.
+const STUDENT_STATUS: Record<string, { label: string; className: string }> = {
+  pending_acknowledgement: { label: 'Awaiting Signature', className: 'bg-amber-50 text-amber-700 border-amber-200' },
+  active:                  { label: 'Active',              className: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  enrolled:                { label: 'Enrolled',            className: 'bg-blue-50 text-blue-700 border-blue-200' },
+  inactive:                { label: 'Inactive',            className: 'bg-slate-100 text-slate-600 border-slate-200' },
+}
 
 const PROGRAM_COLORS: Record<string, string> = {
   "Evening Qur'an Classes": 'bg-blue-50 text-blue-700 border-blue-100',
@@ -20,9 +30,9 @@ const PROGRAM_COLORS: Record<string, string> = {
 export default async function StudentsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ wl_success?: string; wl_student?: string; wl_parent?: string; wl_phone?: string; wl_email?: string; notice?: string; error?: string }>
+  searchParams: Promise<{ wl_success?: string; wl_student?: string; wl_parent?: string; wl_phone?: string; wl_email?: string; notice?: string; error?: string; status?: string; q?: string }>
 }) {
-  const { wl_success, wl_student, wl_parent, wl_phone, wl_email, notice, error } = await searchParams
+  const { wl_success, wl_student, wl_parent, wl_phone, wl_email, notice, error, status: statusFilter, q } = await searchParams
   const showWLAlert = wl_success === '1' && !!wl_student
   const supabase = await createClient()
 
@@ -36,11 +46,27 @@ export default async function StudentsPage({
   // Fetch registered students for the roster. Waiting-list entries are excluded
   // here — they live in the dedicated Reports → Waiting List queue (otherwise
   // they'd show in the active roster as "Pending ID" cards).
-  const { data: students } = await supabase
+  // Valid status filter values (guard against arbitrary query params).
+  const activeStatusFilter = statusFilter && STUDENT_STATUS[statusFilter] ? statusFilter : null
+
+  // Free-text search term. Strip characters that would break the PostgREST
+  // .or() filter syntax; * is the wildcard inside .or() (not %).
+  const searchTerm = (q ?? '').replace(/[,()*\\]/g, '').trim()
+
+  let studentsQuery = supabase
     .from('students')
     .select('*')
     .neq('status', 'waiting_list')
     .order('created_at', { ascending: false })
+  if (activeStatusFilter) {
+    studentsQuery = studentsQuery.eq('status', activeStatusFilter)
+  }
+  if (searchTerm) {
+    studentsQuery = studentsQuery.or(
+      `full_name.ilike.*${searchTerm}*,registration_number.ilike.*${searchTerm}*,parent_email.ilike.*${searchTerm}*`
+    )
+  }
+  const { data: students } = await studentsQuery
 
   // Count of people currently on the waiting list (for the header link badge).
   const { count: waitingCount } = await supabase
@@ -245,23 +271,18 @@ export default async function StudentsPage({
         </div>
       )}
 
-      {/* ─── Search & Filter ─── */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search by name, ID, or parent email..."
-            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-ink"
-          />
+      {/* ─── Registered Students header + Search & Filter ─── */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-playfair font-bold text-slate-900">
+          Registered Students
+          <span className="ml-2 text-base font-sans font-medium text-slate-500">
+            ({students?.length ?? 0}{activeStatusFilter ? ` ${STUDENT_STATUS[activeStatusFilter].label.toLowerCase()}` : ''})
+          </span>
+        </h2>
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-4">
+          <StudentSearch />
+          <StudentStatusFilter />
         </div>
-        <select className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-ink">
-          <option value="">All Programs</option>
-          <option value="evening_quran">Evening Qur&apos;an</option>
-          <option value="weekend_school">Weekend School</option>
-          <option value="hifz">Full-time Hifz</option>
-          <option value="vocational">Vocational</option>
-        </select>
       </div>
 
       {/* ─── Students Grid ─── */}
@@ -288,11 +309,18 @@ export default async function StudentsPage({
                       </p>
                     </div>
                   </div>
-                  {!enrolledStudentIds.has(student.id) && (
-                    <span className="inline-flex items-center gap-1 shrink-0 px-2 py-0.5 text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title="Approved but not enrolled in any class yet">
-                      <AlertCircle className="w-3 h-3" /> Not enrolled
-                    </span>
-                  )}
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    {STUDENT_STATUS[student.status] && (
+                      <span className={`inline-flex items-center px-2 py-0.5 text-[11px] font-semibold rounded-full border ${STUDENT_STATUS[student.status].className}`}>
+                        {STUDENT_STATUS[student.status].label}
+                      </span>
+                    )}
+                    {!enrolledStudentIds.has(student.id) && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full" title="Approved but not enrolled in any class yet">
+                        <AlertCircle className="w-3 h-3" /> Not enrolled
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-2 mt-4 pt-4 border-t border-slate-100 text-sm">
@@ -308,6 +336,22 @@ export default async function StudentsPage({
               </div>
             </Link>
           ))}
+        </div>
+      ) : activeStatusFilter || searchTerm ? (
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+          <GraduationCap className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+          <h3 className="text-lg font-bold text-slate-900 mb-2">No matching students</h3>
+          <p className="text-slate-500 mb-6 max-w-md mx-auto">
+            {searchTerm
+              ? `No registered students match “${searchTerm}”${activeStatusFilter ? ` with status “${STUDENT_STATUS[activeStatusFilter].label}”` : ''}.`
+              : `No registered students have the status “${STUDENT_STATUS[activeStatusFilter!].label}”.`}
+          </p>
+          <Link
+            href="/admin/dashboard/students"
+            className="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+          >
+            Clear search &amp; filters
+          </Link>
         </div>
       ) : (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
