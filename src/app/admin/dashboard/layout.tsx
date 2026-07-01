@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminSidebar from './_components/AdminSidebar'
 import AdminTopBar from './_components/AdminTopBar'
+import { getAdminSidebarCounts } from '@/lib/adminCounts'
 
 export const metadata = {
   title: 'Admin Dashboard | SoCal Academy of Knowledge',
@@ -30,10 +31,13 @@ export default async function AdminDashboardLayout({
     redirect('/portal/admin?message=Unauthorized access')
   }
 
+  // Seed the "needs action" badge counts (refreshed client-side on navigation).
+  const initialCounts = await getAdminSidebarCounts(supabase)
+
   return (
     <div className="fixed inset-0 z-50 flex h-screen bg-slate-50 overflow-hidden">
       {/* Sidebar */}
-      <AdminSidebar role={profile.role} />
+      <AdminSidebar role={profile.role} initialCounts={initialCounts} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">

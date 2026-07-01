@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import {
   LayoutDashboard, Users, BookOpen, GraduationCap, 
@@ -36,9 +36,27 @@ const navItems: SidebarItem[] = [
   { name: 'System Settings', href: '/admin/dashboard/settings', icon: Settings, superAdminOnly: true },
 ]
 
-export default function AdminSidebar({ role }: { role: string }) {
+export default function AdminSidebar({
+  role,
+  initialCounts,
+}: {
+  role: string
+  initialCounts?: Record<string, number>
+}) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [counts, setCounts] = useState<Record<string, number>>(initialCounts ?? {})
+
+  // Keep the "needs action" badges fresh: re-fetch on every navigation so a count
+  // drops as soon as the admin clears an item and moves to another tab.
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/sidebar-counts')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled && d) setCounts(d) })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [pathname])
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -85,6 +103,14 @@ export default function AdminSidebar({ role }: { role: string }) {
             >
               <item.icon className={`w-5 h-5 mr-3 flex-shrink-0 ${isActive ? 'text-blue-300' : 'text-blue-400 group-hover:text-blue-300'}`} />
               {item.name}
+              {(counts[item.href] ?? 0) > 0 && (
+                <span
+                  className="ml-auto shrink-0 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-0.5 min-w-[1.25rem] text-center"
+                  aria-label={`${counts[item.href]} need${counts[item.href] === 1 ? 's' : ''} attention`}
+                >
+                  {counts[item.href] > 99 ? '99+' : counts[item.href]}
+                </span>
+              )}
             </Link>
           )
         })}
